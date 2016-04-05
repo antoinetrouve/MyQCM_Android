@@ -79,11 +79,10 @@ public class Team {
     //endregion
 
     //region CONSTRUCTOR
-    public Team(int id, int idServer, String name, Date createdAt, Date updatedAt, ArrayList<Mcq> mcqs, ArrayList<User> users) {
+    public Team(int id, int idServer, String name, Date updatedAt, ArrayList<Mcq> mcqs, ArrayList<User> users) {
         Id = id;
         IdServer = idServer;
         Name = name;
-        CreatedAt = createdAt;
         UpdatedAt = updatedAt;
         Mcqs = mcqs;
         Users = users;

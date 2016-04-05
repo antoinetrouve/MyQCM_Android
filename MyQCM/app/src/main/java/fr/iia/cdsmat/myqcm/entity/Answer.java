@@ -133,12 +133,11 @@ public class Answer {
     //endregion
 
     //region CONSTRUCTOR
-    public Answer(int id, int idServer, String value, boolean isValid, Date createdAt, Date updatedAt, Question question) {
+    public Answer(int id, int idServer, String value, boolean isValid, Date updatedAt, Question question) {
         Id = id;
         IdServer = idServer;
         Value = value;
         IsValid = isValid;
-        CreatedAt = createdAt;
         UpdatedAt = updatedAt;
         Question = question;
     }

@@ -79,12 +79,11 @@ public class Media {
     //endregion
 
     //region CONSTRUCTOR
-    public Media(int id, int idServer, String name, String url, Date createdAt, Date updatedAt, TypeMedia typeMedia) {
+    public Media(int id, int idServer, String name, String url, Date updatedAt, TypeMedia typeMedia) {
         Id = id;
         IdServer = idServer;
         Name = name;
         Url = url;
-        CreatedAt = createdAt;
         UpdatedAt = updatedAt;
         TypeMedia = typeMedia;
     }

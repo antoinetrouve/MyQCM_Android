@@ -97,15 +97,13 @@ public class User {
     //endregion
 
     //region CONSTRUCTOR
-    public User(int id, int idServer, String username, String email, Date lastLogin, Date createdAt, Date updatedAt, fr.iia.cdsmat.myqcm.entity.Team team, ArrayList<Mcq> mcqs) {
+    public User(int id, int idServer, String username, String email, Date lastLogin, Date updatedAt, ArrayList<Mcq> mcqs) {
         Id = id;
         IdServer = idServer;
         Username = username;
         Email = email;
         LastLogin = lastLogin;
-        CreatedAt = createdAt;
         UpdatedAt = updatedAt;
-        Team = team;
         Mcqs = mcqs;
     }
     //endregion

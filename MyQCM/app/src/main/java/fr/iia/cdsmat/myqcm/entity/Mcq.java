@@ -219,7 +219,7 @@ public class Mcq {
     //endregion
 
     //region CONSTRUCTOR
-    public Mcq(int id, int idServer, String name, boolean isActif, int countdown, Date diffDeb, Date diffEnd, Date createdAt, Date updatedAt, fr.iia.cdsmat.myqcm.entity.Category category, ArrayList<Question> questions) {
+    public Mcq(int id, int idServer, String name, boolean isActif, int countdown, Date diffDeb, Date diffEnd, Date updatedAt, Category category, ArrayList<Question> questions) {
         Id = id;
         IdServer = idServer;
         Name = name;
@@ -227,7 +227,6 @@ public class Mcq {
         Countdown = countdown;
         DiffDeb = diffDeb;
         DiffEnd = diffEnd;
-        CreatedAt = createdAt;
         UpdatedAt = updatedAt;
         Category = category;
         Questions = questions;

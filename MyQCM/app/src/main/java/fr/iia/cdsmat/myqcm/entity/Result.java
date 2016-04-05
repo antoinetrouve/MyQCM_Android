@@ -87,12 +87,11 @@ public class Result {
     //endregion
 
     //region CONSTRUCTOR
-    public Result(int id, int idServer, int score, boolean isCompleted, Date createdAt, Date updatedAt, fr.iia.cdsmat.myqcm.entity.User user, fr.iia.cdsmat.myqcm.entity.Mcq mcq) {
+    public Result(int id, int idServer, int score, boolean isCompleted, Date updatedAt, User user, Mcq mcq) {
         Id = id;
         IdServer = idServer;
         Score = score;
         IsCompleted = isCompleted;
-        CreatedAt = createdAt;
         UpdatedAt = updatedAt;
         User = user;
         Mcq = mcq;

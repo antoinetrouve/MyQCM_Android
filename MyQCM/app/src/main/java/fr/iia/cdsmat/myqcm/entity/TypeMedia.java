@@ -70,11 +70,10 @@ public class TypeMedia {
     //endregion
 
     //region CONSTRUCTOR
-    public TypeMedia(int id, int idServer, String name, Date createdAt, Date updatedAt, ArrayList<Media> medias) {
+    public TypeMedia(int id, int idServer, String name, Date updatedAt, ArrayList<Media> medias) {
         Id = id;
         IdServer = idServer;
         Name = name;
-        CreatedAt = createdAt;
         UpdatedAt = updatedAt;
         Medias = medias;
     }

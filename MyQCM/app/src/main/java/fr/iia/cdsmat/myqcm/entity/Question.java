@@ -88,11 +88,10 @@ public class Question {
     //endregion
 
     //region CONSTRUCTOR
-    public Question(int id, int idServer, String name, Date createdAt, Date updatedAt, fr.iia.cdsmat.myqcm.entity.Media media, fr.iia.cdsmat.myqcm.entity.Mcq mcq, ArrayList<Answer> answers) {
+    public Question(int id, int idServer, String name, Date updatedAt, Media media, Mcq mcq, ArrayList<Answer> answers) {
         Id = id;
         IdServer = idServer;
         Name = name;
-        CreatedAt = createdAt;
         UpdatedAt = updatedAt;
         Media = media;
         Mcq = mcq;
