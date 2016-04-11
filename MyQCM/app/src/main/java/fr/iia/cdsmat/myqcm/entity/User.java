@@ -1,6 +1,6 @@
 package fr.iia.cdsmat.myqcm.entity;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 
 /**
@@ -10,14 +10,16 @@ import java.util.ArrayList;
 public class User {
 
     //region ATTRIBUTE
-    private int Id;
-    private int IdServer;
-    private String Username;
-    private String Email;
-    private Date LastLogin;
-    private Date CreatedAt;
-    private Date UpdatedAt;
-    private Team Team;
+    private int     Id;
+    private int     IdServer;
+    private String  Username;
+    private String  Email;
+    private String  Password;
+    private Date    LastLogin;
+    private Date    CreatedAt;
+    private Date    UpdatedAt;
+
+    private Team    Team;
     private ArrayList<Mcq> Mcqs;
     //endregion
 
@@ -54,6 +56,14 @@ public class User {
         Email = email;
     }
 
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String password) {
+        Password = password;
+    }
+
     public Date getLastLogin() {
         return LastLogin;
     }
@@ -78,11 +88,11 @@ public class User {
         UpdatedAt = updatedAt;
     }
 
-    public fr.iia.cdsmat.myqcm.entity.Team getTeam() {
+    public Team getTeam() {
         return Team;
     }
 
-    public void setTeam(fr.iia.cdsmat.myqcm.entity.Team team) {
+    public void setTeam(Team team) {
         Team = team;
     }
 
@@ -97,14 +107,15 @@ public class User {
     //endregion
 
     //region CONSTRUCTOR
-    public User(int id, int idServer, String username, String email, Date lastLogin, Date updatedAt, ArrayList<Mcq> mcqs) {
+    public User(int id, int idServer, String username, String password, String email, Date lastLogin, Date createdAt, Date updatedAt) {
         Id = id;
         IdServer = idServer;
         Username = username;
-        Email = email;
+        Password = password;
+        Email    = email;
         LastLogin = lastLogin;
         UpdatedAt = updatedAt;
-        Mcqs = mcqs;
+        CreatedAt = createdAt;
     }
     //endregion
 
@@ -118,5 +129,7 @@ public class User {
                 ", Team=" + Team +
                 '}';
     }
+
+
     //endregion
 }
