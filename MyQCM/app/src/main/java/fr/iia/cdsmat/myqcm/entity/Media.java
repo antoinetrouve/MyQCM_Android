@@ -1,6 +1,6 @@
 package fr.iia.cdsmat.myqcm.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by Antoine Trouvé on 04/04/2016.

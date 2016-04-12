@@ -96,6 +96,19 @@ public class UserSQLiteAdapter {
     }
 
     /**
+     * Update user
+     * @param user
+     * @return line number's result
+     */
+    public long update(User user) {
+        ContentValues valuesUpdate = this.userToCntentValues(user);
+        String whereClausesUpdate = COL_ID + "=?";
+        String[] whereArgsUpdate = {String.valueOf(user.getId())};
+
+        return database.update(TABLE_USER, valuesUpdate, whereClausesUpdate, whereArgsUpdate);
+    }
+
+    /**
      * Get User by id
      * @param id
      * @return User object
@@ -105,7 +118,7 @@ public class UserSQLiteAdapter {
         //Create SQLite query and execute query
         //---------------------
         String[] columns = {COL_ID, COL_IDSERVER, COL_USERNAME, COL_EMAIL, COL_PASSWORD,
-            COL_LASTLOGIN, COL_TEAMID, COL_UPDATEDAT, COL_CREATEDAT};
+                COL_LASTLOGIN, COL_TEAMID, COL_UPDATEDAT, COL_CREATEDAT};
         String whereClausesSelect = COL_ID + "= ?";
         String[] whereArgsSelect = {String.valueOf(id)};
 
@@ -121,6 +134,12 @@ public class UserSQLiteAdapter {
         return result;
     }
 
+    /**
+     * Get User by login and password
+     * @param login
+     * @param password
+     * @return user object
+     */
     public User getUserByLoginPassword(String login, String password){
 
         //Create SQLite query and execute query
@@ -140,7 +159,7 @@ public class UserSQLiteAdapter {
             result = cursorToItem(cursor);
         }
 
-        return null;
+        return result;
     }
 
     /**

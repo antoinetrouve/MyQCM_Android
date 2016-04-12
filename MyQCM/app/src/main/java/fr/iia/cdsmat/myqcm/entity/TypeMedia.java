@@ -1,6 +1,6 @@
 package fr.iia.cdsmat.myqcm.entity;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 
 /**
@@ -70,12 +70,11 @@ public class TypeMedia {
     //endregion
 
     //region CONSTRUCTOR
-    public TypeMedia(int id, int idServer, String name, Date updatedAt, ArrayList<Media> medias) {
+    public TypeMedia(int id, int idServer, String name, Date updatedAt) {
         Id = id;
         IdServer = idServer;
         Name = name;
         UpdatedAt = updatedAt;
-        Medias = medias;
     }
     //endregion
 }
