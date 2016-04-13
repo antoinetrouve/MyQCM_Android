@@ -1,6 +1,6 @@
 package fr.iia.cdsmat.myqcm.entity;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 
 /**
@@ -88,14 +88,12 @@ public class Question {
     //endregion
 
     //region CONSTRUCTOR
-    public Question(int id, int idServer, String name, Date updatedAt, Media media, Mcq mcq, ArrayList<Answer> answers) {
+    public Question(int id, int idServer, String name, Date updatedAt, Mcq mcq) {
         Id = id;
         IdServer = idServer;
         Name = name;
         UpdatedAt = updatedAt;
-        Media = media;
         Mcq = mcq;
-        Answers = answers;
     }
     //endregion
 

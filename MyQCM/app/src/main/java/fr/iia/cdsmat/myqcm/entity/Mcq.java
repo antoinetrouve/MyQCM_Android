@@ -1,6 +1,6 @@
 package fr.iia.cdsmat.myqcm.entity;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 
 /**
@@ -77,7 +77,7 @@ public class Mcq {
      * Get mcq's isActif attribute
      * @return boolean
      */
-    public boolean isActif() {
+    public boolean getIsActif() {
         return IsActif;
     }
 
@@ -219,7 +219,7 @@ public class Mcq {
     //endregion
 
     //region CONSTRUCTOR
-    public Mcq(int id, int idServer, String name, boolean isActif, int countdown, Date diffDeb, Date diffEnd, Date updatedAt, Category category, ArrayList<Question> questions) {
+    public Mcq(int id, int idServer, String name, boolean isActif, int countdown, Date diffDeb, Date diffEnd, Date updatedAt, Category category) {
         Id = id;
         IdServer = idServer;
         Name = name;
@@ -229,7 +229,6 @@ public class Mcq {
         DiffEnd = diffEnd;
         UpdatedAt = updatedAt;
         Category = category;
-        Questions = questions;
     }
     //endregion
 

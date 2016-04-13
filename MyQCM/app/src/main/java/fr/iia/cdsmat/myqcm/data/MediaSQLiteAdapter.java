@@ -23,7 +23,7 @@ public class MediaSQLiteAdapter {
     public static final String COL_IDSERVER     = "idserver";
     public static final String COL_NAME         = "name";
     public static final String COL_URL          = "url";
-    public static final String COL_IDTYPEMEDIA  = "idTypeMedia";
+    public static final String COL_TYPEMEDIAID  = "typeMediaId";
     public static final String COL_UPDATEDAT    = "updatedAt";
 
     private Context                 context;
@@ -51,7 +51,7 @@ public class MediaSQLiteAdapter {
                 + COL_IDSERVER      + " INTEGER NOT NULL, "
                 + COL_NAME          + " TEXT NOT NULL, "
                 + COL_URL           + " TEXT NOT NULL, "
-                + COL_IDTYPEMEDIA   + " INTEGER NOT NULL, "
+                + COL_TYPEMEDIAID   + " INTEGER NOT NULL, "
                 + COL_UPDATEDAT     + " TEXT NULL);";
     }
 
@@ -75,7 +75,7 @@ public class MediaSQLiteAdapter {
      * @return line number's result
      */
     public long insert(Media media){
-        return database.insert(TABLE_MEDIA, null, this.mediaToCntentValues(media));
+        return database.insert(TABLE_MEDIA, null, this.mediaToContentValues(media));
     }
 
     /**
@@ -96,7 +96,7 @@ public class MediaSQLiteAdapter {
      * @return line number's result
      */
     public long update(Media media) {
-        ContentValues valuesUpdate = this.mediaToCntentValues(media);
+        ContentValues valuesUpdate = this.mediaToContentValues(media);
         String whereClausesUpdate = COL_ID + "=?";
         String[] whereArgsUpdate = {String.valueOf(media.getId())};
 
@@ -112,7 +112,7 @@ public class MediaSQLiteAdapter {
 
         //Create SQLite query and execute query
         //---------------------
-        String[] columns = {COL_ID, COL_IDSERVER, COL_NAME, COL_URL , COL_IDTYPEMEDIA, COL_UPDATEDAT};
+        String[] columns = {COL_ID, COL_IDSERVER, COL_NAME, COL_URL , COL_TYPEMEDIAID, COL_UPDATEDAT};
         String whereClausesSelect = COL_ID + "= ?";
         String[] whereArgsSelect = {String.valueOf(id)};
 
@@ -143,7 +143,7 @@ public class MediaSQLiteAdapter {
 
         //Get TypeMedia's Media
         //---------------------
-        int idTypeMedia = cursor.getInt(cursor.getColumnIndex(COL_IDTYPEMEDIA));
+        int idTypeMedia = cursor.getInt(cursor.getColumnIndex(COL_TYPEMEDIAID));
         TypeMediaSQLiteAdapter typeMediaAdpater = new TypeMediaSQLiteAdapter(context);
         TypeMedia typeMedia = typeMediaAdpater.getTypeMediaById(idTypeMedia);
 
@@ -168,13 +168,13 @@ public class MediaSQLiteAdapter {
      * @param media
      * @return ContentValue
      */
-    private ContentValues mediaToCntentValues(Media media) {
+    private ContentValues mediaToContentValues(Media media) {
         ContentValues values = new ContentValues();
         values.put(COL_ID, media.getId());
         values.put(COL_IDSERVER, media.getIdServer());
         values.put(COL_NAME, media.getName());
         values.put(COL_URL, media.getUrl());
-        values.put(COL_IDTYPEMEDIA, media.getTypeMedia().getId());
+        values.put(COL_TYPEMEDIAID, media.getTypeMedia().getId());
         values.put(COL_UPDATEDAT, media.getUpdatedAt().toString());
         return values;
     }

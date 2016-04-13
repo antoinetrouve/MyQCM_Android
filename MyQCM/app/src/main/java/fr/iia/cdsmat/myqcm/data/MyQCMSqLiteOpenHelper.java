@@ -25,15 +25,15 @@ public class MyQCMSqLiteOpenHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        /*db.execSQL(AnswerSQLiteAdapter.getschema());
-        db.execSQL(CategorySQLiteAdapter.getschema());
-        db.execSQL(McqSQLiteAdapter.getschema());
-        db.execSQL(MediaSQLiteAdapter.getschema());
-        db.execSQL(QuestionSQLiteAdapter.getschema());
-        db.execSQL(ResultSQLiteAdapter.getschema());
-        db.execSQL(TeamSQLiteAdapter.getschema());
-        db.execSQL(TypeMediaSQLiteAdapter.getschema());
-        db.execSQL(UserSQLiteAdapter.getschema());*/
+        db.execSQL(AnswerSQLiteAdapter.getSchema());
+        db.execSQL(CategorySQLiteAdapter.getSchema());
+        db.execSQL(McqSQLiteAdapter.getSchema());
+        db.execSQL(MediaSQLiteAdapter.getSchema());
+        db.execSQL(QuestionSQLiteAdapter.getSchema());
+        db.execSQL(ResultSQLiteAdapter.getSchema());
+        db.execSQL(TeamSQLiteAdapter.getSchema());
+        db.execSQL(TypeMediaSQLiteAdapter.getSchema());
+        db.execSQL(UserSQLiteAdapter.getSchema());
     }
 
     @Override

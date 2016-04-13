@@ -1,6 +1,6 @@
 package fr.iia.cdsmat.myqcm.entity;
 
-import java.sql.Date;
+import java.util.ArrayList;
 
 /**
  * Created by Antoine Trouvé on 04/04/2016.
@@ -9,13 +9,9 @@ import java.sql.Date;
 public class Result {
     //region ATTRIBUTE
     private int Id;
-    private int IdServer;
-    private int Score;
-    private boolean IsCompleted;
-    private Date CreatedAt;
-    private Date UpdatedAt;
-    private User User;
-    private Mcq Mcq;
+    private int IdUser;
+    private int IdMcq;
+    private ArrayList<Integer> IdAnswers;
     //endregion
 
     //region GETTER and SETTER
@@ -28,73 +24,37 @@ public class Result {
         Id = id;
     }
 
-    public int getIdServer() {
-        return IdServer;
+    public int getIdUser() {
+        return IdUser;
     }
 
-    public void setIdServer(int idServer) {
-        IdServer = idServer;
+    public void setIdUser(int idUser) {
+        IdUser = idUser;
     }
 
-    public int getScore() {
-        return Score;
+    public int getIdMcq() {
+        return IdMcq;
     }
 
-    public void setScore(int score) {
-        Score = score;
+    public void setIdMcq(int idMcq) {
+        IdMcq = idMcq;
     }
 
-    public boolean isCompleted() {
-        return IsCompleted;
+    public ArrayList<Integer> getIdAnswers() {
+        return IdAnswers;
     }
 
-    public void setIsCompleted(boolean isCompleted) {
-        IsCompleted = isCompleted;
-    }
-
-    public Date getCreatedAt() {
-        return CreatedAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        CreatedAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return UpdatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        UpdatedAt = updatedAt;
-    }
-
-    public User getUser() {
-        return User;
-    }
-
-    public void setUser(User user) {
-        User = user;
-    }
-
-    public Mcq getMcq() {
-        return Mcq;
-    }
-
-    public void setMcq(Mcq mcq) {
-        Mcq = mcq;
+    public void setIdAnswers(ArrayList<Integer> idAnswers) {
+        IdAnswers = idAnswers;
     }
 
     //endregion
 
     //region CONSTRUCTOR
-    public Result(int id, int idServer, int score, boolean isCompleted, Date updatedAt, User user, Mcq mcq) {
+    public Result(int id, int idUser, int idMcq) {
         Id = id;
-        IdServer = idServer;
-        Score = score;
-        IsCompleted = isCompleted;
-        UpdatedAt = updatedAt;
-        User = user;
-        Mcq = mcq;
+        IdUser = idUser;
+        IdMcq = idMcq;
     }
     //endregion
 }

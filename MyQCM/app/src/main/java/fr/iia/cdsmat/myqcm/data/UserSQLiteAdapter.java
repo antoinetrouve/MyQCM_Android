@@ -31,6 +31,7 @@ public class UserSQLiteAdapter {
 
     private SQLiteDatabase          database;
     private MyQCMSqLiteOpenHelper   helper;
+    private Context context;
     //endregion
 
     //region METHOD
@@ -41,6 +42,7 @@ public class UserSQLiteAdapter {
      */
     public UserSQLiteAdapter(Context context){
         helper = new MyQCMSqLiteOpenHelper(context,MyQCMSqLiteOpenHelper.DB_NAME,null,1);
+        this.context = context;
     }
 
     /**
@@ -80,7 +82,7 @@ public class UserSQLiteAdapter {
      * @return line number's result
      */
     public long insert(User user){
-        return database.insert(TABLE_USER, null, this.userToCntentValues(user));
+        return database.insert(TABLE_USER, null, this.userToContentValues(user));
     }
 
     /**
@@ -101,7 +103,7 @@ public class UserSQLiteAdapter {
      * @return line number's result
      */
     public long update(User user) {
-        ContentValues valuesUpdate = this.userToCntentValues(user);
+        ContentValues valuesUpdate = this.userToContentValues(user);
         String whereClausesUpdate = COL_ID + "=?";
         String[] whereArgsUpdate = {String.valueOf(user.getId())};
 
@@ -195,6 +197,10 @@ public class UserSQLiteAdapter {
         //Create User object
         //------------------
         User result = new User(id, idServer,username,password,email,lastlogin,createdAt,updatedAt);
+        if (teamId != 0){
+            TeamSQLiteAdapter teamSQLiteAdapter = new TeamSQLiteAdapter(context);
+            result.setTeam(teamSQLiteAdapter.getTeamById(teamId));
+        }
 
         return result;
     }
@@ -204,7 +210,7 @@ public class UserSQLiteAdapter {
      * @param user
      * @return ContentValue
      */
-    private ContentValues userToCntentValues(User user) {
+    private ContentValues userToContentValues(User user) {
         ContentValues values = new ContentValues();
         values.put(COL_ID, user.getId());
         values.put(COL_IDSERVER, user.getIdServer());
