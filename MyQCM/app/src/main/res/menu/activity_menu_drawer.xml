@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profil"
+            android:icon="@drawable/ic_menu_profil"
+            android:title="@string/nav_profil" />
+        <item
+            android:id="@+id/nav_rules"
+            android:icon="@drawable/ic_menu_rules"
+            android:title="@string/nav_rules" />
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/ic_menu_help"
+            android:title="@string/nav_help" />
+        <item
+            android:id="@+id/nav_legalMention"
+            android:icon="@drawable/ic_menu_legal"
+            android:title="@string/nav_legalMention" />
+    </group>
+
+    <item android:title="Déconnexion">
+        <menu>
+            <item
+                android:id="@+id/nav_disconnect"
+                android:icon="@drawable/ic_menu_disconnect"
+                android:title="@string/nav_disconnect" />
+        </menu>
+    </item>
+
+</menu>

@@ -12,14 +12,27 @@ import java.util.Date;
 import fr.iia.cdsmat.myqcm.entity.Category;
 
 /**
- * Created by Antoine Trouvé on 06/04/2016.
- * antoinetrouve.france@gmail.com
+ * SQLite Adpater managing Category database table
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0
  */
 public class CategorySQLiteAdapter {
 
     //region ATTRIBUTES
+    /**
+     * Constant name's database table
+     * @see CategorySQLiteAdapter#getSchema()
+     */
     public static final String TABLE_CATEGORY   = "category";
+    /**
+     * name of Category's column id (local database)
+     * @see CategorySQLiteAdapter#getSchema()
+     */
     public static final String COL_ID           = "id";
+    /**
+     * name of Answer's column id (distant server database)
+     * @see CategorySQLiteAdapter#getSchema()
+     */
     public static final String COL_IDSERVER     = "idServer";
     public static final String COL_NAME         = "name";
     public static final String COL_UPDATEDAT    = "updatedAt";

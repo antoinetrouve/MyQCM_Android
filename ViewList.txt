@@ -1,0 +1,9 @@
+- Connexion( GetLoginPassword() -> chiffrement -> to json -> envoie au serveur attend réponse-> si ok recupere info user et go to home page)
+- Accueil(affiche lsite des catégories de qcm, menu sur le côte avec (profil, règle-aide,deconnexion mentions légales))
+- profil
+- règles -aides
+- mentions légales
+- Liste des qcms de la catégorie 
+- QCM fragement
+-'Gestion des médias'
+- envoi des données

@@ -13,20 +13,32 @@ import fr.iia.cdsmat.myqcm.entity.Answer;
 import fr.iia.cdsmat.myqcm.entity.Question;
 
 /**
- * Created by antoi on 06/04/2016.
- * antoinetrouve.france@gmail.com
+ * SQLite Adpater managing Answer database table
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0
  */
 public class AnswerSQLiteAdapter {
 
     //region ATTRIBUTES
-    public static final String TABLE_ANSWER = "answer";
-    public static final String COL_ID = "id";
-    public static final String COL_IDSERVER = "idServer";
-    public static final String COL_VALUE = "value";
-    public static final String COL_ISVALID = "isValid";
-    public static final String COL_CREATEDAT = "createdAt";
-    public static final String COL_UPDATEDAT = "updatedAt";
-    public static final String COL_QUESTIONID = "question";
+    /**
+     * Constant name's database table
+     * @see AnswerSQLiteAdapter#getSchema()
+     */
+    public static final String TABLE_ANSWER     = "answer";
+    /**
+     * name of Answer's column id (local database)
+     */
+    public static final String COL_ID           = "id";
+    /**
+     * name of Answer's column id (distant server database)
+     * @see AnswerSQLiteAdapter#getSchema()
+     */
+    public static final String COL_IDSERVER     = "idServer";
+    public static final String COL_VALUE        = "value";
+    public static final String COL_ISVALID      = "isValid";
+    public static final String COL_CREATEDAT    = "createdAt";
+    public static final String COL_UPDATEDAT    = "updatedAt";
+    public static final String COL_QUESTIONID   = "question";
 
     private Context context;
     private SQLiteDatabase database;
@@ -45,7 +57,7 @@ public class AnswerSQLiteAdapter {
     }
 
     /**
-     * Script SQLite to create Answer's table data in my_qcm database stored in device
+     * Script SQLite to create Answer's local table database
      * @return String
      */
     public static String getSchema(){

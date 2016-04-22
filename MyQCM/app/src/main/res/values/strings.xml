@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">My QCM</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="title">MY QCM APPLICATION</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <string name="et_connexion_login">connexion</string>
+    <string name="et_connexion_password">password</string>
+    <string name="bt_connexion">Entrez !</string>
+
+    <!-- NAVIGATION BAR -->
+    <string name="nav_title">My QCM</string>
+    <string name="nav_profil">Profil</string>
+    <string name="nav_rules">Règles</string>
+    <string name="nav_legalMention">Mention légale</string>
+    <string name="nav_help">Aide</string>
+    <string name="nav_disconnect">Déconnexion</string>
+    <string name="nav_btnMain">Main</string>
+    <string name="nav_btnProfil">Profil</string>
+    <string name="nav_btnHelp">Help</string>
+    <string name="nav_btnLegalMention">Mention legal</string>
+    <string name="nav_btnRules">Rules</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
