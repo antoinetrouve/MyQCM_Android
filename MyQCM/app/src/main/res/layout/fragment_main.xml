@@ -2,16 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
     tools:context="fr.iia.cdsmat.myqcm.view.MainFragment">
 
-    <Button
-        android:id="@+id/nav_btnMain"
-        android:text="@string/nav_btnMain"
-        android:background="@color/accent_material_dark_1"
+    <ListView
+        android:id="@id/android:list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:padding="8dp"/>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
 </RelativeLayout>

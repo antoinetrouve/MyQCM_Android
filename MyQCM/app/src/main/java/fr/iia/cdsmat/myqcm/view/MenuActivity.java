@@ -1,18 +1,21 @@
 package fr.iia.cdsmat.myqcm.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ListFragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import fr.iia.cdsmat.myqcm.R;
 
@@ -21,6 +24,7 @@ public class MenuActivity extends AppCompatActivity
 
     NavigationView navigationView = null;
     Toolbar toolbar = null;
+    ImageView imageView = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +90,7 @@ public class MenuActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    @SuppressWarnings("StatemwentWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -120,13 +124,17 @@ public class MenuActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.nav_fragmentContainer, fragment);
             fragmentTransaction.commit();
 
-        } else if (id == R.id.nav_disconnect) {
+        }else if (id == R.id.nav_accueil) {
             //Set the fragment initially
-            LegalMentionFragment fragment = new LegalMentionFragment();
+            MainFragment fragment = new MainFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.nav_fragmentContainer, fragment);
             fragmentTransaction.commit();
 
+        } else if (id == R.id.nav_disconnect){
+            //Return to Login Activity
+            Intent intent = new Intent(MenuActivity.this,LoginActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

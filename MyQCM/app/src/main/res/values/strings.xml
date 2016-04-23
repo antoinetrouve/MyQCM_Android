@@ -21,8 +21,6 @@
     <string name="nav_btnHelp">Help</string>
     <string name="nav_btnLegalMention">Mention legal</string>
     <string name="nav_btnRules">Rules</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nav_accueil">Accueil</string>
 
 </resources>
