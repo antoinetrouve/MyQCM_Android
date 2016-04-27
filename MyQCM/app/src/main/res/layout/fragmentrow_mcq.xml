@@ -6,10 +6,10 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/main_textViewRow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/accent_material_dark_1"
-        android:padding="10dp"/>
+    android:id="@+id/mcq_textViewRow"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/accent_material_dark_1"
+    android:padding="10dp"/>
 
 </LinearLayout>

@@ -235,13 +235,7 @@ public class Mcq {
     //region METHOD
     @Override
     public String toString() {
-        return "Mcq{" +
-                "Name='" + Name + '\'' +
-                ", IsActif=" + IsActif +
-                ", Countdown=" + Countdown +
-                ", DiffDeb=" + DiffDeb +
-                ", DiffEnd=" + DiffEnd +
-                '}';
+        return Name ;
     }
     //endregion
 

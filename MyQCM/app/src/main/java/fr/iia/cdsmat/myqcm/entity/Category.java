@@ -123,14 +123,17 @@ public class Category {
         Name = name;
         UpdatedAt = updatedAt;
     }
+
+    public Category(String name) {
+        Name = name;
+    }
+
     //endregion
 
     //region METHOD
     @Override
     public String toString() {
-        return "Category{" +
-                "Name='" + Name + '\'' +
-                '}';
+        return  Name;
     }
     //endregion
 }

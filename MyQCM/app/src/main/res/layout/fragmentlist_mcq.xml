@@ -3,14 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
-    tools:context=".view.MainFragment">
+    tools:context=".view.McqFragmentList">
 
     <ListView
-        android:id="@id/android:list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:id="@id/android:list"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
