@@ -1,4 +1,4 @@
-package fr.iia.cdsmat.myqcm.view;
+package fr.iia.cdsmat.myqcm.view.menu;
 
 
 import android.os.Bundle;
@@ -12,10 +12,10 @@ import fr.iia.cdsmat.myqcm.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RulesFragment extends Fragment {
+public class HelpFragment extends Fragment {
 
 
-    public RulesFragment() {
+    public HelpFragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class RulesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rules, container, false);
+        return inflater.inflate(R.layout.fragment_help, container, false);
     }
 
 }

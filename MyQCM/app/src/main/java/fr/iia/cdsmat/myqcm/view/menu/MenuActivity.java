@@ -1,11 +1,10 @@
-package fr.iia.cdsmat.myqcm.view;
+package fr.iia.cdsmat.myqcm.view.menu;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ListFragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.FragmentTransaction;
@@ -18,6 +17,8 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import fr.iia.cdsmat.myqcm.R;
+import fr.iia.cdsmat.myqcm.view.login.LoginActivity;
+import fr.iia.cdsmat.myqcm.view.MainFragmentList;
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -31,7 +32,7 @@ public class MenuActivity extends AppCompatActivity
         setContentView(R.layout.activity_menu);
 
         //Set the fragment initially
-        MainFragment fragment = new MainFragment();
+        MainFragmentList fragment = new MainFragmentList();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.nav_fragmentContainer, fragment);
         fragmentTransaction.commit();
@@ -126,7 +127,7 @@ public class MenuActivity extends AppCompatActivity
 
         }else if (id == R.id.nav_accueil) {
             //Set the fragment initially
-            MainFragment fragment = new MainFragment();
+            MainFragmentList fragment = new MainFragmentList();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.nav_fragmentContainer, fragment);
             fragmentTransaction.commit();

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.iia.cdsmat.myqcm.view.LegalMentionFragment">
+    tools:context=".view.menu.LegalMentionFragment">
 
     <Button
         android:id="@+id/nav_btnLegalMention"

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
-    tools:context=".view.MainFragment">
+    tools:context=".view.MainFragmentList">
 
     <ListView
         android:id="@id/android:list"

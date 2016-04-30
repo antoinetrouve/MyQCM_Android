@@ -21,10 +21,10 @@ import fr.iia.cdsmat.myqcm.entity.Category;
  * Created by Antoine Trouve on 27/04/2016.
  * antoinetrouve.france@gmail.com
  */
-public class MainFragment extends ListFragment {
+public class MainFragmentList extends ListFragment {
 
 
-    public MainFragment() {
+    public MainFragmentList() {
         // Required empty public constructor
     }
 

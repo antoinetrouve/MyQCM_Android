@@ -100,11 +100,7 @@ public class Question {
     //region METHOD
     @Override
     public String toString() {
-        return "Question{" +
-                "Name='" + Name + '\'' +
-                ", Media=" + Media +
-                ", Mcq=" + Mcq +
-                '}';
+        return Name ;
     }
 
     //endregion

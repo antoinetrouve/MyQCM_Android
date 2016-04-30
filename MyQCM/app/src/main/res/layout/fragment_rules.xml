@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.RulesFragment">
+    tools:context=".view.menu.RulesFragment">
 
     <Button
         android:id="@+id/nav_btnRules"

@@ -1,4 +1,4 @@
-package fr.iia.cdsmat.myqcm.view;
+package fr.iia.cdsmat.myqcm.view.login;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import fr.iia.cdsmat.myqcm.R;
+import fr.iia.cdsmat.myqcm.view.menu.MenuActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
