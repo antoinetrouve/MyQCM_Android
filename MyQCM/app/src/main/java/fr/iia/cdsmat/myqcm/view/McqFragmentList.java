@@ -1,5 +1,6 @@
 package fr.iia.cdsmat.myqcm.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import java.util.Date;
 import fr.iia.cdsmat.myqcm.R;
 import fr.iia.cdsmat.myqcm.entity.Category;
 import fr.iia.cdsmat.myqcm.entity.Mcq;
+import fr.iia.cdsmat.myqcm.view.mcq.McqActivity;
+import fr.iia.cdsmat.myqcm.view.menu.MenuActivity;
 
 /**
  * Created by Antoine Trouve on 27/04/2016.
@@ -74,9 +77,12 @@ public class McqFragmentList extends ListFragment{
 
     @Override
     public void onListItemClick(ListView l, View view, int position, long id) {
-        ViewGroup viewGroup = (ViewGroup)view;
+        /*ViewGroup viewGroup = (ViewGroup)view;
         TextView textView = (TextView)viewGroup.findViewById(R.id.mcq_textViewRow);
-        Toast.makeText(getActivity(), textView.getText().toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), textView.getText().toString(), Toast.LENGTH_SHORT).show();*/
         //super.onListItemClick(l, v, position, id);
+        //Return to Login Activity
+        Intent intent = new Intent(getActivity(),McqActivity.class);
+        startActivity(intent);
     }
 }
