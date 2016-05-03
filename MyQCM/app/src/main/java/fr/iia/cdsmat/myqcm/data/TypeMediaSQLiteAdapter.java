@@ -12,19 +12,51 @@ import java.util.Date;
 import fr.iia.cdsmat.myqcm.entity.TypeMedia;
 
 /**
- * Created by Antoine Trouvé on 06/04/2016.
- * antoinetrouve.france@gmail.com
+ * SQLite Adpater managing TypeMedia database table
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 04/04/2016
  */
 public class TypeMediaSQLiteAdapter {
 
     //region ATTRIBUTE
+    /**
+     * Constant name's database table
+     * @see TypeMediaSQLiteAdapter#getSchema()
+     */
     public static final String TABLE_TYPEMEDIA = "type_media";
+
+    /**
+     * name of TypeMedia's column id (local database)
+     * @see TypeMediaSQLiteAdapter#getSchema()
+     */
     public static final String COL_ID        = "id";
+
+    /**
+     * name of TypeMedia's column id (distant server database)
+     * @see TypeMediaSQLiteAdapter#getSchema()
+     */
     public static final String COL_IDSERVER  = "idserver";
+
+    /**
+     * name of TypeMedia's column name
+     * @see TypeMediaSQLiteAdapter#getSchema()
+     */
     public static final String COL_NAME      = "name";
+
+    /**
+     * name of TypeMedia's column updatedAt
+     * @see TypeMediaSQLiteAdapter#getSchema()
+     */
     public static final String COL_UPDATEDAT = "updatedAt";
 
+    /**
+     * name of SQLiteDatabase object
+     */
     private SQLiteDatabase          database;
+
+    /**
+     * name of MyQCMSqLiteOpenHelper object
+     */
     private MyQCMSqLiteOpenHelper   helper;
     //endregion
 
@@ -51,14 +83,14 @@ public class TypeMediaSQLiteAdapter {
     }
 
     /**
-     * Open a database that will be used for reading and writing
+     * Open TypeMedia database that will be used for reading and writing
      */
     public void open(){
         this.database = this.helper.getWritableDatabase();
     }
 
     /**
-     * Close a database
+     * Close TypeMedia database
      */
     public void close(){
         this.database.close();

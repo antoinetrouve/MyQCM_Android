@@ -13,21 +13,68 @@ import fr.iia.cdsmat.myqcm.entity.Media;
 import fr.iia.cdsmat.myqcm.entity.TypeMedia;
 
 /**
- * Created by Antoine Trouvé on 06/04/2016.
- * antoinetrouve.france@gmail.com
+ * SQLite Adpater managing Media database table
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 04/04/2016
  */
 public class MediaSQLiteAdapter {
     //region ATTRIBUTES
+    /**
+     * Constant name's database table
+     * @see MediaSQLiteAdapter#getSchema()
+     */
     public static final String TABLE_MEDIA      = "media";
+
+    /**
+     * name of Media's column id (local database)
+     * @see MediaSQLiteAdapter#getSchema()
+     */
     public static final String COL_ID           = "id";
+
+    /**
+     * name of Media's column id (distant server database)
+     * @see MediaSQLiteAdapter#getSchema()
+     */
     public static final String COL_IDSERVER     = "idserver";
+
+    /**
+     * name of Media's column name
+     * @see MediaSQLiteAdapter#getSchema()
+     */
     public static final String COL_NAME         = "name";
+
+    /**
+     * name of Media's column url
+     * @see MediaSQLiteAdapter#getSchema()
+     */
     public static final String COL_URL          = "url";
+
+    /**
+     * name of Media's column typeMediaId
+     * @see MediaSQLiteAdapter#getSchema()
+     */
     public static final String COL_TYPEMEDIAID  = "typeMediaId";
+
+    /**
+     * name of Media's column updatedAt
+     * @see MediaSQLiteAdapter#getSchema()
+     */
     public static final String COL_UPDATEDAT    = "updatedAt";
 
+    /**
+     * name of context for MediaSQLiteAdapter's contructor
+     * @see MediaSQLiteAdapter#MediaSQLiteAdapter(Context)
+     */
     private Context                 context;
+
+    /**
+     * name of SQLiteDatabase object
+     */
     private SQLiteDatabase          database;
+
+    /**
+     * name of MyQCMSqLiteOpenHelper object
+     */
     private MyQCMSqLiteOpenHelper   helper;
     //endregion
 
@@ -56,14 +103,14 @@ public class MediaSQLiteAdapter {
     }
 
     /**
-     * Open a database that will be used for reading and writing
+     * Open Media database that will be used for reading and writing
      */
     public void open(){
         this.database = this.helper.getWritableDatabase();
     }
 
     /**
-     * Close a database
+     * Close Media database
      */
     public void close(){
         this.database.close();

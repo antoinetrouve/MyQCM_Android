@@ -12,25 +12,87 @@ import java.text.SimpleDateFormat;
 import fr.iia.cdsmat.myqcm.entity.User;
 
 /**
- * Created by Antoine Trouvé on 06/04/2016.
- * antoinetrouve.france@gmail.com
+ * SQLite Adpater managing User database table
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 04/04/2016
  */
 public class UserSQLiteAdapter {
 
     //region ATTRIBUTE
+    /**
+     * Constant name's database table
+     * @see UserSQLiteAdapter#getSchema()
+     */
     public static final String TABLE_USER    = "user";
+
+    /**
+     * name of User's column id (local database)
+     * @see UserSQLiteAdapter#getSchema()
+     */
     public static final String COL_ID        = "id";
+
+    /**
+     * name of USer's column id (distant server database)
+     * @see UserSQLiteAdapter#getSchema()
+     */
     public static final String COL_IDSERVER  = "idserver";
+
+    /**
+     * name of User's column username
+     * @see UserSQLiteAdapter#getSchema()
+     */
     public static final String COL_USERNAME  = "username";
+
+    /**
+     * name of User's column email
+     * @see UserSQLiteAdapter#getSchema()
+     */
     public static final String COL_EMAIL     = "email";
+
+    /**
+     * name of User's column lastlogin
+     * @see UserSQLiteAdapter#getSchema()
+     */
     public static final String COL_LASTLOGIN = "lastlogin";
+
+    /**
+     * name of User's column password
+     * @see UserSQLiteAdapter#getSchema()
+     */
     public static final String COL_PASSWORD  = "password";
+
+    /**
+     * name of User's column teamId
+     * @see UserSQLiteAdapter#getSchema()
+     */
     public static final String COL_TEAMID    = "teamId";
+
+    /**
+     * name of User's column createdAt
+     * @see UserSQLiteAdapter#getSchema()
+     */
     public static final String COL_CREATEDAT = "createdAt";
+
+    /**
+     * name of User's column updatedAt
+     * @see UserSQLiteAdapter#getSchema()
+     */
     public static final String COL_UPDATEDAT = "updatedAt";
 
+    /**
+     * name of SQLiteDatabase object
+     */
     private SQLiteDatabase          database;
+
+    /**
+     * name of MyQCMSqLiteOpenHelper object
+     */
     private MyQCMSqLiteOpenHelper   helper;
+
+    /**
+     * name of context for UserSQLiteAdapter's contructor
+     * @see UserSQLiteAdapter#UserSQLiteAdapter(Context)
+     */
     private Context context;
     //endregion
 
@@ -63,14 +125,14 @@ public class UserSQLiteAdapter {
     }
 
     /**
-     * Open a database that will be used for reading and writing
+     * Open User database that will be used for reading and writing
      */
     public void open(){
         this.database = this.helper.getWritableDatabase();
     }
 
     /**
-     * Close a database
+     * Close User database
      */
     public void close(){
         this.database.close();

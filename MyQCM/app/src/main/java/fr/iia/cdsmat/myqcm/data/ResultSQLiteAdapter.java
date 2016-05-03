@@ -11,19 +11,51 @@ import fr.iia.cdsmat.myqcm.entity.Result;
 import fr.iia.cdsmat.myqcm.entity.User;
 
 /**
- * Created by Antoine Trouvé on 06/04/2016.
- * antoinetrouve.france@gmail.com
+ * SQLite Adpater managing Result database table
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 04/04/2016
  */
 public class ResultSQLiteAdapter {
 
     //region ATTRIBUTES
+    /**
+     * Constant name's database table
+     * @see ResultSQLiteAdapter#getSchema()
+     */
     public static final String TABLE_RESULT = "result";
+
+    /**
+     * name of Result's column id (local database)
+     * @see ResultSQLiteAdapter#getSchema()
+     */
     public static final String COL_ID = "id";
+
+    /**
+     * name of Result's column userId
+     * @see ResultSQLiteAdapter#getSchema()
+     */
     public static final String COL_USERID = "userId";
+
+    /**
+     * name of Result's column mcqId
+     * @see ResultSQLiteAdapter#getSchema()
+     */
     public static final String COL_MCQID = "mcqId";
 
+    /**
+     * name of SQLiteDatabase object
+     */
     private SQLiteDatabase database;
+
+    /**
+     * name of MyQCMSqLiteOpenHelper object
+     */
     private MyQCMSqLiteOpenHelper helper;
+
+    /**
+     * name of context for ResultSQLiteAdapter's contructor
+     * @see ResultSQLiteAdapter#ResultSQLiteAdapter(Context)
+     */
     private Context context;
     //endregion
 
@@ -35,7 +67,7 @@ public class ResultSQLiteAdapter {
      */
     public ResultSQLiteAdapter(Context context) {
         helper = new MyQCMSqLiteOpenHelper(context,MyQCMSqLiteOpenHelper.DB_NAME,null,1);
-        context = this.context;
+        this.context = context;
     }
 
     /**
@@ -50,14 +82,14 @@ public class ResultSQLiteAdapter {
     }
 
     /**
-     * Open a database that will be used for reading and writing
+     * Open Result database that will be used for reading and writing
      */
     public void open(){
         this.database = this.helper.getWritableDatabase();
     }
 
     /**
-     * Close a database
+     * Close Result database
      */
     public void close(){
         this.database.close();
@@ -124,7 +156,7 @@ public class ResultSQLiteAdapter {
 
     /**
      * Get all Result
-     * @return ArrayList<>
+     * @return ArrayList<Result>
      */
     public ArrayList<Result> getAllResult(){
         ArrayList<Result> result = null;
@@ -144,7 +176,7 @@ public class ResultSQLiteAdapter {
 
     /**
      * Get all cursor in Result table
-     * @return
+     * @return cursor
      */
     private Cursor getAllCursor() {
         String[] columns = {COL_ID, COL_MCQID, COL_USERID};
@@ -155,7 +187,7 @@ public class ResultSQLiteAdapter {
     /**
      * Convert Cursor to Result Object
      * @param cursor
-     * @return
+     * @return Result object
      */
     private Result cursorToItem(Cursor cursor) {
         //Get Result attributes

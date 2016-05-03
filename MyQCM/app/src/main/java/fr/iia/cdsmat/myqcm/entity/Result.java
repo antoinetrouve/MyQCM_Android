@@ -3,8 +3,9 @@ package fr.iia.cdsmat.myqcm.entity;
 import java.util.ArrayList;
 
 /**
- * Created by Antoine Trouvé on 04/04/2016.
- * antoinetrouve.france@gmail.com
+ * Class managing Result object
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 04/04/2016
  */
 public class Result {
     //region ATTRIBUTE

@@ -27,6 +27,5 @@ public class McqActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransactionContent = getSupportFragmentManager().beginTransaction();
         fragmentTransactionContent.replace(R.id.mcq_content, fragmentQuestionContent);
         fragmentTransactionContent.commit();
-
     }
 }

@@ -13,26 +13,93 @@ import fr.iia.cdsmat.myqcm.entity.Category;
 import fr.iia.cdsmat.myqcm.entity.Mcq;
 
 /**
- * Created by antoi on 06/04/2016.
- * antoinetrouve.france@gmail.com
+ * SQLite Adpater managing Mcq database table
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 04/04/2016
  */
 public class McqSQLiteAdapter {
 
     //region ATTRIBUTES
+    /**
+     * Constant name's database table
+     * @see McqSQLiteAdapter#getSchema()
+     */
     public static final String TABLE_MCQ        = "mcq";
+
+    /**
+     * name of Mcq's column id (local database)
+     * @see McqSQLiteAdapter#getSchema()
+     */
     public static final String COL_ID           = "id";
+
+    /**
+     * name of Mcq's column id (distant server database)
+     * @see McqSQLiteAdapter#getSchema()
+     */
     public static final String COL_IDSERVER     = "idServer";
+
+    /**
+     * name of Mcq's column name
+     * @see McqSQLiteAdapter#getSchema()
+     */
     public static final String COL_NAME         = "Name";
+
+    /**
+     * name of Mcq's column isActif
+     * @see McqSQLiteAdapter#getSchema()
+     */
     public static final String COL_ISACTIF      = "isActif";
+
+    /**
+     * name of Mcq's column countdown
+     * @see McqSQLiteAdapter#getSchema()
+     */
     public static final String COL_COUNTDOWN    = "countdown";
+
+    /**
+     * name of Mcq's column diffDeb
+     * @see McqSQLiteAdapter#getSchema()
+     */
     public static final String COL_DIFFDEB      = "diffDeb";
+
+    /**
+     * name of Mcq's column diffEnd
+     * @see McqSQLiteAdapter#getSchema()
+     */
     public static final String COL_DIFFEND      = "diffEnd";
+
+    /**
+     * name of Mcq's column updatedAt
+     * @see McqSQLiteAdapter#getSchema()
+     */
     public static final String COL_UPDATEDAT    = "updatedAt";
+
+    /**
+     * name of Mcq's column createdAt
+     * @see McqSQLiteAdapter#getSchema()
+     */
     public static final String COL_CREATEDAT    = "createdAt";
+
+    /**
+     * name of Mcq's column categoryId
+     * @see McqSQLiteAdapter#getSchema()
+     */
     public static final String COL_CATEGORYID   = "categoryId";
 
+    /**
+     * name of SQLiteDatabase object
+     */
     private SQLiteDatabase database;
+
+    /**
+     * name of MyQCMSqLiteOpenHelper object
+     */
     private MyQCMSqLiteOpenHelper  helper;
+
+    /**
+     * name of context for McqSQLiteAdapter's contructor
+     * @see McqSQLiteAdapter#McqSQLiteAdapter(Context)
+     */
     private Context context;
     //endregion
 
@@ -66,14 +133,14 @@ public class McqSQLiteAdapter {
     }
 
     /**
-     * Open a database that will be used for reading and writing
+     * Open Mcq database that will be used for reading and writing
      */
     public void open(){
         this.database = this.helper.getWritableDatabase();
     }
 
     /**
-     * Close a database
+     * Close Mcq database
      */
     public void close(){
         this.database.close();
@@ -142,7 +209,7 @@ public class McqSQLiteAdapter {
     /**
      * Convert Cursor to Mcq Object
      * @param cursor
-     * @return
+     * @return Mcq object
      */
     private Mcq cursorToItem(Cursor cursor) {
         //Get Mcq attributes
