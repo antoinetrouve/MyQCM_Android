@@ -1,4 +1,6 @@
 <resources>
+
+    <!-- LOGIN ACTIVITY -->
     <string name="app_name">My QCM</string>
     <string name="title">MY QCM APPLICATION</string>
     <string name="et_connexion_login">connexion</string>
@@ -25,5 +27,8 @@
 
     <!-- QCM Activity -->
     <string name="title_activity_qcm">QcmActivity</string>
+
+    <!-- Result Activity -->
+    <string name="title_activity_result">ResultActivity</string>
 
 </resources>
