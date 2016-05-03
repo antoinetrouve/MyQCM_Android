@@ -3,8 +3,9 @@ package fr.iia.cdsmat.myqcm.entity;
 import java.util.Date;
 
 /**
- * Created by Antoine Trouvé on 04/04/2016.
- * antoinetrouve.france@gmail.com
+ * Class managing Media object
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 04/04/2016
  */
 public class Media {
 

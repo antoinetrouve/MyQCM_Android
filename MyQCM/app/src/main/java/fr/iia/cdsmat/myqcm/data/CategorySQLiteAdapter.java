@@ -12,19 +12,51 @@ import java.util.Date;
 import fr.iia.cdsmat.myqcm.entity.Category;
 
 /**
- * Created by Antoine Trouvé on 06/04/2016.
- * antoinetrouve.france@gmail.com
+ * SQLite Adpater managing Category database table
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 04/04/2016
  */
 public class CategorySQLiteAdapter {
 
     //region ATTRIBUTES
+    /**
+     * Constant name's database table
+     * @see CategorySQLiteAdapter#getSchema()
+     */
     public static final String TABLE_CATEGORY   = "category";
+
+    /**
+     * name of Category's column id (local database)
+     * @see CategorySQLiteAdapter#getSchema()
+     */
     public static final String COL_ID           = "id";
+
+    /**
+     * name of Category's column id (distant server database)
+     * @see CategorySQLiteAdapter#getSchema()
+     */
     public static final String COL_IDSERVER     = "idServer";
+
+    /**
+     * name of Category's column name
+     * @see CategorySQLiteAdapter#getSchema()
+     */
     public static final String COL_NAME         = "name";
+
+    /**
+     * name of Category's column updatedAt
+     * @see CategorySQLiteAdapter#getSchema()
+     */
     public static final String COL_UPDATEDAT    = "updatedAt";
 
+    /**
+     * name of SQLiteDatabase object
+     */
     private MyQCMSqLiteOpenHelper helper;
+
+    /**
+     * name of MyQCMSqLiteOpenHelper object
+     */
     private SQLiteDatabase database;
     //endregion
 
@@ -51,14 +83,14 @@ public class CategorySQLiteAdapter {
     }
 
     /**
-     * Open a database that will be used for reading and writing
+     * Open Category database that will be used for reading and writing
      */
     public void open(){
         this.database = this.helper.getWritableDatabase();
     }
 
     /**
-     * Close a database
+     * Close Category database
      */
     public void close(){
         this.database.close();
@@ -81,7 +113,6 @@ public class CategorySQLiteAdapter {
     public long delete(Category category){
         String whereClausesDelete = COL_ID + "=?";
         String[] whereArgsDelete = {String.valueOf(category.getId())};
-
         return this.database.delete(TABLE_CATEGORY, whereClausesDelete, whereArgsDelete);
     }
 
@@ -94,7 +125,6 @@ public class CategorySQLiteAdapter {
         ContentValues valuesUpdate = this.categoryToContentValues(category);
         String whereClausesUpdate = COL_ID + "=?";
         String[] whereArgsUpdate = {String.valueOf(category.getId())};
-
         return database.update(TABLE_CATEGORY, valuesUpdate, whereClausesUpdate, whereArgsUpdate);
     }
 
@@ -123,6 +153,11 @@ public class CategorySQLiteAdapter {
         return result;
     }
 
+    /**
+     * Convert Cursor to Category Object
+     * @param cursor
+     * @return Category object
+     */
     private Category cursorToItem(Cursor cursor) {
         //Get Category attributes
         //-------------------

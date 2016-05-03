@@ -1,0 +1,17 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.menu.LegalMentionFragment">
+
+    <Button
+        android:id="@+id/nav_btnLegalMention"
+        android:text="@string/nav_btnLegalMention"
+        android:background="@color/accent_material_dark_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:padding="8dp"/>
+
+</RelativeLayout>

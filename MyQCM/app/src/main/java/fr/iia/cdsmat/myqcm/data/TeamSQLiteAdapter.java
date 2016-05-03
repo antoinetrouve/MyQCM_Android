@@ -12,19 +12,51 @@ import java.util.Date;
 import fr.iia.cdsmat.myqcm.entity.Team;
 
 /**
- * Created by Antoine Trouvé on 06/04/2016.
- * antoinetrouve.france@gmail.com
+ * SQLite Adpater managing Team database table
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 04/04/2016
  */
 public class TeamSQLiteAdapter {
 
     //region ATTRIBUTE
+    /**
+     * Constant name's database table
+     * @see TeamSQLiteAdapter#getSchema()
+     */
     public static final String TABLE_TEAM   = "team";
+
+    /**
+     * name of Team's column id (local database)
+     * @see TeamSQLiteAdapter#getSchema()
+     */
     public static final String COL_ID       = "id";
+
+    /**
+     * name of Team's column id (distant server database)
+     * @see TeamSQLiteAdapter#getSchema()
+     */
     public static final String COL_IDSERVER = "idserver";
+
+    /**
+     * name of Team's column name
+     * @see TeamSQLiteAdapter#getSchema()
+     */
     public static final String COL_NAME     = "name";
+
+    /**
+     * name of Team's column UpdatedAt
+     * @see TeamSQLiteAdapter#getSchema()
+     */
     public static final String COL_UPDATEDAT = "UpdatedAt";
 
+    /**
+     * name of SQLiteDatabase object
+     */
     private SQLiteDatabase          database;
+
+    /**
+     * name of MyQCMSqLiteOpenHelper object
+     */
     private MyQCMSqLiteOpenHelper   helper;
     //endregion
 
@@ -51,14 +83,14 @@ public class TeamSQLiteAdapter {
     }
 
     /**
-     * Open a database that will be used for reading and writing
+     * Open Team database that will be used for reading and writing
      */
     public void open(){
         this.database = this.helper.getWritableDatabase();
     }
 
     /**
-     * Close a database
+     * Close Team database
      */
     public void close(){
         this.database.close();

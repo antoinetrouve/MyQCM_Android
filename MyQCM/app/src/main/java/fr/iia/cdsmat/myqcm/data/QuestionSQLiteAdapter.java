@@ -13,22 +13,74 @@ import fr.iia.cdsmat.myqcm.entity.Mcq;
 import fr.iia.cdsmat.myqcm.entity.Question;
 
 /**
- * Created by Antoine Trouvé on 06/04/2016.
- * antoinetrouve.france@gmail.com
+ * SQLite Adpater managing Question database table
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 04/04/2016
  */
 public class QuestionSQLiteAdapter {
     //region ATTRIBUTES
+    /**
+     * Constant name's database table
+     * @see QuestionSQLiteAdapter#getSchema()
+     */
     public static final String TABLE_QUESTION   = "question";
+
+    /**
+     * name of Question's column id (local database)
+     * @see QuestionSQLiteAdapter#getSchema()
+     */
     public static final String COL_ID           = "id";
+
+    /**
+     * name of Question's column id (distant server database)
+     * @see QuestionSQLiteAdapter#getSchema()
+     */
     public static final String COL_IDSERVER     = "idServer";
+
+    /**
+     * name of Question's column name
+     * @see QuestionSQLiteAdapter#getSchema()
+     */
     public static final String COL_NAME         = "name";
+
+    /**
+     * name of Question's column createdAt
+     * @see QuestionSQLiteAdapter#getSchema()
+     */
     public static final String COL_CREATEDAT    = "CreatedAt";
+
+    /**
+     * name of Question's column updatedAt
+     * @see QuestionSQLiteAdapter#getSchema()
+     */
     public static final String COL_UPDATEDAT    = "updatedAt";
+
+    /**
+     * name of Question's column mediaId
+     * @see QuestionSQLiteAdapter#getSchema()
+     */
     public static final String COL_MEDIAID      = "mediaId";
+
+    /**
+     * name of Question's column mcqId
+     * @see QuestionSQLiteAdapter#getSchema()
+     */
     public static final String COL_MCQID        = "mcqId";
 
+    /**
+     * name of SQLiteDatabase object
+     */
     private SQLiteDatabase database;
+
+    /**
+     * name of MyQCMSqLiteOpenHelper object
+     */
     private MyQCMSqLiteOpenHelper helper;
+
+    /**
+     * name of context for QuestionSQLiteAdapter's contructor
+     * @see QuestionSQLiteAdapter#QuestionSQLiteAdapter(Context)
+     */
     private Context context;
     //endregion
 
@@ -59,14 +111,14 @@ public class QuestionSQLiteAdapter {
     }
 
     /**
-     * Open a database that will be used for reading and writing
+     * Open Question database that will be used for reading and writing
      */
     public void open(){
         this.database = this.helper.getWritableDatabase();
     }
 
     /**
-     * Close a database
+     * Close Question database
      */
     public void close(){
         this.database.close();
@@ -80,8 +132,6 @@ public class QuestionSQLiteAdapter {
     public long insert(Question question){
         return database.insert(TABLE_QUESTION, null, this.questionToContentValues(question));
     }
-
-
 
     /**
      * Delete question

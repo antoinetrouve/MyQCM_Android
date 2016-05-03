@@ -13,23 +13,74 @@ import fr.iia.cdsmat.myqcm.entity.Answer;
 import fr.iia.cdsmat.myqcm.entity.Question;
 
 /**
- * Created by antoi on 06/04/2016.
- * antoinetrouve.france@gmail.com
+ * SQLite Adpater managing Answer database table
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 04/04/2016
  */
 public class AnswerSQLiteAdapter {
 
     //region ATTRIBUTES
-    public static final String TABLE_ANSWER = "answer";
-    public static final String COL_ID = "id";
-    public static final String COL_IDSERVER = "idServer";
-    public static final String COL_VALUE = "value";
-    public static final String COL_ISVALID = "isValid";
-    public static final String COL_CREATEDAT = "createdAt";
-    public static final String COL_UPDATEDAT = "updatedAt";
-    public static final String COL_QUESTIONID = "question";
+    /**
+     * Constant name's database table
+     * @see AnswerSQLiteAdapter#getSchema()
+     */
+    protected static final String TABLE_ANSWER     = "answer";
 
+    /**
+     * name of Answer's column id (local database)
+     */
+    protected static final String COL_ID           = "id";
+
+    /**
+     * name of Answer's column id (distant server database)
+     * @see AnswerSQLiteAdapter#getSchema()
+     */
+    protected static final String COL_IDSERVER     = "idServer";
+
+    /**
+     * name of Value's column(distant server database)
+     * @see AnswerSQLiteAdapter#getSchema()
+     */
+    protected static final String COL_VALUE        = "value";
+
+    /**
+     * name of isValid's column (distant server database)
+     * @see AnswerSQLiteAdapter#getSchema()
+     */
+    protected static final String COL_ISVALID      = "isValid";
+
+    /**
+     * name of createdAt's column (distant server database)
+     * @see AnswerSQLiteAdapter#getSchema()
+     */
+    protected static final String COL_CREATEDAT    = "createdAt";
+
+    /**
+     * name of UpdatedAt's column (distant server database)
+     * @see AnswerSQLiteAdapter#getSchema()
+     */
+    protected static final String COL_UPDATEDAT    = "updatedAt";
+
+    /**
+     * name of Question's id's column (distant server database)
+     * @see AnswerSQLiteAdapter#getSchema()
+     */
+    protected static final String COL_QUESTIONID   = "question";
+
+    /**
+     * name of context for AnswerSQLiteAdapter's contructor
+     * @see AnswerSQLiteAdapter#AnswerSQLiteAdapter(Context)
+     */
     private Context context;
+
+    /**
+     * name of SQLiteDatabase object
+     */
     private SQLiteDatabase database;
+
+    /**
+     * name of MyQCMSqLiteOpenHelper object
+     */
     private MyQCMSqLiteOpenHelper helper;
     //endregion
 
@@ -45,7 +96,7 @@ public class AnswerSQLiteAdapter {
     }
 
     /**
-     * Script SQLite to create Answer's table data in my_qcm database stored in device
+     * Script SQLite to create Answer's local table database
      * @return String
      */
     public static String getSchema(){
@@ -60,14 +111,14 @@ public class AnswerSQLiteAdapter {
     }
 
     /**
-     * Open a database that will be used for reading and writing
+     * Open Answer's database that will be used for reading and writing
      */
     public void open(){
         this.database = this.helper.getWritableDatabase();
     }
 
     /**
-     * Close a database
+     * Close a Answer's database
      */
     public void close(){
         this.database.close();
@@ -90,7 +141,6 @@ public class AnswerSQLiteAdapter {
     public long delete(Answer answer){
         String whereClausesDelete = COL_ID + "=?";
         String[] whereArgsDelete = {String.valueOf(answer.getId())};
-
         return this.database.delete(TABLE_ANSWER, whereClausesDelete, whereArgsDelete);
     }
 
@@ -103,7 +153,6 @@ public class AnswerSQLiteAdapter {
         ContentValues valuesUpdate = this.answerToContentValues(answer);
         String whereClausesUpdate = COL_ID + "=?";
         String[] whereArgsUpdate = {String.valueOf(answer.getId())};
-
         return database.update(TABLE_ANSWER, valuesUpdate, whereClausesUpdate, whereArgsUpdate);
     }
 
@@ -135,7 +184,7 @@ public class AnswerSQLiteAdapter {
     /**
      * Convert Cursor to Answer Object
      * @param cursor
-     * @return
+     * @return Answer object
      */
     private Answer cursorToItem(Cursor cursor) {
         //Get Answer attributes
@@ -187,6 +236,11 @@ public class AnswerSQLiteAdapter {
         return values;
     }
 
+    /**
+     * Convert int to boolean
+     * @param columnIndex
+     * @return boolean
+     */
     private boolean intToBoolean(int columnIndex){
         if ( columnIndex == 0) {
             return false;
@@ -194,6 +248,5 @@ public class AnswerSQLiteAdapter {
             return true;
         }
     }
-
     //endregion
 }

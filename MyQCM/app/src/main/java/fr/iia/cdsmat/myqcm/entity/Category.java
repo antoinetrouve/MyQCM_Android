@@ -4,8 +4,9 @@ import java.util.Date;
 import java.util.ArrayList;
 
 /**
- * Created by Antoine Trouvé on 04/04/2016.
- * antoinetrouve.france@gmail.com
+ * Class managing Category object
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 04/04/2016
  */
 public class Category {
 
@@ -123,14 +124,17 @@ public class Category {
         Name = name;
         UpdatedAt = updatedAt;
     }
+
+    public Category(String name) {
+        Name = name;
+    }
+
     //endregion
 
     //region METHOD
     @Override
     public String toString() {
-        return "Category{" +
-                "Name='" + Name + '\'' +
-                '}';
+        return  Name;
     }
     //endregion
 }
