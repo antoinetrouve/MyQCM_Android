@@ -103,8 +103,8 @@ public class UserSQLiteAdapter {
      * @param context
      */
     public UserSQLiteAdapter(Context context){
-        helper = new MyQCMSqLiteOpenHelper(context,MyQCMSqLiteOpenHelper.DB_NAME,null,1);
         this.context = context;
+        this.helper = new MyQCMSqLiteOpenHelper(context,MyQCMSqLiteOpenHelper.DB_NAME,null,1);
     }
 
     /**
@@ -141,7 +141,7 @@ public class UserSQLiteAdapter {
     /**
      * Insert user in database
      * @param user
-     * @return line number's result
+     * @return the row ID of the newly inserted row, or -1 if an error occurred
      */
     public long insert(User user){
         return database.insert(TABLE_USER, null, this.userToContentValues(user));
@@ -150,7 +150,7 @@ public class UserSQLiteAdapter {
     /**
      * Delete user
      * @param user
-     * @return line number's result
+     * @return the number of rows affected
      */
     public long delete(User user){
         String whereClausesDelete = COL_ID + "=?";
@@ -162,7 +162,7 @@ public class UserSQLiteAdapter {
     /**
      * Update user
      * @param user
-     * @return line number's result
+     * @return the number of rows affected
      */
     public long update(User user) {
         ContentValues valuesUpdate = this.userToContentValues(user);

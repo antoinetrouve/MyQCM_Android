@@ -118,6 +118,14 @@ public class Category {
     //endregion
 
     //region CONSTRUCTOR
+
+    /**
+     * Category's constructor
+     * @param id
+     * @param idServer
+     * @param name
+     * @param updatedAt
+     */
     public Category(int id, int idServer, String name, Date updatedAt) {
         Id = id;
         IdServer = idServer;
@@ -125,6 +133,10 @@ public class Category {
         UpdatedAt = updatedAt;
     }
 
+    /**
+     * Category's constructor
+     * @param name
+     */
     public Category(String name) {
         Name = name;
     }

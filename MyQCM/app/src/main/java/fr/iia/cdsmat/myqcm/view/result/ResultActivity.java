@@ -7,8 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import fr.iia.cdsmat.myqcm.view.menu.MenuActivity;
 
 /**
- * Created by Antoine Trouvé on 03/05/2016.
- * antoinetrouve.france@gmail.com
+ * Class managing result view
+ * @author Antoine Trouve antoinetrouve.france@gmail.com
+ * @version 1.0 - 04/04/2016
  */
 public class ResultActivity extends AppCompatActivity {
 

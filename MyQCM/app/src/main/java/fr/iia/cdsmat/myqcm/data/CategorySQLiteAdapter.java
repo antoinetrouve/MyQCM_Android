@@ -50,6 +50,12 @@ public class CategorySQLiteAdapter {
     public static final String COL_UPDATEDAT    = "updatedAt";
 
     /**
+     * name of context for CategorySQLiteAdapter's contructor
+     * @see CategorySQLiteAdapter#CategorySQLiteAdapter(Context)
+     */
+    private Context context;
+
+    /**
      * name of SQLiteDatabase object
      */
     private MyQCMSqLiteOpenHelper helper;
@@ -67,7 +73,8 @@ public class CategorySQLiteAdapter {
      * @param context
      */
     public CategorySQLiteAdapter(Context context) {
-        helper = new MyQCMSqLiteOpenHelper(context,MyQCMSqLiteOpenHelper.DB_NAME,null,1);
+        this.context = context;
+        this.helper = new MyQCMSqLiteOpenHelper(context,MyQCMSqLiteOpenHelper.DB_NAME,null,1);
     }
 
     /**
@@ -99,7 +106,7 @@ public class CategorySQLiteAdapter {
     /**
      * Insert category in database
      * @param category
-     * @return line number's result
+     * @return the row ID of the newly inserted row, or -1 if an error occurred
      */
     public long insert(Category category){
         return database.insert(TABLE_CATEGORY, null, this.categoryToContentValues(category));
@@ -108,7 +115,7 @@ public class CategorySQLiteAdapter {
     /**
      * Delete category
      * @param category
-     * @return line number's result
+     * @return the number of rows affected
      */
     public long delete(Category category){
         String whereClausesDelete = COL_ID + "=?";
@@ -119,7 +126,7 @@ public class CategorySQLiteAdapter {
     /**
      * Update category
      * @param category
-     * @return line number's result
+     * @return the number of rows affected
      */
     public long update(Category category) {
         ContentValues valuesUpdate = this.categoryToContentValues(category);
@@ -182,7 +189,7 @@ public class CategorySQLiteAdapter {
     }
 
     /**
-     * Convert category to COntentValues
+     * Convert category to ContentValues
      * @param category
      * @return contentValue
      */

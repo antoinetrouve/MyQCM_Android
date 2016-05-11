@@ -50,6 +50,12 @@ public class TeamSQLiteAdapter {
     public static final String COL_UPDATEDAT = "UpdatedAt";
 
     /**
+     * name of context for TeamSQLiteAdapter's contructor
+     * @see TeamSQLiteAdapter#TeamSQLiteAdapter(Context)
+     */
+    private Context context;
+
+    /**
      * name of SQLiteDatabase object
      */
     private SQLiteDatabase          database;
@@ -67,7 +73,8 @@ public class TeamSQLiteAdapter {
      * @param context
      */
     public TeamSQLiteAdapter(Context context){
-        helper = new MyQCMSqLiteOpenHelper(context,MyQCMSqLiteOpenHelper.DB_NAME,null,1);
+        this.context = context;
+        this.helper = new MyQCMSqLiteOpenHelper(context,MyQCMSqLiteOpenHelper.DB_NAME,null,1);
     }
 
     /**
@@ -99,7 +106,7 @@ public class TeamSQLiteAdapter {
     /**
      * Insert team in database
      * @param team
-     * @return line number's result
+     * @return the row ID of the newly inserted row, or -1 if an error occurred
      */
     public long insert(Team team){
         return database.insert(TABLE_TEAM, null, this.teamToCntentValues(team));
@@ -108,7 +115,7 @@ public class TeamSQLiteAdapter {
     /**
      * Delete team
      * @param team
-     * @return line number's result
+     * @return the number of rows affected
      */
     public long delete(Team team){
         String whereClausesDelete = COL_ID + "=?";
@@ -120,7 +127,7 @@ public class TeamSQLiteAdapter {
     /**
      * Update team
      * @param team
-     * @return line number's result
+     * @return the number of rows affected
      */
     public long update(Team team) {
         ContentValues valuesUpdate = this.teamToCntentValues(team);

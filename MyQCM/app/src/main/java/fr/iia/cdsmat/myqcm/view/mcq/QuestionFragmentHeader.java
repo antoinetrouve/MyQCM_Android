@@ -9,8 +9,9 @@ import android.view.ViewGroup;
 import fr.iia.cdsmat.myqcm.R;
 
 /**
- * Created by Antoine Trouvé on 30/04/2016.
- * antoinetrouve.france@gmail.com
+ * Class managing Question's fragment header view depending of Mcq Activity
+ * @author Antoine Trouve antoinetrouve.france@gmail.com
+ * @version 1.0 - 04/04/2016
  */
 public class QuestionFragmentHeader extends Fragment {
 

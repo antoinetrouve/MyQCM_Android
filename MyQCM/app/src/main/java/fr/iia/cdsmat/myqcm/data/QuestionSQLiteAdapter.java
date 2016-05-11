@@ -91,8 +91,8 @@ public class QuestionSQLiteAdapter {
      * @param context
      */
     public QuestionSQLiteAdapter(Context context) {
-        helper = new MyQCMSqLiteOpenHelper(context,MyQCMSqLiteOpenHelper.DB_NAME,null,1);
         this.context = context;
+        this.helper = new MyQCMSqLiteOpenHelper(context,MyQCMSqLiteOpenHelper.DB_NAME,null,1);
     }
 
     /**
@@ -127,7 +127,7 @@ public class QuestionSQLiteAdapter {
     /**
      * Insert question in database
      * @param question
-     * @return line number's result
+     * @return the row ID of the newly inserted row, or -1 if an error occurred
      */
     public long insert(Question question){
         return database.insert(TABLE_QUESTION, null, this.questionToContentValues(question));
@@ -136,7 +136,7 @@ public class QuestionSQLiteAdapter {
     /**
      * Delete question
      * @param question
-     * @return line number's result
+     * @return the number of rows affected
      */
     public long delete(Question question){
         String whereClausesDelete = COL_ID + "=?";
@@ -148,7 +148,7 @@ public class QuestionSQLiteAdapter {
     /**
      * Update question
      * @param question
-     * @return line number's result
+     * @return the number of rows affected
      */
     public long update(Question question) {
         ContentValues valuesUpdate = this.questionToContentValues(question);

@@ -21,58 +21,114 @@ public class Media {
 
     //region GETTER and SETTER
 
+    /**
+     * Get Media's id attribute
+     * @return int
+     */
     public int getId() {
         return Id;
     }
 
+    /**
+     * Set mcq's id attribute
+     * @param id
+     */
     public void setId(int id) {
         Id = id;
     }
 
+    /**
+     * Get WebServer mcq's id attribute
+     * @return int
+     */
     public int getIdServer() {
         return IdServer;
     }
 
+    /**
+     * Set WebServer mcq's id attribute
+     * @param idServer
+     */
     public void setIdServer(int idServer) {
         IdServer = idServer;
     }
 
+    /**
+     * Get name's id attribute
+     * @return name
+     */
     public String getName() {
         return Name;
     }
 
+    /**
+     * Get name's id attribute
+     * @return name
+     */
     public void setName(String name) {
         Name = name;
     }
 
+    /**
+     * Get url attribute
+     * @return url
+     */
     public String getUrl() {
         return Url;
     }
 
+    /**
+     * Set url attribute
+     * @return url
+     */
     public void setUrl(String url) {
         Url = url;
     }
 
+    /**
+     * Get Media's CreatedAt attribute
+     * @return Date
+     */
     public Date getCreatedAt() {
         return CreatedAt;
     }
 
+    /**
+     * Set Media's CreatedAt attribute
+     * @return Date
+     */
     public void setCreatedAt(Date createdAt) {
         CreatedAt = createdAt;
     }
 
+    /**
+     * Get Media's UpdatedAt attribute
+     * @return Date
+     */
     public Date getUpdatedAt() {
         return UpdatedAt;
     }
 
+    /**
+     * Set Media's Updated attribute
+     * @return Date
+     */
     public void setUpdatedAt(Date updatedAt) {
         UpdatedAt = updatedAt;
     }
 
+    /**
+     * Get TypeMedia
+     * @return Date
+     */
     public TypeMedia getTypeMedia() {
         return TypeMedia;
     }
 
+    /**
+     * Set TypeMedia attribute
+     * @return Date
+     */
     public void setTypeMedia(TypeMedia typeMedia) {
         TypeMedia = typeMedia;
     }
@@ -80,6 +136,16 @@ public class Media {
     //endregion
 
     //region CONSTRUCTOR
+
+    /**
+     * Media's constructor
+     * @param id
+     * @param idServer
+     * @param name
+     * @param url
+     * @param updatedAt
+     * @param typeMedia
+     */
     public Media(int id, int idServer, String name, String url, Date updatedAt, TypeMedia typeMedia) {
         Id = id;
         IdServer = idServer;

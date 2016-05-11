@@ -8,8 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import fr.iia.cdsmat.myqcm.R;
+import fr.iia.cdsmat.myqcm.data.AnswerSQLiteAdapter;
+import fr.iia.cdsmat.myqcm.data.UserSQLiteAdapter;
 import fr.iia.cdsmat.myqcm.view.menu.MenuActivity;
 
+/**
+ * Class managing Login view
+ * @author Antoine Trouve antoinetrouve.france@gmail.com
+ * @version 1.0 - 04/04/2016
+ */
 public class LoginActivity extends AppCompatActivity {
 
     @Override
@@ -20,6 +27,9 @@ public class LoginActivity extends AppCompatActivity {
         final EditText etLogin = (EditText)this.findViewById(R.id.etLogin);
         final EditText etPassword = (EditText)this.findViewById(R.id.etPassword);
         Button btConnexion = (Button)this.findViewById(R.id.btConnexion);
+
+        UserSQLiteAdapter user = new UserSQLiteAdapter(this);
+        user.open();
 
         btConnexion.setOnClickListener(new View.OnClickListener() {
             @Override

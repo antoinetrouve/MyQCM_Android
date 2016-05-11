@@ -220,6 +220,19 @@ public class Mcq {
     //endregion
 
     //region CONSTRUCTOR
+
+    /**
+     * Mcs's constructor
+     * @param id
+     * @param idServer
+     * @param name
+     * @param isActif
+     * @param countdown
+     * @param diffDeb
+     * @param diffEnd
+     * @param updatedAt
+     * @param category
+     */
     public Mcq(int id, int idServer, String name, boolean isActif, int countdown, Date diffDeb, Date diffEnd, Date updatedAt, Category category) {
         Id = id;
         IdServer = idServer;

@@ -21,16 +21,13 @@ import fr.iia.cdsmat.myqcm.view.mcq.McqActivity;
 import fr.iia.cdsmat.myqcm.view.menu.MenuActivity;
 
 /**
- * Created by Antoine Trouve on 27/04/2016.
- * antoinetrouve.france@gmail.com
- *
  * Class to manage view of list Mcq
+ * @author Antoine Trouve antoinetrouve.france@gmail.com
+ * @version 1.0 - 04/04/2016
  */
 public class McqFragmentList extends ListFragment{
 
-    /**
-     * McqFragmentList's constructor
-     */
+
     public McqFragmentList() {
     }
 

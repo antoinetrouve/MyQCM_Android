@@ -110,8 +110,8 @@ public class McqSQLiteAdapter {
      * @param context
      */
     public McqSQLiteAdapter(Context context) {
-        helper = new MyQCMSqLiteOpenHelper(context,MyQCMSqLiteOpenHelper.DB_NAME,null,1);
         this.context = context;
+        this.helper = new MyQCMSqLiteOpenHelper(context,MyQCMSqLiteOpenHelper.DB_NAME,null,1);
     }
 
     /**
@@ -149,7 +149,7 @@ public class McqSQLiteAdapter {
     /**
      * Insert mcq in database
      * @param mcq
-     * @return line number's result
+     * @return the row ID of the newly inserted row, or -1 if an error occurred
      */
     public long insert(Mcq mcq){
         return database.insert(TABLE_MCQ, null, this.mcqToContentValues(mcq));
@@ -158,7 +158,7 @@ public class McqSQLiteAdapter {
     /**
      * Delete mcq
      * @param mcq
-     * @return line number's result
+     * @return the number of rows affected
      */
     public long delete(Mcq mcq){
         String whereClausesDelete = COL_ID + "=?";
@@ -170,7 +170,7 @@ public class McqSQLiteAdapter {
     /**
      * Update mcq
      * @param mcq
-     * @return line number's result
+     * @return the number of rows affected
      */
     public long update(Mcq mcq) {
         ContentValues valuesUpdate = this.mcqToContentValues(mcq);

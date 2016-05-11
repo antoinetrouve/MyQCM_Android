@@ -20,6 +20,11 @@ import fr.iia.cdsmat.myqcm.R;
 import fr.iia.cdsmat.myqcm.view.login.LoginActivity;
 import fr.iia.cdsmat.myqcm.view.MainFragmentList;
 
+/**
+ * Class managing Menu view
+ * @author Antoine Trouve antoinetrouve.france@gmail.com
+ * @version 1.0 - 04/04/2016
+ */
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 

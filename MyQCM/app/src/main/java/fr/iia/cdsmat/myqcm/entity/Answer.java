@@ -134,6 +134,16 @@ public class Answer {
     //endregion
 
     //region CONSTRUCTOR
+
+    /**
+     * Answer's constructor
+     * @param id
+     * @param idServer
+     * @param value
+     * @param isValid
+     * @param updatedAt
+     * @param question
+     */
     public Answer(int id, int idServer, String value, boolean isValid, Date updatedAt, Question question) {
         Id = id;
         IdServer = idServer;

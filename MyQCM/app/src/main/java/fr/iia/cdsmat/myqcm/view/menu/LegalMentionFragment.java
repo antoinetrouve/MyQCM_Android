@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import fr.iia.cdsmat.myqcm.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Class managing LegalMention's fragment depending of Menu Activity
+ * @author Antoine Trouve antoinetrouve.france@gmail.com
+ * @version 1.0 - 04/04/2016
  */
 public class LegalMentionFragment extends Fragment {
 

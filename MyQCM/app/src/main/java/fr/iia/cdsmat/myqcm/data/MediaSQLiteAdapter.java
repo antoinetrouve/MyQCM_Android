@@ -84,8 +84,8 @@ public class MediaSQLiteAdapter {
      * @param context
      */
     public MediaSQLiteAdapter(Context context){
-        helper = new MyQCMSqLiteOpenHelper(context, MyQCMSqLiteOpenHelper.DB_NAME,null,1);
         this.context = context;
+        this.helper = new MyQCMSqLiteOpenHelper(context, MyQCMSqLiteOpenHelper.DB_NAME,null,1);
     }
 
     /**
@@ -119,7 +119,7 @@ public class MediaSQLiteAdapter {
     /**
      * Insert media in database
      * @param media
-     * @return line number's result
+     * @return the row ID of the newly inserted row, or -1 if an error occurred
      */
     public long insert(Media media){
         return database.insert(TABLE_MEDIA, null, this.mediaToContentValues(media));
@@ -128,7 +128,7 @@ public class MediaSQLiteAdapter {
     /**
      * Delete media
      * @param media
-     * @return line number's result
+     * @return the number of rows affected
      */
     public long delete(Media media){
         String whereClausesDelete = COL_ID + "=?";
@@ -140,7 +140,7 @@ public class MediaSQLiteAdapter {
     /**
      * Update media
      * @param media
-     * @return line number's result
+     * @return the number of rows affected
      */
     public long update(Media media) {
         ContentValues valuesUpdate = this.mediaToContentValues(media);

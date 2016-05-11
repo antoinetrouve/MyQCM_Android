@@ -50,6 +50,12 @@ public class TypeMediaSQLiteAdapter {
     public static final String COL_UPDATEDAT = "updatedAt";
 
     /**
+     * name of context for TypeMediaSQLiteAdapter's contructor
+     * @see TypeMediaSQLiteAdapter#TypeMediaSQLiteAdapter(Context)
+     */
+    private Context context;
+
+    /**
      * name of SQLiteDatabase object
      */
     private SQLiteDatabase          database;
@@ -67,7 +73,8 @@ public class TypeMediaSQLiteAdapter {
      * @param context
      */
     public TypeMediaSQLiteAdapter(Context context){
-        helper = new MyQCMSqLiteOpenHelper(context, MyQCMSqLiteOpenHelper.DB_NAME,null,1);
+        this.context = context;
+        this.helper = new MyQCMSqLiteOpenHelper(context, MyQCMSqLiteOpenHelper.DB_NAME,null,1);
     }
 
     /**
@@ -99,7 +106,7 @@ public class TypeMediaSQLiteAdapter {
     /**
      * Insert typeMedia in database
      * @param typeMedia
-     * @return line number's result
+     * @return the row ID of the newly inserted row, or -1 if an error occurred
      */
     public long insert(TypeMedia typeMedia){
         return database.insert(TABLE_TYPEMEDIA, null, this.typeMediaToCntentValues(typeMedia));
@@ -108,7 +115,7 @@ public class TypeMediaSQLiteAdapter {
     /**
      * Delete typeMedia
      * @param typeMedia
-     * @return line number's result
+     * @return the number of rows affected
      */
     public long delete(TypeMedia typeMedia){
         String whereClausesDelete = COL_ID + "=?";
@@ -120,7 +127,7 @@ public class TypeMediaSQLiteAdapter {
     /**
      * Update typeMedia
      * @param typeMedia
-     * @return line number's result
+     * @return the number of rows affected
      */
     public long update(TypeMedia typeMedia) {
         ContentValues valuesUpdate = this.typeMediaToCntentValues(typeMedia);

@@ -18,8 +18,9 @@ import fr.iia.cdsmat.myqcm.R;
 import fr.iia.cdsmat.myqcm.entity.Category;
 
 /**
- * Created by Antoine Trouve on 27/04/2016.
- * antoinetrouve.france@gmail.com
+ * Class managing Category list view
+ * @author Antoine Trouve antoinetrouve.france@gmail.com
+ * @version 1.0 - 04/04/2016
  */
 public class MainFragmentList extends ListFragment {
 
