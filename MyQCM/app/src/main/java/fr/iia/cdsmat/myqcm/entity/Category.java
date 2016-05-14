@@ -121,13 +121,11 @@ public class Category {
 
     /**
      * Category's constructor
-     * @param id
      * @param idServer
      * @param name
      * @param updatedAt
      */
-    public Category(int id, int idServer, String name, Date updatedAt) {
-        Id = id;
+    public Category( int idServer, String name, Date updatedAt) {
         IdServer = idServer;
         Name = name;
         UpdatedAt = updatedAt;

@@ -29,8 +29,8 @@ public class LoginActivity extends AppCompatActivity {
         Button btConnexion = (Button)this.findViewById(R.id.btConnexion);
 
         //creation test of local database
-        UserSQLiteAdapter user = new UserSQLiteAdapter(this);
-        user.open();
+        //UserSQLiteAdapter user = new UserSQLiteAdapter(this);
+        //user.open();
 
         btConnexion.setOnClickListener(new View.OnClickListener() {
             /**

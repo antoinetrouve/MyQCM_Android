@@ -184,7 +184,7 @@ public class CategorySQLiteAdapter {
 
         //Create Category object
         //------------------
-        Category result = new Category(id, idServer,name,updatedAt);
+        Category result = new Category(idServer,name,updatedAt);
         return result;
     }
 

@@ -1,5 +1,6 @@
 package fr.iia.cdsmat.myqcm.view;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
@@ -15,7 +16,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import fr.iia.cdsmat.myqcm.R;
+import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
+import fr.iia.cdsmat.myqcm.data.webservice.ConnectionWS;
 import fr.iia.cdsmat.myqcm.entity.Category;
+
+import static fr.iia.cdsmat.myqcm.data.webservice.ConnectionWS.isURLReachable;
 
 /**
  * Class managing Category list view
@@ -23,7 +28,8 @@ import fr.iia.cdsmat.myqcm.entity.Category;
  * @version 1.0 - 04/04/2016
  */
 public class MainFragmentList extends ListFragment {
-
+    private ConnectionWS connection ;
+    private Boolean isServerReachable;
 
     public MainFragmentList() {
         // Required empty public constructor
@@ -32,39 +38,30 @@ public class MainFragmentList extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        connection  = new ConnectionWS();
+        /*isServerReachable = isURLReachable(this.getContext(), MyQCMConstants.CONST_URL);
+        if(isServerReachable)
+        {*/
+            FlowCategoryAsyncTask asyncTask = new FlowCategoryAsyncTask();
+            asyncTask.execute();
+        /*}*/
         //Inflate the fragment layout file
-        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_main, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_main, container, false);
+
+
 
         /**
          *  TODO : Get database category list
          *  TODO : Set Category ArrayAdapter list to show list
          */
 
-        //create list datasource to test
-        ArrayList<Category> list = new ArrayList<Category>();
-        Date date = new Date();
-        Category category = new Category(1,2,"ObjectiveC",date);
-        Category category2 = new Category(2,3,"WindowsPhone",date);
-        Category category3 = new Category(3,4,"Android",date);
-        list.add(category);
-        list.add(category2);
-        list.add(category3);
-
-        //Create Adapter
-        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(
-                getActivity(),
-                R.layout.fragmentrow_main,
-                R.id.main_textViewRow,
-                list);
-        setListAdapter(adapter);
-        //Retain listfragment instance across configuration changes
-        setRetainInstance(true);
         // Inflate the layout for this fragment
         return rootView;
     }
 
     /**
      * Event called when Item is selected on list
+     *
      * @param l
      * @param view
      * @param position
@@ -72,8 +69,8 @@ public class MainFragmentList extends ListFragment {
      */
     @Override
     public void onListItemClick(ListView l, View view, int position, long id) {
-        ViewGroup viewGroup = (ViewGroup)view;
-        TextView textView = (TextView)viewGroup.findViewById(R.id.main_textViewRow);
+        ViewGroup viewGroup = (ViewGroup) view;
+        TextView textView = (TextView) viewGroup.findViewById(R.id.main_textViewRow);
         McqFragmentList fragment = new McqFragmentList();
 
         /**
@@ -83,7 +80,7 @@ public class MainFragmentList extends ListFragment {
 
         //create Bundle to send information and set Argument into fragment
         Bundle categoryBundle = new Bundle();
-        categoryBundle.putString("name",textView.getText().toString());
+        categoryBundle.putString("name", textView.getText().toString());
         fragment.setArguments(categoryBundle);
 
         //Set Fragment list mcq
@@ -92,5 +89,39 @@ public class MainFragmentList extends ListFragment {
         fragmentTransaction.commit();
     }
 
+    public class FlowCategoryAsyncTask extends AsyncTask<Integer, Void, String> {
 
+        public FlowCategoryAsyncTask() {
+            super();
+        }
+
+        @Override
+        protected String doInBackground(Integer... params) {
+            //create list datasource to test
+            ArrayList<Category> list = new ArrayList<Category>();
+            Date date = new Date();
+            Category category = new Category(1, "ObjectiveC", date);
+            Category category2 = new Category(2, "WindowsPhone", date);
+            Category category3 = new Category(3, "Android", date);
+            list.add(category);
+            list.add(category2);
+            list.add(category3);
+
+            //Create Adapter
+            ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(
+                    getActivity(),
+                    R.layout.fragmentrow_main,
+                    R.id.main_textViewRow,
+                    list);
+            setListAdapter(adapter);
+            //Retain listfragment instance across configuration changes
+            setRetainInstance(true);
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+    }
 }
