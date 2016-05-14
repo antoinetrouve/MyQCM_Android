@@ -20,5 +20,11 @@ public class ResultActivity extends AppCompatActivity {
         Intent intent = new Intent(ResultActivity.this, MenuActivity.class);
         startActivity(intent);
 
+        /**
+         * TODO : Get user result
+         * TODO : Send result to WebService by AsyncTask
+         * TODO : If connection to WebService unavailable save result into local database
+         */
+
     }
 }

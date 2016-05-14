@@ -19,5 +19,11 @@ public class QuestionFragmentHeader extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Inflate the fragment layout file
         return inflater.inflate(R.layout.fragment_question_header, container, false);
+
+        /**
+         * TODO : Show qcm's countdown and manage countdown
+         * TODO : Show qcm's name to see where user is located
+         * TODO : Manage erro message if countdown is ended and result not send yet
+         */
     }
 }

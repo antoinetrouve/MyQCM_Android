@@ -35,7 +35,12 @@ public class MainFragmentList extends ListFragment {
         //Inflate the fragment layout file
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_main, container, false);
 
-        //create list datasource
+        /**
+         *  TODO : Get database category list
+         *  TODO : Set Category ArrayAdapter list to show list
+         */
+
+        //create list datasource to test
         ArrayList<Category> list = new ArrayList<Category>();
         Date date = new Date();
         Category category = new Category(1,2,"ObjectiveC",date);
@@ -58,16 +63,30 @@ public class MainFragmentList extends ListFragment {
         return rootView;
     }
 
+    /**
+     * Event called when Item is selected on list
+     * @param l
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onListItemClick(ListView l, View view, int position, long id) {
         ViewGroup viewGroup = (ViewGroup)view;
         TextView textView = (TextView)viewGroup.findViewById(R.id.main_textViewRow);
-        //Toast.makeText(getActivity(),textView.getText().toString(), Toast.LENGTH_SHORT).show();
-        //super.onListItemClick(l, v, position, id);
         McqFragmentList fragment = new McqFragmentList();
+
+        /**
+         * TODO : Get selectedItem value
+         * TODO : Send value selected
+         */
+
+        //create Bundle to send information and set Argument into fragment
         Bundle categoryBundle = new Bundle();
         categoryBundle.putString("name",textView.getText().toString());
         fragment.setArguments(categoryBundle);
+
+        //Set Fragment list mcq
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.nav_fragmentContainer, fragment);
         fragmentTransaction.commit();

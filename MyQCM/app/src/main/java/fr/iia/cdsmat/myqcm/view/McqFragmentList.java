@@ -33,52 +33,39 @@ public class McqFragmentList extends ListFragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //return super.onCreateView(inflater, container, savedInstanceState);
+
         //Inflate the fragment layout file
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragmentlist_mcq, container, false);
+
+        /**
+         * TODO : Get Argument
+         * TODO : Create Category object with GetCategoryByName(String name) -> CategorySQLiteAdapter
+         * TODO : Get Mcq list of this category with McqByCategoryId(int id) -> McqSQLiteAdapter
+         * TODO : Add Mcq list in an arrayAdpater to show into the view
+         */
+
+        // Get Argument and create object
         String name = getArguments().getString("name");
         Category category = new Category(name);
+
         ArrayList<Category> list = new ArrayList<Category>();
         list.add(category);
+
+        //Create Adapter
         ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(
                 getActivity(),
                 R.layout.fragmentrow_mcq,
                 R.id.mcq_textViewRow,
                 list);
 
-        //create list datasource
-/*        ArrayList<Mcq> list = new ArrayList<Mcq>();
-        Date date = new Date();
-        Category category = new Category(1,2,"ObjectiveC",date);
-        Category category2 = new Category(2,3,"WindowsPhone",date);
-        Category category3 = new Category(3,4,"Android",date);
-        Mcq mcq = new Mcq(1,2,"Lancer un projet",true,60, date, date,date,category);
-        Mcq mcq2 = new Mcq(2,3,"Les vues",true,60, date, date,date,category2);
-        Mcq mcq3 = new Mcq(3,4,"Architecture du projet",true,60, date, date,date,category3);
-        list.add(mcq);
-        list.add(mcq2);
-        list.add(mcq3);*/
-
-        //Create Adapter
-        /*ArrayAdapter<Mcq> adapter = new ArrayAdapter<Mcq>(
-                getActivity(),
-                R.layout.fragmentrow_mcq,
-                R.id.mcq_textViewRow,
-                list);*/
         setListAdapter(adapter);
         //Retain listfragment instance across configuration changes
         setRetainInstance(true);
-        // Inflate the layout for this fragment
         return rootView;
     }
 
     @Override
     public void onListItemClick(ListView l, View view, int position, long id) {
-        /*ViewGroup viewGroup = (ViewGroup)view;
-        TextView textView = (TextView)viewGroup.findViewById(R.id.mcq_textViewRow);
-        Toast.makeText(getActivity(), textView.getText().toString(), Toast.LENGTH_SHORT).show();*/
-        //super.onListItemClick(l, v, position, id);
-        //Return to Login Activity
         Intent intent = new Intent(getActivity(),McqActivity.class);
         startActivity(intent);
     }

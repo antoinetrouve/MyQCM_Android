@@ -20,5 +20,11 @@ public class QuestionFragmentContent extends Fragment {
         //Inflate the fragment layout file
         return inflater.inflate(R.layout.fragment_question_content, container, false);
 
+        /**
+         * TODO : Show answers list for this question
+         * TODO : Create button in view to navigate between the questions
+         * TODO : Save answer into a list OnClick event
+         */
+
     }
 }

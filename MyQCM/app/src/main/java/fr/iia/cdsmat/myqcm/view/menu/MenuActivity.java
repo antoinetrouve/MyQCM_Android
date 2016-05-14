@@ -28,15 +28,17 @@ import fr.iia.cdsmat.myqcm.view.MainFragmentList;
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    //MenuActivity component
     NavigationView navigationView = null;
     Toolbar toolbar = null;
     ImageView imageView = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        //Set the fragment initially
+        //Set default fragment (fragment app_bar_menu.xml)
         MainFragmentList fragment = new MainFragmentList();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.nav_fragmentContainer, fragment);
@@ -49,11 +51,12 @@ public class MenuActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Send result ?", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
 
+        //Set menu layout
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -103,35 +106,35 @@ public class MenuActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profil) {
-            //Set the fragment initially
+            //Set profil fragment
             ProfilFragment fragment = new ProfilFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.nav_fragmentContainer, fragment);
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_rules) {
-            //Set the fragment initially
+            //Set rules fragment
             RulesFragment fragment = new RulesFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.nav_fragmentContainer, fragment);
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_help) {
-            //Set the fragment initially
+            //Set help fragment
             HelpFragment fragment = new HelpFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.nav_fragmentContainer, fragment);
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_legalMention) {
-            //Set the fragment initially
+            //Set LegalMention fragment
             LegalMentionFragment fragment = new LegalMentionFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.nav_fragmentContainer, fragment);
             fragmentTransaction.commit();
 
         }else if (id == R.id.nav_accueil) {
-            //Set the fragment initially
+            //Set Main fragment
             MainFragmentList fragment = new MainFragmentList();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.nav_fragmentContainer, fragment);
