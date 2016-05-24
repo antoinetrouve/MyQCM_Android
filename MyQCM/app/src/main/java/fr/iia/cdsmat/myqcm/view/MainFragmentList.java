@@ -10,17 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 import fr.iia.cdsmat.myqcm.R;
-import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
-import fr.iia.cdsmat.myqcm.data.webservice.ConnectionWS;
+import fr.iia.cdsmat.myqcm.data.webservice.ConnectionWSAdapter;
 import fr.iia.cdsmat.myqcm.entity.Category;
-
-import static fr.iia.cdsmat.myqcm.data.webservice.ConnectionWS.isURLReachable;
 
 /**
  * Class managing Category list view
@@ -28,7 +24,7 @@ import static fr.iia.cdsmat.myqcm.data.webservice.ConnectionWS.isURLReachable;
  * @version 1.0 - 04/04/2016
  */
 public class MainFragmentList extends ListFragment {
-    private ConnectionWS connection ;
+    private ConnectionWSAdapter connection ;
     private Boolean isServerReachable;
 
     public MainFragmentList() {
@@ -38,7 +34,7 @@ public class MainFragmentList extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        connection  = new ConnectionWS();
+        connection  = new ConnectionWSAdapter();
         /*isServerReachable = isURLReachable(this.getContext(), MyQCMConstants.CONST_URL);
         if(isServerReachable)
         {*/

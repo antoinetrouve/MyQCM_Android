@@ -14,14 +14,13 @@ import java.util.Date;
 import fr.iia.cdsmat.myqcm.entity.Category;
 
 /**
- * Created by antoi on 14/05/2016.
+ * Created by Antoine Trouvé on 14/05/2016.
  * antoinetrouve.france@gmail.com
  */
 public class CategoryWSAdapter {
 
     //Url vers le Webservice
-    private static final String BASE_URL ="http://192.168.1.14/qcm/web/app_dev.php/api/categoriesusers";
-    //    private static final String ENTITY = "book";
+    private static final String BASE_URL ="http://192.168.0.23/qcm/web/app_dev.php/api/categoriesusers";
     // nom de la table distance
     private static final String ENTITY = "category"; // exemple
     private static final int VERSION = 1;
@@ -98,6 +97,7 @@ public class CategoryWSAdapter {
         }
         return result;
     }
+
     public static RequestParams ItemToParams(Category item) {
         RequestParams params = new RequestParams();
         params.put(IDSERVER,item.getIdServer());

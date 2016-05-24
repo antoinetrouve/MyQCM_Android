@@ -6,5 +6,8 @@ package fr.iia.cdsmat.myqcm.configuration;
  */
 public class MyQCMConstants {
 
-    public final static String CONST_URL = "http://192.168.1.14";
+    public final static String CONST_IPSERVER = "http://192.168.0.23";
+    public final static String CONST_URL_AUTH = "/qcm/web/app_dev.php/api/userauths";
+    public final static String CONST_VALUE_LOGIN = "login";
+    public final static String CONST_VALUE_PWD = "password";
 }

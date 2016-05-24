@@ -126,9 +126,9 @@ public class Category {
      * @param updatedAt
      */
     public Category( int idServer, String name, Date updatedAt) {
-        IdServer = idServer;
-        Name = name;
-        UpdatedAt = updatedAt;
+        this.IdServer = idServer;
+        this.Name = name;
+        this.UpdatedAt = updatedAt;
     }
 
     /**
@@ -136,7 +136,7 @@ public class Category {
      * @param name
      */
     public Category(String name) {
-        Name = name;
+        this.Name = name;
     }
 
     //endregion
