@@ -2,6 +2,7 @@ package fr.iia.cdsmat.myqcm.entity;
 
 import java.util.Date;
 import java.util.ArrayList;
+import com.google.gson.annotations.*;
 
 /**
  * Class managing Category object
@@ -12,10 +13,21 @@ public class Category {
 
     //region ATTRIBUTES
     private int Id;
+
+    @SerializedName("id")
+    @Expose(serialize = true, deserialize = true)
     private int IdServer;
+
+    @SerializedName("name")
+    @Expose(serialize = true, deserialize = true)
     private String Name;
+
     private Date CreatedAt;
+
+    @SerializedName("updated_at")
+    @Expose(serialize = true, deserialize = true)
     private Date UpdatedAt;
+
     private ArrayList<Mcq> Mcqs;
     //endregion
 

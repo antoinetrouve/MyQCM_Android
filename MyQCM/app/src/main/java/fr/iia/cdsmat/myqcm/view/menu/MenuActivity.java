@@ -17,6 +17,8 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import fr.iia.cdsmat.myqcm.R;
+import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
+import fr.iia.cdsmat.myqcm.data.webservice.CategoryWSAdapter;
 import fr.iia.cdsmat.myqcm.view.login.LoginActivity;
 import fr.iia.cdsmat.myqcm.view.MainFragmentList;
 
@@ -40,14 +42,25 @@ public class MenuActivity extends AppCompatActivity
 
         //Set default fragment (fragment app_bar_menu.xml)
         MainFragmentList fragment = new MainFragmentList();
+
+        //FrameLayout in app_bar_home.xml
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.nav_fragmentContainer, fragment);
         fragmentTransaction.commit();
+
+        CategoryWSAdapter categoryWSAdapter = new CategoryWSAdapter();
+        categoryWSAdapter.getCategoryRequest(1, MyQCMConstants.CONST_IPSERVER + MyQCMConstants.CONST_URL_GETCATEGORIES, new CategoryWSAdapter.CallBack(){
+            @Override
+            public void methods(String reponse){
+                System.out.println("Reponse = " + reponse);
+            }
+        });
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        assert fab != null;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
