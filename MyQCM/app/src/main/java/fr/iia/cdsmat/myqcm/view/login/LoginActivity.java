@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import fr.iia.cdsmat.myqcm.R;
 import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
+import fr.iia.cdsmat.myqcm.configuration.Password;
 import fr.iia.cdsmat.myqcm.data.webservice.ConnectionWSAdapter;
 import fr.iia.cdsmat.myqcm.data.AnswerSQLiteAdapter;
 import fr.iia.cdsmat.myqcm.data.UserSQLiteAdapter;
@@ -48,14 +49,21 @@ public class LoginActivity extends AppCompatActivity {
                  */
                 @Override
                 public void onClick(View v) {
+                    //Manage dialog connection
                     dialog=new ProgressDialog(LoginActivity.this);
                     dialog.setMessage("Tentative de connexion ...");
                     dialog.setCancelable(false);
                     dialog.setInverseBackgroundForced(false);
                     dialog.show();
+
+                    //Get login and password
                     final String login = etLogin.getText().toString();
-                    final String password = etPassword.getText().toString();
+                    String password = etPassword.getText().toString();
                     System.out.println("login = " + login + " password = " + password);
+
+                    //Hash password and convert hash code to string
+                    //password = Password.toHexString(Password.sha512(password));
+
                     connectionWSAdapter = new ConnectionWSAdapter();
                     connectionWSAdapter.ConnectionRequest(MyQCMConstants.CONST_IPSERVER + MyQCMConstants.CONST_URL_AUTH, login, password, new ConnectionWSAdapter.CallBack() {
                         @Override
