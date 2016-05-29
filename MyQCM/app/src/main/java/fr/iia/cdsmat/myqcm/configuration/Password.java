@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
+ * Secure exchange password between app and webservice
  * Created by Antoine Trouvé on 28/05/2016.
  * antoinetrouve.france@gmail.com
  */
