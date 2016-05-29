@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import fr.iia.cdsmat.myqcm.R;
+import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
+import fr.iia.cdsmat.myqcm.data.webservice.UserWSAdapter;
 
 /**
  * Class managing Profil's fragment depending of Menu Activity
@@ -16,17 +18,18 @@ import fr.iia.cdsmat.myqcm.R;
  */
 public class ProfilFragment extends Fragment {
 
-
     public ProfilFragment() {
-        // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profil, container, false);
+
+
+
     }
 
 }

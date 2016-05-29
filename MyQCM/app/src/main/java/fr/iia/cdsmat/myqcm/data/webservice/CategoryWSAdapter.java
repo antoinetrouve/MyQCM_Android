@@ -126,7 +126,9 @@ public class CategoryWSAdapter {
     public static void post(Category item,AsyncHttpResponseHandler responseHandler) throws JSONException {
 
         RequestParams params = CategoryWSAdapter.ItemToParams(item);
-        String url = String.format("%s/%s",MyQCMConstants.CONST_IPSERVER + MyQCMConstants.CONST_URL_GETCATEGORIES,CONST_CATEGORY);
+        String url = String.format("%s/%s",
+                MyQCMConstants.CONST_IPSERVER + MyQCMConstants.CONST_URL_BASE +  MyQCMConstants.CONST_URL_USERCATEGORIES,
+                CONST_CATEGORY);
         client.post(url,params,responseHandler);
 
     }
@@ -134,13 +136,18 @@ public class CategoryWSAdapter {
     public static void put(Category item,AsyncHttpResponseHandler responseHandler) {
 
         RequestParams params = CategoryWSAdapter.ItemToParams(item);
-        String url = String.format("%s/%s",MyQCMConstants.CONST_IPSERVER + MyQCMConstants.CONST_URL_GETCATEGORIES,CONST_CATEGORY);
+        String url = String.format("%s/%s",
+                MyQCMConstants.CONST_IPSERVER + MyQCMConstants.CONST_URL_BASE +  MyQCMConstants.CONST_URL_USERCATEGORIES,
+                CONST_CATEGORY);
         client.put(url, params, responseHandler);
     }
 
     public static void delete(Category item,AsyncHttpResponseHandler responseHandler) {
 
-        String url = String.format("%s/%s/%s",MyQCMConstants.CONST_IPSERVER + MyQCMConstants.CONST_URL_GETCATEGORIES,CONST_CATEGORY,item.getId());
+        String url = String.format("%s/%s/%s",
+                MyQCMConstants.CONST_IPSERVER + MyQCMConstants.CONST_URL_BASE +  MyQCMConstants.CONST_URL_USERCATEGORIES,
+                CONST_CATEGORY,
+                item.getId());
         client.post(url,responseHandler);
 
     }

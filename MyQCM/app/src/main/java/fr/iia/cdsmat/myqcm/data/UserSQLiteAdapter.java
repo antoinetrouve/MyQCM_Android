@@ -263,7 +263,6 @@ public class UserSQLiteAdapter {
             TeamSQLiteAdapter teamSQLiteAdapter = new TeamSQLiteAdapter(context);
             result.setTeam(teamSQLiteAdapter.getTeamById(teamId));
         }
-
         return result;
     }
 

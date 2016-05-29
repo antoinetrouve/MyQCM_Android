@@ -7,8 +7,11 @@ package fr.iia.cdsmat.myqcm.configuration;
 public class MyQCMConstants {
 
     public final static String CONST_IPSERVER = "http://192.168.0.23";
-    public final static String CONST_URL_AUTH = "/qcm/web/app_dev.php/api/userauths";
-    public final static String CONST_URL_GETCATEGORIES = "/qcm/web/app_dev.php/api/categoriesusers";
+    public final static String CONST_URL_BASE = "/qcm/web/app_dev.php/api";
+    public final static String CONST_URL_AUTH = "/userauths";
+    public final static String CONST_URL_USERINFO = "/userinformations";
+    public final static String CONST_URL_USERCATEGORIES = "/categoriesusers";
+    public final static String CONST_URL_GETUSERPROFIL = "/profils";
 
     //Format flow
     public static final String CONST_FLOW_FORMAT = "json";

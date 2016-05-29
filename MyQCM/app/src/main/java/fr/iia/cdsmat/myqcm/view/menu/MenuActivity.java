@@ -49,7 +49,9 @@ public class MenuActivity extends AppCompatActivity
         fragmentTransaction.commit();
 
         CategoryWSAdapter categoryWSAdapter = new CategoryWSAdapter();
-        categoryWSAdapter.getCategoryRequest(1, MyQCMConstants.CONST_IPSERVER + MyQCMConstants.CONST_URL_GETCATEGORIES, new CategoryWSAdapter.CallBack(){
+        categoryWSAdapter.getCategoryRequest(1,
+                MyQCMConstants.CONST_IPSERVER + MyQCMConstants.CONST_URL_BASE + MyQCMConstants.CONST_URL_USERCATEGORIES,
+                new CategoryWSAdapter.CallBack(){
             @Override
             public void methods(String reponse){
                 System.out.println("Reponse = " + reponse);

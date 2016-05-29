@@ -10,10 +10,10 @@ import android.widget.EditText;
 
 import fr.iia.cdsmat.myqcm.R;
 import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
-import fr.iia.cdsmat.myqcm.configuration.Password;
 import fr.iia.cdsmat.myqcm.data.webservice.ConnectionWSAdapter;
-import fr.iia.cdsmat.myqcm.data.AnswerSQLiteAdapter;
 import fr.iia.cdsmat.myqcm.data.UserSQLiteAdapter;
+import fr.iia.cdsmat.myqcm.data.webservice.UserWSAdapter;
+import fr.iia.cdsmat.myqcm.entity.User;
 import fr.iia.cdsmat.myqcm.view.menu.MenuActivity;
 
 /**
@@ -24,6 +24,8 @@ import fr.iia.cdsmat.myqcm.view.menu.MenuActivity;
 public class LoginActivity extends AppCompatActivity {
 
     ConnectionWSAdapter connectionWSAdapter;
+    UserWSAdapter userWSAdapter;
+    UserSQLiteAdapter userSQLiteAdapter;
     ProgressDialog dialog;
 
     @Override
@@ -35,11 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText etLogin = (EditText)this.findViewById(R.id.etLogin);
         final EditText etPassword = (EditText)this.findViewById(R.id.etPassword);
         final Button btConnexion = (Button)this.findViewById(R.id.btConnexion);
-
-        //creation test of local database
-        UserSQLiteAdapter user = new UserSQLiteAdapter(this);
-        user.open();
-        user.close();
+        userSQLiteAdapter = new UserSQLiteAdapter(this);
 
         if (btConnexion != null){
             btConnexion.setOnClickListener(new View.OnClickListener() {
@@ -55,7 +53,6 @@ public class LoginActivity extends AppCompatActivity {
                     dialog.setCancelable(false);
                     dialog.setInverseBackgroundForced(false);
                     dialog.show();
-
                     //Get login and password
                     final String login = etLogin.getText().toString();
                     String password = etPassword.getText().toString();
@@ -65,11 +62,41 @@ public class LoginActivity extends AppCompatActivity {
                     //password = Password.toHexString(Password.sha512(password));
 
                     connectionWSAdapter = new ConnectionWSAdapter();
-                    connectionWSAdapter.ConnectionRequest(MyQCMConstants.CONST_IPSERVER + MyQCMConstants.CONST_URL_AUTH, login, password, new ConnectionWSAdapter.CallBack() {
+                    connectionWSAdapter.ConnectionRequest(MyQCMConstants.CONST_IPSERVER
+                            + MyQCMConstants.CONST_URL_BASE
+                            + MyQCMConstants.CONST_URL_AUTH,
+                            login, password, new ConnectionWSAdapter.CallBack() {
                         @Override
-                        public void methods(String reponse) {
-                            System.out.println("Response login Activity = " + reponse);
-                            if (reponse.equals("true") == true) {
+                        public void methods(String response) {
+                            System.out.println("Response login Activity = " + response);
+                            if (response.equals("true") == true) {
+
+                                //Get user information flow
+                                userWSAdapter = new UserWSAdapter();
+                                userWSAdapter.getUserInformationRequest(login,
+                                        MyQCMConstants.CONST_IPSERVER +
+                                                MyQCMConstants.CONST_URL_BASE +
+                                                MyQCMConstants.CONST_URL_USERINFO,
+                                        new UserWSAdapter.CallBack() {
+                                    @Override
+                                    public void methods(String response) {
+                                        System.out.println("Reponse User information flow = " + response);
+                                        if(response != null){
+                                            //Get user
+                                            //User user = userWSAdapter.JsonToItem(response);
+                                            //Insert User in database
+                                            //userSQLiteAdapter.open();
+                                            //userSQLiteAdapter.insert(user);
+                                            //userSQLiteAdapter.close();
+                                        }
+                                        /*else{
+                                            //Get User in db
+                                            //if get user == null send message to see with Administrateur
+                                        }*/
+                                    }
+                                });
+
+                                //Launch main activity
                                 Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                                 dialog.hide();
                                 startActivity(intent);
