@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import fr.iia.cdsmat.myqcm.R;
 import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
 import fr.iia.cdsmat.myqcm.data.webservice.CategoryWSAdapter;
+import fr.iia.cdsmat.myqcm.data.webservice.McqWSAdapter;
 import fr.iia.cdsmat.myqcm.view.login.LoginActivity;
 import fr.iia.cdsmat.myqcm.view.MainFragmentList;
 
@@ -48,15 +49,15 @@ public class MenuActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.nav_fragmentContainer, fragment);
         fragmentTransaction.commit();
 
-        CategoryWSAdapter categoryWSAdapter = new CategoryWSAdapter();
-        categoryWSAdapter.getCategoryRequest(1,
-                MyQCMConstants.CONST_IPSERVER + MyQCMConstants.CONST_URL_BASE + MyQCMConstants.CONST_URL_USERCATEGORIES,
-                new CategoryWSAdapter.CallBack(){
-            @Override
-            public void methods(String reponse){
-                System.out.println("Reponse = " + reponse);
-            }
-        });
+        McqWSAdapter mcqWSAdapter = new McqWSAdapter();
+        mcqWSAdapter.getMcqRequest(1, 3,
+                MyQCMConstants.CONST_IPSERVER + MyQCMConstants.CONST_URL_BASE + MyQCMConstants.CONST_URL_USERMCQS,
+                new McqWSAdapter.CallBack(){
+                    @Override
+                    public void methods(String reponse) {
+                        System.out.println("Reponse = " + reponse);
+                    }
+                });
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
