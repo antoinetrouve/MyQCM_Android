@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import fr.iia.cdsmat.myqcm.R;
+import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
+import fr.iia.cdsmat.myqcm.data.CategorySQLiteAdapter;
+import fr.iia.cdsmat.myqcm.data.webservice.CategoryWSAdapter;
 import fr.iia.cdsmat.myqcm.data.webservice.ConnectionWSAdapter;
 import fr.iia.cdsmat.myqcm.entity.Category;
 
@@ -24,7 +27,6 @@ import fr.iia.cdsmat.myqcm.entity.Category;
  * @version 1.0 - 04/04/2016
  */
 public class MainFragmentList extends ListFragment {
-    private ConnectionWSAdapter connection ;
     private Boolean isServerReachable;
 
     public MainFragmentList() {
@@ -34,22 +36,38 @@ public class MainFragmentList extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        connection  = new ConnectionWSAdapter();
+        //Inflate the fragment layout file
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_main, container, false);
+
+
         /*isServerReachable = isURLReachable(this.getContext(), MyQCMConstants.CONST_URL);
         if(isServerReachable)
         {*/
             FlowCategoryAsyncTask asyncTask = new FlowCategoryAsyncTask();
             asyncTask.execute();
         /*}*/
-        //Inflate the fragment layout file
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_main, container, false);
 
+        // get the list of Categ in the Web server
+        final CategoryWSAdapter categoryWSAdapter = new CategoryWSAdapter(getActivity().getBaseContext());
+        final CategorySQLiteAdapter categorySQLiteAdapter = new CategorySQLiteAdapter(getActivity().getApplicationContext());
 
+        // open DB to get the list Categ on DB
+        categorySQLiteAdapter.open();
+        ArrayList<Category> categories = categorySQLiteAdapter.getAllCategory();
+        categorySQLiteAdapter.close();
 
-        /**
-         *  TODO : Get database category list
-         *  TODO : Set Category ArrayAdapter list to show list
-         */
+        if(categories != null) {
+            // Create Array Adapter to set the CategoriesDB on the fragment list and in TextView
+            ArrayAdapter<Category> arrayAdapter = new ArrayAdapter<Category>(
+                    getActivity(),
+                    R.layout.fragmentrow_main,
+                    R.id.main_textViewRow,
+                    categories);
+            setListAdapter(arrayAdapter);
+        }
+        categoryWSAdapter.getCategoryRequest(1,
+                MyQCMConstants.CONST_IPSERVER + MyQCMConstants.CONST_URL_BASE + MyQCMConstants.CONST_URL_USERCATEGORIES);
+        setRetainInstance(true);
 
         // Inflate the layout for this fragment
         return rootView;
@@ -94,7 +112,7 @@ public class MainFragmentList extends ListFragment {
         @Override
         protected String doInBackground(Integer... params) {
             //create list datasource to test
-            ArrayList<Category> list = new ArrayList<Category>();
+            /*ArrayList<Category> list = new ArrayList<Category>();
             Date date = new Date();
             Category category = new Category(1, "ObjectiveC", date);
             Category category2 = new Category(2, "WindowsPhone", date);
@@ -111,7 +129,7 @@ public class MainFragmentList extends ListFragment {
                     list);
             setListAdapter(adapter);
             //Retain listfragment instance across configuration changes
-            setRetainInstance(true);
+            setRetainInstance(true);*/
             return null;
         }
 
