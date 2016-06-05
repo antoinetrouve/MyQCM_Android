@@ -221,7 +221,7 @@ public class CategorySQLiteAdapter {
         //Manage Date format
         //------------------
         Date updatedAt = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
         try {
             updatedAt = simpleDateFormat.parse(cursor.getString((cursor.getColumnIndex(COL_UPDATEDAT))));
         } catch (ParseException e) {
@@ -242,7 +242,6 @@ public class CategorySQLiteAdapter {
      */
     private ContentValues categoryToContentValues(Category category) {
         ContentValues values = new ContentValues();
-        //values.put(COL_ID, category.getId());
         values.put(COL_IDSERVER, category.getIdServer());
         values.put(COL_NAME, category.getName());
         values.put(COL_UPDATEDAT, category.getUpdatedAt().toString());

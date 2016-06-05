@@ -6,6 +6,16 @@ package fr.iia.cdsmat.myqcm.configuration;
  */
 public class MyQCMConstants {
 
+    //region ENTITY : User
+    public static final String CONST_USER_IDSERVER = "idServer";
+    public static final String CONST_USER_USERNAME = "username";
+    public static final String CONST_USER_EMAIL = "email";
+    public static final String CONST_USER_LASTLOGIN = "last_login";
+    public static final String CONST_USER_CREATEDAT = "createdAt";
+    public static final String CONST_USER_UPDATEDAT = "updatedAt";
+    public static final String CONST_USER_PASSWORD = "password";
+    //endregion
+
     //region FLOW : URL Webservice
     public final static String CONST_IPSERVER = "http://192.168.0.23";
     public final static String CONST_URL_BASE = "/qcm/web/app_dev.php/api";
@@ -30,6 +40,11 @@ public class MyQCMConstants {
     //region  ASYNCHTTPCLIENT : timeout
     public static final int CONST_CONNECT_TIMEOUT = 60000;
     public static final int CONST_SET_TIMEOUT = 600000;
+    //endregion
+
+    //region MESSAGE
+    public final static String CONST_MESS_UPDATEDB = "Mise à jours de votre profil";
+    public final static String CONST_MESS_CREATEDB = "Bienvenue ";
     //endregion
 
     //region APPLICATION

@@ -47,7 +47,6 @@ public class CategoryWSAdapter {
 
     //to make requeste (get,post...)
     private static AsyncHttpClient client = new AsyncHttpClient();
-    private static final String CONST_USERID = "userId";
     private static final String IDSERVER = "idServer";
     private static final String NAME = "name";
     private static final String UPDATEDAT = "updatedAt";
@@ -63,6 +62,11 @@ public class CategoryWSAdapter {
         this.context = context;
     }
 
+    /**
+     * Get json flow Category
+     * @param userId
+     * @param url
+     */
     public void getCategoryRequest(int userId, String url){
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         asyncHttpClient.setConnectTimeout(MyQCMConstants.CONST_CONNECT_TIMEOUT);
@@ -132,7 +136,7 @@ public class CategoryWSAdapter {
      */
     private ArrayList<Category> responseToList(String response) {
         //Format of the recup Date
-        String DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
+        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat(DATE_FORMAT);
@@ -152,7 +156,7 @@ public class CategoryWSAdapter {
     public static Category jsonToItem(JSONObject json) throws JSONException {
 
         Date updatedAt = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         String name = json.getString(NAME);
         int idServer = json.getInt(IDSERVER);
         String stringUpdatedAt =  json.getString(UPDATEDAT);

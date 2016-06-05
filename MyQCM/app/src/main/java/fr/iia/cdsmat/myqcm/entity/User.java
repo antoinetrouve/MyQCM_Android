@@ -28,11 +28,13 @@ public class User {
     @Expose(serialize = true, deserialize = true)
     private String  Email;
 
+    @SerializedName("password")
+    @Expose(serialize = true, deserialize = true)
     private String  Password;
 
-    @SerializedName("last_login")
+    @SerializedName("lastlogin")
     @Expose(serialize = true, deserialize = true)
-    private Date    LastLogin;
+    private Date LastLogin;
 
     @SerializedName("created_at")
     @Expose(serialize = true, deserialize = true)
@@ -214,7 +216,6 @@ public class User {
 
     /**
      * User's constructor
-     * @param id
      * @param idServer
      * @param username
      * @param password
@@ -223,8 +224,7 @@ public class User {
      * @param createdAt
      * @param updatedAt
      */
-    public User(int id, int idServer, String username, String password, String email, Date lastLogin, Date createdAt, Date updatedAt) {
-        Id = id;
+    public User(int idServer, String username, String password, String email, Date lastLogin, Date createdAt, Date updatedAt) {
         IdServer = idServer;
         Username = username;
         Password = password;
