@@ -39,6 +39,8 @@ public class MyQCMSqLiteOpenHelper extends SQLiteOpenHelper{
         db.execSQL(UserSQLiteAdapter.getSchema());
     }
 
+
+
     /**
      * onUpgrade() override method that update Mobile database
      * @param db

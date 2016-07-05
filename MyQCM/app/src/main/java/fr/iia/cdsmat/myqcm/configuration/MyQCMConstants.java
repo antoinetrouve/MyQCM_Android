@@ -17,7 +17,8 @@ public class MyQCMConstants {
     //endregion
 
     //region FLOW : URL Webservice
-    public final static String CONST_IPSERVER = "http://192.168.0.23";
+    //http://192.168.214.11/qcm/web/app_dev.php/api/userinformations
+    public final static String CONST_IPSERVER = "http://192.168.1.14";
     public final static String CONST_URL_BASE = "/qcm/web/app_dev.php/api";
     public final static String CONST_URL_AUTH = "/userauths";
     public final static String CONST_URL_USERINFO = "/userinformations";
@@ -44,10 +45,25 @@ public class MyQCMConstants {
 
     //region MESSAGE
     public final static String CONST_MESS_UPDATEDB = "Mise à jours de votre profil";
-    public final static String CONST_MESS_CREATEDB = "Bienvenue ";
+    public final static String CONST_MESS_UPDATEDBERROR = "Une erreur est survenue lors de la mise à jours de votre profil";
+    public final static String CONST_MESS_DELETEDB = "Utilisateur supprimé.";
+    public final static String CONST_MESS_CREATEDB = "Bienvenue dans votre espace MyQCM ";
+    public final static String CONST_MESS_CREATEDBERROR = "Erreur dans la création de votre profil. Veuillez rééssayer.";
     //endregion
 
     //region APPLICATION
-    public static final int CONST_VERSION = 1;
+    public static final String APP_DB_NAME = "myqcm";
+    public static final String APP_DB_EXTENSION = ".sqlite";
+    public static final String APP_NAME = "MyQCM";
+    public static final double CONST_VERSION = 1.0;
+    //endregion
+
+    //region PROFIL
+    public final static String CONST_PROFIL_USERNAME = "Identifiant : ";
+    public final static String CONST_PROFIL_EMAIL = "Email : ";
+    public final static String CONST_PROFIL_LASTCONNECTION = "Dernière connexion : ";
+    public final static String CONST_PROFIL_UPDATED = "Dernière mise à jour : ";
+
+
     //endregion
 }

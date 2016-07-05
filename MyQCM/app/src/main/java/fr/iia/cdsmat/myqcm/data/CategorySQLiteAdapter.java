@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.CursorAdapter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,7 +18,7 @@ import fr.iia.cdsmat.myqcm.entity.Category;
  * @author Antoine Trouve <antoinetrouve.france@gmail.com>
  * @version 1.0 - 04/04/2016
  */
-public class CategorySQLiteAdapter {
+public class CategorySQLiteAdapter{
 
     //region ATTRIBUTES
     /**
@@ -87,7 +88,7 @@ public class CategorySQLiteAdapter {
                 + COL_ID        + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_IDSERVER  + " INTEGER NOT NULL, "
                 + COL_NAME      + " TEXT NOT NULL, "
-                + COL_UPDATEDAT + " TEXT NULL);";
+                + COL_UPDATEDAT + " TEXT NOT NULL);";
     }
 
     /**
@@ -131,8 +132,8 @@ public class CategorySQLiteAdapter {
      */
     public long update(Category category) {
         ContentValues valuesUpdate = this.categoryToContentValues(category);
-        String whereClausesUpdate = COL_ID + "=?";
-        String[] whereArgsUpdate = {String.valueOf(category.getId())};
+        String whereClausesUpdate = COL_IDSERVER + "=?";
+        String[] whereArgsUpdate = {String.valueOf(category.getIdServer())};
         return database.update(TABLE_CATEGORY, valuesUpdate, whereClausesUpdate, whereArgsUpdate);
     }
 

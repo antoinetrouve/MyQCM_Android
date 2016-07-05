@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import fr.iia.cdsmat.myqcm.entity.Answer;
@@ -48,12 +49,6 @@ public class AnswerSQLiteAdapter {
      * @see AnswerSQLiteAdapter#getSchema()
      */
     protected static final String COL_ISVALID      = "isValid";
-
-    /**
-     * name of createdAt's column (distant server database)
-     * @see AnswerSQLiteAdapter#getSchema()
-     */
-    protected static final String COL_CREATEDAT    = "createdAt";
 
     /**
      * name of UpdatedAt's column (distant server database)
@@ -106,8 +101,7 @@ public class AnswerSQLiteAdapter {
                 + COL_VALUE         + " TEXT NOT NULL, "
                 + COL_ISVALID       + " INTEGER NOT NULL, "
                 + COL_QUESTIONID    + " INTEGER NOT NULL, "
-                + COL_CREATEDAT     + " TEXT NOT NULL, "
-                + COL_UPDATEDAT     + " TEXT NULL);";
+                + COL_UPDATEDAT     + " TEXT NOT NULL);";
     }
 
     /**
@@ -151,8 +145,8 @@ public class AnswerSQLiteAdapter {
      */
     public long update(Answer answer) {
         ContentValues valuesUpdate = this.answerToContentValues(answer);
-        String whereClausesUpdate = COL_ID + "=?";
-        String[] whereArgsUpdate = {String.valueOf(answer.getId())};
+        String whereClausesUpdate = COL_IDSERVER + "=?";
+        String[] whereArgsUpdate = {String.valueOf(answer.getIdServer())};
         return database.update(TABLE_ANSWER, valuesUpdate, whereClausesUpdate, whereArgsUpdate);
     }
 
@@ -165,7 +159,7 @@ public class AnswerSQLiteAdapter {
 
         //Create SQLite query and execute query
         //-------------------------------------
-        String[] columns = {COL_ID, COL_IDSERVER, COL_VALUE, COL_ISVALID, COL_QUESTIONID, COL_UPDATEDAT, COL_CREATEDAT};
+        String[] columns = {COL_ID, COL_IDSERVER, COL_VALUE, COL_ISVALID, COL_QUESTIONID, COL_UPDATEDAT};
         String whereClausesSelect = COL_ID + "= ?";
         String[] whereArgsSelect = {String.valueOf(id)};
 
@@ -179,6 +173,60 @@ public class AnswerSQLiteAdapter {
             result = cursorToItem(cursor);
         }
         return result;
+    }
+
+    /**
+     * Get answer by id Server
+     * @param idServer
+     * @return Answer result
+     */
+    public Answer getAnswerByIdServer(int idServer) {
+        //Create SQLite query and execute query
+        //-------------------------------------
+        String[] columns = {COL_ID, COL_IDSERVER, COL_VALUE, COL_ISVALID, COL_QUESTIONID, COL_UPDATEDAT};
+        String whereClausesSelect = COL_IDSERVER + "= ?";
+        String[] whereArgsSelect = {String.valueOf(idServer)};
+
+        Cursor cursor = database.query(TABLE_ANSWER, columns, whereClausesSelect, whereArgsSelect, null, null, null);
+
+        //Create answer object
+        //------------------
+        Answer result = null;
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            result = cursorToItem(cursor);
+        }
+        return result;
+    }
+
+    /**
+     * Get all answer in local database
+     * @return ArrayList<Answer> result
+     */
+    public ArrayList<Answer> getAllAnswer() {
+        ArrayList<Answer> result = null;
+        Cursor cursor = getAllCursor();
+
+        // if cursor contains result
+        if (cursor.moveToFirst()){
+            result = new ArrayList<Answer>();
+            // add team into list
+            do {
+                result.add(this.cursorToItem(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
+    }
+
+    /**
+     * Get all answer
+     * @return cursor
+     */
+    private Cursor getAllCursor() {
+        String[] columns = {COL_ID, COL_IDSERVER, COL_VALUE, COL_ISVALID, COL_QUESTIONID, COL_UPDATEDAT};
+        Cursor cursor = database.query(TABLE_ANSWER, columns, null, null, null, null, null);
+        return cursor;
     }
 
     /**
@@ -198,17 +246,15 @@ public class AnswerSQLiteAdapter {
         //---------------------
         int idQuestion = cursor.getInt(cursor.getColumnIndex(COL_QUESTIONID));
         QuestionSQLiteAdapter questionSQLiteAdapter = new QuestionSQLiteAdapter(context);
+        questionSQLiteAdapter.open();
         Question question = questionSQLiteAdapter.getQuestionById(idQuestion);
 
         //Manage Date format
         //------------------
         Date updatedAt = null;
-        Date createdAt = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
         try {
-            createdAt = simpleDateFormat.parse(cursor.getString((cursor.getColumnIndex(COL_CREATEDAT))));
             updatedAt = simpleDateFormat.parse(cursor.getString((cursor.getColumnIndex(COL_UPDATEDAT))));
-
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -216,6 +262,8 @@ public class AnswerSQLiteAdapter {
         //Create Answer object
         //------------------
         Answer result = new Answer(id, idServer, value, isValid, updatedAt, question);
+        result.setQuestion(questionSQLiteAdapter.getQuestionByIdServer(idQuestion));
+        questionSQLiteAdapter.close();
         return result;
     }
 
@@ -226,12 +274,10 @@ public class AnswerSQLiteAdapter {
      */
     private ContentValues answerToContentValues(Answer answer) {
         ContentValues values = new ContentValues();
-        values.put(COL_ID, answer.getId());
         values.put(COL_IDSERVER, answer.getIdServer());
         values.put(COL_VALUE, answer.getValue());
         values.put(COL_ISVALID, answer.getIsValid());
-        values.put(COL_QUESTIONID, answer.getQuestion().getId());
-        values.put(COL_CREATEDAT, answer.getCreatedAt().toString());
+        values.put(COL_QUESTIONID, answer.getQuestion().getIdServer());
         values.put(COL_UPDATEDAT, answer.getUpdatedAt().toString());
         return values;
     }
@@ -248,5 +294,8 @@ public class AnswerSQLiteAdapter {
             return true;
         }
     }
+
+
+
     //endregion
 }

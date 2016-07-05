@@ -86,7 +86,7 @@ public class TeamSQLiteAdapter {
                 + COL_ID            + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_IDSERVER      + " INTEGER NOT NULL, "
                 + COL_NAME          + " TEXT NOT NULL, "
-                + COL_UPDATEDAT     + " TEXT NULL);";
+                + COL_UPDATEDAT     + " TEXT NOT NULL);";
     }
 
     /**
@@ -131,8 +131,8 @@ public class TeamSQLiteAdapter {
      */
     public long update(Team team) {
         ContentValues valuesUpdate = this.teamToCntentValues(team);
-        String whereClausesUpdate = COL_ID + "=?";
-        String[] whereArgsUpdate = {String.valueOf(team.getId())};
+        String whereClausesUpdate = COL_IDSERVER + "=?";
+        String[] whereArgsUpdate = {String.valueOf(team.getIdServer())};
 
         return database.update(TABLE_TEAM, valuesUpdate, whereClausesUpdate, whereArgsUpdate);
     }
@@ -163,6 +163,31 @@ public class TeamSQLiteAdapter {
     }
 
     /**
+     * Get team by id server
+     * @param idServer
+     * @return Team object
+     */
+    public Team getTeamByIdServer(int idServer){
+
+        //Create SQLite query and execute query
+        //---------------------
+        String[] columns = {COL_ID, COL_IDSERVER, COL_NAME, COL_UPDATEDAT};
+        String whereClausesSelect = COL_IDSERVER + "= ?";
+        String[] whereArgsSelect = {String.valueOf(idServer)};
+
+        Cursor cursor = database.query(TABLE_TEAM, columns, whereClausesSelect, whereArgsSelect, null, null, null);
+
+        //Create team object
+        //------------------
+        Team result = null;
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            result = cursorToItem(cursor);
+        }
+        return result;
+    }
+
+    /**
      * Convert Cursor to Team object
      * @param cursor
      * @return Team object
@@ -177,7 +202,7 @@ public class TeamSQLiteAdapter {
         //Manage Date format
         //------------------
         Date updatedAt = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
         try {
             updatedAt = simpleDateFormat.parse(cursor.getString((cursor.getColumnIndex(COL_UPDATEDAT))));
         } catch (ParseException e) {
@@ -197,7 +222,6 @@ public class TeamSQLiteAdapter {
      */
     private ContentValues teamToCntentValues(Team team) {
         ContentValues values = new ContentValues();
-        values.put(COL_ID, team.getId());
         values.put(COL_IDSERVER, team.getIdServer());
         values.put(COL_NAME, team.getName());
         values.put(COL_UPDATEDAT, team.getUpdatedAt().toString());

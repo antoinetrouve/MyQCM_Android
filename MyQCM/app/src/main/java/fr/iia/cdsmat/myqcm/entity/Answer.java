@@ -1,5 +1,8 @@
 package fr.iia.cdsmat.myqcm.entity;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 /**
@@ -10,11 +13,23 @@ import java.util.Date;
 public class Answer {
     //region ATTRIBUTES
     private int Id;
+
+    @SerializedName("id")
+    @Expose(serialize = true, deserialize = true)
     private int IdServer;
+
+    @SerializedName("value")
+    @Expose(serialize = true, deserialize = true)
     private String Value;
+
+    @SerializedName("is_valid")
+    @Expose(serialize = true, deserialize = true)
     private boolean IsValid;
-    private Date CreatedAt;
+
+    @SerializedName("updated_at")
+    @Expose(serialize = true, deserialize = true)
     private Date UpdatedAt;
+
     private Question Question;
     //endregion
 
@@ -85,22 +100,6 @@ public class Answer {
     }
 
     /**
-     * Get answer's createdAt attribute
-     * @return Date
-     */
-    public Date getCreatedAt() {
-        return CreatedAt;
-    }
-
-    /**
-     * Set answer's createdAt attribute
-     * @param createdAt
-     */
-    public void setCreatedAt(Date createdAt) {
-        CreatedAt = createdAt;
-    }
-
-    /**
      * Get answer's UpdatedAt attribute
      * @return Date
      */
@@ -151,6 +150,22 @@ public class Answer {
         IsValid = isValid;
         UpdatedAt = updatedAt;
         Question = question;
+    }
+
+    /**
+     * Answer's constructor
+     * @param id
+     * @param idServer
+     * @param value
+     * @param isValid
+     * @param updatedAt
+     */
+    public Answer(int id, int idServer, String value, boolean isValid, Date updatedAt){
+        Id = id;
+        IdServer = idServer;
+        Value = value;
+        IsValid = isValid;
+        UpdatedAt = updatedAt;
     }
     //endregion
 

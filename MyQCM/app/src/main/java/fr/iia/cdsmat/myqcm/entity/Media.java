@@ -1,5 +1,8 @@
 package fr.iia.cdsmat.myqcm.entity;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 /**
@@ -11,11 +14,25 @@ public class Media {
 
     //region ATTRIBUTES
     private int Id;
+
+    @SerializedName("id")
+    @Expose(serialize = true, deserialize = true)
     private int IdServer;
+
+    @SerializedName("name")
+    @Expose(serialize = true, deserialize = true)
     private String Name;
+
+    @SerializedName("url")
+    @Expose(serialize = true, deserialize = true)
     private String Url;
-    private Date CreatedAt;
+
+    @SerializedName("updated_at")
+    @Expose(serialize = true, deserialize = true)
     private Date UpdatedAt;
+
+    @SerializedName("typeMedia")
+    @Expose(serialize = true, deserialize = true)
     private TypeMedia TypeMedia;
     //endregion
 
@@ -83,22 +100,6 @@ public class Media {
      */
     public void setUrl(String url) {
         Url = url;
-    }
-
-    /**
-     * Get Media's CreatedAt attribute
-     * @return Date
-     */
-    public Date getCreatedAt() {
-        return CreatedAt;
-    }
-
-    /**
-     * Set Media's CreatedAt attribute
-     * @return Date
-     */
-    public void setCreatedAt(Date createdAt) {
-        CreatedAt = createdAt;
     }
 
     /**

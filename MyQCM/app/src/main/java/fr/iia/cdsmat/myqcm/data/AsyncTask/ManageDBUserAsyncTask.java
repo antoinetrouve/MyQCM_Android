@@ -17,15 +17,13 @@ import fr.iia.cdsmat.myqcm.entity.User;
  * Created by Antoine Trouvé on 04/06/2016.
  * antoinetrouve.france@gmail.com
  */
-public class ManageDBUserAsyncTask extends AsyncTask<String, Void, String>{
+public class ManageDBUserAsyncTask extends AsyncTask<User, Void, String>{
     private OnTaskCompleted taskCompleted;
-    private String response;
-    private AlertDialog alertDialog;
-    private boolean isDelete;
+    private User user;
 
-    public ManageDBUserAsyncTask(OnTaskCompleted context, String response){
+    public ManageDBUserAsyncTask(OnTaskCompleted context, User user){
         this.taskCompleted = context;
-        this.response = response;
+        this.user = user;
     }
 
 //    @Override
@@ -76,69 +74,29 @@ public class ManageDBUserAsyncTask extends AsyncTask<String, Void, String>{
 //        super.onCancelled(s);
 //    }
 
+    /**
+     * Update User Async Task
+     * @param params
+     * @return String message
+     */
     @Override
-    protected String doInBackground(String... params) {
+    protected String doInBackground(User... params) {
         long result;
         String resultMessage;
-        isDelete = true;
-        //Create user with userInformation json
-        User user = UserWSAdapter.JsonToItem(response);
-        System.out.println(response);
-        System.out.println("JsonToItem OK");
+        UserSQLiteAdapter userSQLiteAdapter = new UserSQLiteAdapter((Context)taskCompleted);
+        userSQLiteAdapter.open();
 
-        while (isDelete == true){
-            if (isCancelled()){
-                break;
-            }
-            if(user instanceof User){
-                System.out.println("If User instance OK");
-                UserSQLiteAdapter userSQLiteAdapter = new UserSQLiteAdapter((Context)taskCompleted);
-                userSQLiteAdapter.open();
-                System.out.println("userSQLiteAdapter.open() OK");
-                User userDB = userSQLiteAdapter.getUserByIdServer(user.getIdServer());
-                System.out.println("UsernameDB OK");
-
-                //if user exist in database
-                if(userDB != null){
-                    //if flow is more recent than user in local database
-                    System.out.println("if user exist");
-                    if (user.getUpdatedAt().compareTo(userDB.getUpdatedAt()) > 0){
-                        System.out.println("update user");
-                        result = userSQLiteAdapter.update(user);
-                        System.out.println("update user OK");
-                        userSQLiteAdapter.close();
-                        if(result > 0){
-                            resultMessage = MyQCMConstants.CONST_MESS_UPDATEDB;
-                            return resultMessage;
-                        }
-                    }else{
-                        System.out.println(MyQCMConstants.CONST_MESS_CREATEDB + userDB.getUsername());
-                        resultMessage = MyQCMConstants.CONST_MESS_CREATEDB + userDB.getUsername();
-                        return resultMessage;
-                    }
-                }else{
-                    //if a user already exist in database
-                    ArrayList<User> users = userSQLiteAdapter.getAllUser();
-                    System.out.println("if user isnt exist in database : insert");
-
-                    result = userSQLiteAdapter.insert(user);
-                    System.out.println("After insert");
-                    userSQLiteAdapter.close();
-                    if(result > 0){
-                        resultMessage = MyQCMConstants.CONST_MESS_CREATEDB + user.getUsername();
-                        System.out.println(MyQCMConstants.CONST_MESS_CREATEDB + user.getUsername());
-                        return resultMessage;
-                    }
-                }
-
-            }else{
-                resultMessage = null;
-                return resultMessage;
-            }
+        //Update user in database
+        result = userSQLiteAdapter.update(user);
+        System.out.println("update user OK");
+        userSQLiteAdapter.close();
+        if(result > 0){
+            resultMessage = MyQCMConstants.CONST_MESS_UPDATEDB;
+            return resultMessage;
+        }else{
+            resultMessage = MyQCMConstants.CONST_MESS_UPDATEDBERROR;
+            return resultMessage;
         }
-
-        resultMessage = null;
-        return resultMessage;
     }
 
     @Override

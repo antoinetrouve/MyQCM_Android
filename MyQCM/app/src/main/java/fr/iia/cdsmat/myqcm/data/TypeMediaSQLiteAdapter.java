@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import fr.iia.cdsmat.myqcm.entity.TypeMedia;
@@ -86,7 +87,7 @@ public class TypeMediaSQLiteAdapter {
                 + COL_ID        + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_IDSERVER  + " INTEGER NOT NULL, "
                 + COL_NAME      + " TEXT NOT NULL, "
-                + COL_UPDATEDAT + " TEXT NULL);";
+                + COL_UPDATEDAT + " TEXT NOT NULL);";
     }
 
     /**
@@ -163,6 +164,36 @@ public class TypeMediaSQLiteAdapter {
     }
 
     /**
+     * Get all TypeMedia
+     * @return ArrayList<TypeMedia>
+     */
+    public ArrayList<TypeMedia> getAllTypeMedia(){
+        ArrayList<TypeMedia> result = null;
+        Cursor cursor = getAllCursor();
+
+        // if cursor contains result
+        if (cursor.moveToFirst()){
+            result = new ArrayList<TypeMedia>();
+            // add typ into list
+            do {
+                result.add(this.cursorToItem(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
+    }
+
+    /**
+     * Get all TypeMedia cursor
+     * @return
+     */
+    private Cursor getAllCursor() {
+        String[] columns = {COL_ID, COL_IDSERVER, COL_NAME, COL_UPDATEDAT};
+        Cursor cursor = database.query(TABLE_TYPEMEDIA, columns, null, null, null, null, null);
+        return cursor;
+    }
+
+    /**
      * Convert Cursor to TypeMedia object
      * @param cursor
      * @return TypeMedia object
@@ -177,7 +208,7 @@ public class TypeMediaSQLiteAdapter {
         //Manage Date format
         //------------------
         Date updatedAt = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         try {
             updatedAt = simpleDateFormat.parse(cursor.getString((cursor.getColumnIndex(COL_UPDATEDAT))));
         } catch (ParseException e) {
@@ -197,7 +228,6 @@ public class TypeMediaSQLiteAdapter {
      */
     private ContentValues typeMediaToCntentValues(TypeMedia typeMedia) {
         ContentValues values = new ContentValues();
-        values.put(COL_ID, typeMedia.getId());
         values.put(COL_IDSERVER, typeMedia.getIdServer());
         values.put(COL_NAME, typeMedia.getName());
         values.put(COL_UPDATEDAT, typeMedia.getUpdatedAt().toString());

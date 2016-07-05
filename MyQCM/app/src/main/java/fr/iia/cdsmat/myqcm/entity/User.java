@@ -36,10 +36,6 @@ public class User {
     @Expose(serialize = true, deserialize = true)
     private Date LastLogin;
 
-    @SerializedName("created_at")
-    @Expose(serialize = true, deserialize = true)
-    private Date    CreatedAt;
-
     @SerializedName("updated_at")
     @Expose(serialize = true, deserialize = true)
     private Date    UpdatedAt;
@@ -147,22 +143,6 @@ public class User {
     }
 
     /**
-     * Get createdAt attribute
-     * @return Date
-     */
-    public Date getCreatedAt() {
-        return CreatedAt;
-    }
-
-    /**
-     * Set createdAt attribute
-     * @return Date
-     */
-    public void setCreatedAt(Date createdAt) {
-        CreatedAt = createdAt;
-    }
-
-    /**
      * Get updatedAt attribute
      * @return Date
      */
@@ -221,26 +201,23 @@ public class User {
      * @param password
      * @param email
      * @param lastLogin
-     * @param createdAt
      * @param updatedAt
      */
-    public User(int idServer, String username, String password, String email, Date lastLogin, Date createdAt, Date updatedAt) {
+    public User(int idServer, String username, String password, String email, Date lastLogin, Date updatedAt) {
         IdServer = idServer;
         Username = username;
         Password = password;
         Email    = email;
         LastLogin = lastLogin;
         UpdatedAt = updatedAt;
-        CreatedAt = createdAt;
     }
 
-    public User(int idServer, String username,String email, Date lastLogin, Date createdAt, Date updatedAt){
+    public User(int idServer, String username,String email, Date lastLogin, Date updatedAt){
         IdServer = idServer;
         Username = username;
         Email    = email;
         LastLogin = lastLogin;
         UpdatedAt = updatedAt;
-        CreatedAt = createdAt;
     }
 
     //endregion

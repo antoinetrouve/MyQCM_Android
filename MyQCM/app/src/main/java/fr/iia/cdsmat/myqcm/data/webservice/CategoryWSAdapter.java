@@ -2,13 +2,17 @@ package fr.iia.cdsmat.myqcm.data.webservice;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestHandle;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -32,6 +36,7 @@ import java.util.concurrent.ExecutionException;
 
 import cz.msebera.android.httpclient.Header;
 
+import fr.iia.cdsmat.myqcm.data.AsyncTask.OnTaskCompleted;
 import fr.iia.cdsmat.myqcm.data.CategorySQLiteAdapter;
 import fr.iia.cdsmat.myqcm.entity.Category;
 import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
@@ -40,51 +45,57 @@ import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
  * Created by Antoine Trouvé on 14/05/2016.
  * antoinetrouve.france@gmail.com
  */
-public class CategoryWSAdapter {
+public class CategoryWSAdapter{
 
     // server table name
     private static final String CONST_CATEGORY = "category";
 
-    //to make requeste (get,post...)
+    //to make request (get,post...)
     private static AsyncHttpClient client = new AsyncHttpClient();
     private static final String IDSERVER = "idServer";
     private static final String NAME = "name";
     private static final String UPDATEDAT = "updatedAt";
+    private OnTaskCompleted taskCompleted;
 
     String response;
     Context context;
 
     /**
-     * COnstructor
+     * Constructor
      * @param context
      */
     public CategoryWSAdapter(Context context){
         this.context = context;
     }
 
+    public interface CallBack{
+        void methods(String response);
+    }
+
+    //TODO : Create GetCategoryRequest with CallBack. This method will get category flow and insert in database
+    //TODO : return of GetCategoryRequest will be a category list to set adapter in MainFragmentList.
+
     /**
      * Get json flow Category
      * @param userId
      * @param url
      */
-    public void getCategoryRequest(int userId, String url){
+    public void getCategoryRequest(int userId, String url) {
+
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         asyncHttpClient.setConnectTimeout(MyQCMConstants.CONST_CONNECT_TIMEOUT);
         asyncHttpClient.setTimeout(MyQCMConstants.CONST_SET_TIMEOUT);
         RequestParams params = new RequestParams();
         params.put(MyQCMConstants.CONST_VALUE_USERID, userId);
-
-        asyncHttpClient.post(url + "." + MyQCMConstants.CONST_FLOW_FORMAT, params, new TextHttpResponseHandler() {
+        RequestHandle post = asyncHttpClient.post(url + "." + MyQCMConstants.CONST_FLOW_FORMAT, params, new TextHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 response = responseString;
-                ArrayList<Category> categories = responseToList(response);
-
-                for(Category category:categories) {
-                    System.out.println("On success = " + category.getName());
+                ArrayList<Category> categories = ResponseToList(response);
+                if (categories != null) {
+                    ManageCategoryDB(categories);
                 }
-                ManageCategoryDB(categories);
             }
 
             @Override
@@ -109,6 +120,55 @@ public class CategoryWSAdapter {
     }
 
     /**
+     * Get Category from WebService with Callback param for user first connection to the app
+     * return by callback category's json flow if ok or "OnFailure" if not
+     * @param userId
+     * @param url
+     * @param callback
+     */
+    public void getCategoryRequest(int userId,String url,final CallBack callback ){
+        //Set connection to Web service
+        //-----------------------------
+        AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+        asyncHttpClient.setConnectTimeout(MyQCMConstants.CONST_CONNECT_TIMEOUT);
+        asyncHttpClient.setTimeout(MyQCMConstants.CONST_SET_TIMEOUT);
+
+        //Set param to build post request
+        //-------------------------------
+        RequestParams params = new RequestParams();
+        params.put(MyQCMConstants.CONST_VALUE_USERID, userId);
+        RequestHandle post = asyncHttpClient.post(url + "." + MyQCMConstants.CONST_FLOW_FORMAT, params, new TextHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                response = responseString;
+                callback.methods(response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                response = "OnFailure";
+                System.out.println("getCatgeoryRequest - FirstConnection :" + response);
+                callback.methods(response);
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
+                String str = null;
+                try {
+                    str = new String(responseBytes, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("getCatgeoryRequest - FirstConnection - On failure 2 = " + str);
+                response = "OnFailure";
+                callback.methods(response);
+            }
+        });
+    }
+
+    /**
      * Compare data in database with flow and make modification if needed
      * @param response
      */
@@ -116,11 +176,10 @@ public class CategoryWSAdapter {
         if (response.isEmpty() == false) {
             // get the list of categ in Flux and add on listView
             ArrayList<Category> list = response;
-            ArrayList<String> listResult = null;
 
             // Call the AsyncTask to add Category on the DB and returns result list
             try {
-                listResult = new ManageCategoryDBTask().execute(list).get();
+                new ManageCategoryDBTask().execute(list).get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -132,9 +191,9 @@ public class CategoryWSAdapter {
     /**
      * Convert Category flow in a Category list
      * @param response
-     * @return
+     * @return Category list
      */
-    private ArrayList<Category> responseToList(String response) {
+    public static ArrayList<Category> ResponseToList(String response) {
         //Format of the recup Date
         String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
@@ -143,59 +202,19 @@ public class CategoryWSAdapter {
         gsonBuilder.excludeFieldsWithoutExposeAnnotation();
         Gson gson =  gsonBuilder.create();
         Type collectionType = new TypeToken<List<Category>>(){}.getType();
-
-        ArrayList<Category> categories = new ArrayList<Category>();
-        categories = (ArrayList<Category>) gson.fromJson(response, collectionType);
+        //ArrayList<Category> categories = new ArrayList<Category>();
+        ArrayList<Category> categories = (ArrayList<Category>) gson.fromJson(response, collectionType);
         return categories;
     }
 
+
     /**
-     * Todo : Id or not ?
-     * Json to object Category
+     * AsyncTask to manage Object Category in Local database
      */
-    public static Category jsonToItem(JSONObject json) throws JSONException {
-
-        Date updatedAt = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        String name = json.getString(NAME);
-        int idServer = json.getInt(IDSERVER);
-        String stringUpdatedAt =  json.getString(UPDATEDAT);
-        try {
-            updatedAt = simpleDateFormat.parse(stringUpdatedAt);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Category item = new Category(idServer,name,updatedAt);
-        return item;
-    }
-
-    public static JSONObject itemToJson(Category item) throws JSONException {
-        JSONObject result = new JSONObject();
-        if(item.getName() != null) {
-            result.put(NAME,item.getName());
-        }
-        if(item.getIdServer() != 0) {
-            result.put(IDSERVER,item.getIdServer());
-        }
-        if(item.getUpdatedAt() != null) {
-            result.put(UPDATEDAT,item.getUpdatedAt());
-        }
-        return result;
-    }
-
-    public static RequestParams ItemToParams(Category item) {
-        RequestParams params = new RequestParams();
-        params.put(IDSERVER,item.getIdServer());
-        params.put(NAME,item.getName());
-        params.put(UPDATEDAT,item.getUpdatedAt());
-        return params;
-    }
-
-    public class ManageCategoryDBTask extends AsyncTask<ArrayList<Category>, Void, ArrayList<String>>{
+    public class ManageCategoryDBTask extends AsyncTask<ArrayList<Category>, Void, Void>{
 
         @Override
-        protected ArrayList<String> doInBackground(ArrayList<Category>... params) {
+        protected Void doInBackground(ArrayList<Category>... params) {
             ArrayList<Category> categories =  new ArrayList<Category>();
             ArrayList<String> results = new ArrayList<String>();
             categories = params[0];
@@ -215,12 +234,16 @@ public class CategoryWSAdapter {
                 {
                     //Add category on the DB
                     long result = categorySQLiteAdapter.insert(category);
-                    results.add(String.valueOf(result));
                 }
                 else
                 {
-                    long result = categorySQLiteAdapter.update(category);
-                    results.add(String.valueOf(result));
+                    //Update data
+                    System.out.println("Update des éléments");
+                    if (category.getUpdatedAt().compareTo(tempCategory.getUpdatedAt()) > 0) {
+                        System.out.println("Commparaison de date mise à jour : date du flux  " + category.getUpdatedAt()
+                                + " Date de la BDD" + tempCategory.getUpdatedAt());
+                        long result = categorySQLiteAdapter.update(category);
+                    }
                 }
 
             }
@@ -235,19 +258,104 @@ public class CategoryWSAdapter {
                             isExist = true;
                         }
                     }
-
                     if (isExist == false) {
                         long result = categorySQLiteAdapter.delete(categoryDB);
                     }
                 }
             }
             categorySQLiteAdapter.close();
-            return results;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<String> strings) {
-            super.onPostExecute(strings);
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
         }
+    }
+
+    /**
+     * Convert Json to Category object
+     * Not used
+     * @param json
+     * @return Category
+     * @throws JSONException
+     */
+    public static Category jsonToItem(JSONObject json) throws JSONException {
+
+        Date updatedAt = null;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        String name = json.getString(NAME);
+        int idServer = json.getInt(IDSERVER);
+        String stringUpdatedAt =  json.getString(UPDATEDAT);
+        try {
+            updatedAt = simpleDateFormat.parse(stringUpdatedAt);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Category item = new Category(idServer,name,updatedAt);
+        return item;
+    }
+
+    /**
+     * Convert item to json
+     * Not used
+     * @param item
+     * @return JSONObject
+     * @throws JSONException
+     */
+    public static JSONObject itemToJson(Category item) throws JSONException {
+        JSONObject result = new JSONObject();
+        if(item.getName() != null) {
+            result.put(NAME,item.getName());
+        }
+        if(item.getIdServer() != 0) {
+            result.put(IDSERVER,item.getIdServer());
+        }
+        if(item.getUpdatedAt() != null) {
+            result.put(UPDATEDAT,item.getUpdatedAt());
+        }
+        return result;
+    }
+
+    /**
+     * Make params for request
+     * Not used
+     * @param item
+     * @return RequestParams params
+     */
+    public static RequestParams ItemToParams(Category item) {
+        RequestParams params = new RequestParams();
+        params.put(IDSERVER,item.getIdServer());
+        params.put(NAME,item.getName());
+        params.put(UPDATEDAT,item.getUpdatedAt());
+        return params;
+    }
+
+    /**
+     * Manage get flow error
+     * @param context
+     */
+    public void CategoryErrorMessage(Context context, int idError){
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("Message d'erreur");
+        if (idError == 1) {
+            alertDialog.setMessage("Impossible de récupérer le flux de données." +
+                    "Êtes-vous sûr d'avoir une connexion au réseau ?");
+        }else if (idError == 2) {
+            alertDialog.setMessage("Aucune Categorie n'est paramétrée pour votre compte." +
+                    "Veuillez contacter votre administrateur");
+        } else if (idError == 3) {
+            alertDialog.setMessage("Attention ! votre base de données n'est pas complète" +
+                    "Veuillez contacter votre administrateur");
+        }
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 }

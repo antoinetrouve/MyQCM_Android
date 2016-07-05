@@ -121,7 +121,6 @@ public class UserSQLiteAdapter {
                 + COL_LASTLOGIN + " TEXT NOT NULL, "
                 + COL_PASSWORD  + " TEXT NOT NULL, "
                 + COL_TEAMID    + " INTEGER NULL, "
-                + COL_CREATEDAT + " TEXT NULL, "
                 + COL_UPDATEDAT + " TEXT NOT NULL);";
     }
 
@@ -183,7 +182,7 @@ public class UserSQLiteAdapter {
         //Create SQLite query and execute query
         //---------------------
         String[] columns = {COL_ID, COL_IDSERVER, COL_USERNAME, COL_EMAIL, COL_PASSWORD,
-                COL_LASTLOGIN, COL_TEAMID, COL_UPDATEDAT, COL_CREATEDAT};
+                COL_LASTLOGIN, COL_TEAMID, COL_UPDATEDAT};
         String whereClausesSelect = COL_ID + "= ?";
         String[] whereArgsSelect = {String.valueOf(id)};
 
@@ -208,7 +207,7 @@ public class UserSQLiteAdapter {
         //Create SQLite query and execute query
         //-------------------------------------
         String[] columns = {COL_ID, COL_IDSERVER, COL_USERNAME, COL_EMAIL, COL_PASSWORD,
-                COL_LASTLOGIN, COL_TEAMID, COL_UPDATEDAT, COL_CREATEDAT};
+                COL_LASTLOGIN, COL_TEAMID, COL_UPDATEDAT};
         String whereClausesSelect = COL_IDSERVER + "= ?";
         String[] whereArgsSelect = {String.valueOf(idServer)};
 
@@ -235,7 +234,7 @@ public class UserSQLiteAdapter {
         //Create SQLite query and execute query
         //-------------------------------------
         String[] columns = {COL_ID, COL_IDSERVER, COL_USERNAME, COL_EMAIL, COL_PASSWORD,
-                COL_LASTLOGIN, COL_TEAMID, COL_UPDATEDAT, COL_CREATEDAT};
+                COL_LASTLOGIN, COL_TEAMID, COL_UPDATEDAT};
         String whereClauseSelect = COL_USERNAME + " =? AND " + COL_PASSWORD + " =?";
         String[] whereArgsSelect = {String.valueOf(login), String.valueOf(password)};
 
@@ -278,7 +277,7 @@ public class UserSQLiteAdapter {
      */
     public Cursor getAllCursor(){
         String[] cols = {COL_ID, COL_IDSERVER, COL_USERNAME, COL_EMAIL,
-                COL_LASTLOGIN, COL_PASSWORD,COL_TEAMID,COL_CREATEDAT,COL_UPDATEDAT};
+                COL_LASTLOGIN, COL_PASSWORD,COL_TEAMID,COL_UPDATEDAT};
         Cursor cursor = database.query(TABLE_USER, cols, null, null, null, null, null);
         return cursor;
     }
@@ -307,7 +306,6 @@ public class UserSQLiteAdapter {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
         try {
             lastlogin = simpleDateFormat.parse(cursor.getString(cursor.getColumnIndex(COL_LASTLOGIN)));
-            createdAt = simpleDateFormat.parse(cursor.getString(cursor.getColumnIndex(COL_CREATEDAT)));
             updatedAt = simpleDateFormat.parse(cursor.getString((cursor.getColumnIndex(COL_UPDATEDAT))));
         } catch (ParseException e) {
             e.printStackTrace();
@@ -315,7 +313,7 @@ public class UserSQLiteAdapter {
 
         //Create User object
         //------------------
-        User result = new User(idServer,username,password,email,lastlogin,createdAt,updatedAt);
+        User result = new User(idServer,username,password,email,lastlogin,updatedAt);
         if (teamId != 0){
             TeamSQLiteAdapter teamSQLiteAdapter = new TeamSQLiteAdapter(context);
             result.setTeam(teamSQLiteAdapter.getTeamById(teamId));
@@ -335,7 +333,6 @@ public class UserSQLiteAdapter {
         values.put(COL_EMAIL, user.getEmail());
         values.put(COL_PASSWORD, user.getPassword());
         values.put(COL_LASTLOGIN, user.getLastLogin().toString());
-        values.put(COL_CREATEDAT, user.getCreatedAt().toString());
         values.put(COL_UPDATEDAT, user.getUpdatedAt().toString());
 
         return values;

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import fr.iia.cdsmat.myqcm.entity.Category;
@@ -75,12 +76,6 @@ public class McqSQLiteAdapter {
     public static final String COL_UPDATEDAT    = "updatedAt";
 
     /**
-     * name of Mcq's column createdAt
-     * @see McqSQLiteAdapter#getSchema()
-     */
-    public static final String COL_CREATEDAT    = "createdAt";
-
-    /**
      * name of Mcq's column categoryId
      * @see McqSQLiteAdapter#getSchema()
      */
@@ -126,8 +121,7 @@ public class McqSQLiteAdapter {
                 + COL_ISACTIF       + " INTEGER NOT NULL, "
                 + COL_COUNTDOWN     + " INTEGER NOT NULL, "
                 + COL_DIFFDEB       + " TEXT NOT NULL, "
-                + COL_DIFFEND       + " TEXT NOT NULL, "
-                + COL_CREATEDAT     + " TEXT NOT NULL, "
+                + COL_DIFFEND       + " TEXT, "
                 + COL_CATEGORYID    + " INTEGER NOT NULL, "
                 + COL_UPDATEDAT     + " TEXT NULL);";
     }
@@ -174,8 +168,8 @@ public class McqSQLiteAdapter {
      */
     public long update(Mcq mcq) {
         ContentValues valuesUpdate = this.mcqToContentValues(mcq);
-        String whereClausesUpdate = COL_ID + "=?";
-        String[] whereArgsUpdate = {String.valueOf(mcq.getId())};
+        String whereClausesUpdate = COL_IDSERVER + "=?";
+        String[] whereArgsUpdate = {String.valueOf(mcq.getIdServer())};
 
         return database.update(TABLE_MCQ, valuesUpdate, whereClausesUpdate, whereArgsUpdate);
     }
@@ -190,7 +184,7 @@ public class McqSQLiteAdapter {
         //Create SQLite query and execute query
         //-------------------------------------
         String[] columns = {COL_ID, COL_IDSERVER, COL_NAME, COL_ISACTIF, COL_COUNTDOWN,
-                COL_DIFFDEB, COL_DIFFEND, COL_CATEGORYID, COL_UPDATEDAT, COL_CREATEDAT};
+                COL_DIFFDEB, COL_DIFFEND, COL_CATEGORYID, COL_UPDATEDAT};
         String whereClausesSelect = COL_ID + "= ?";
         String[] whereArgsSelect = {String.valueOf(id)};
 
@@ -203,6 +197,51 @@ public class McqSQLiteAdapter {
             cursor.moveToFirst();
             result = cursorToItem(cursor);
         }
+        return result;
+    }
+
+    /**
+     * Get Mcq by idServer
+     * @param idServer
+     * @return Mcq result
+     */
+    public Mcq getMcqByIdServer(int idServer) {
+        //Create SQLite query and execute query
+        //-------------------------------------
+        String[] columns = {COL_ID, COL_IDSERVER, COL_NAME, COL_ISACTIF, COL_COUNTDOWN,
+                COL_DIFFDEB, COL_DIFFEND, COL_CATEGORYID, COL_UPDATEDAT};
+        String whereClausesSelect = COL_ID + "= ?";
+        String[] whereArgsSelect = {String.valueOf(idServer)};
+
+        Cursor cursor = database.query(TABLE_MCQ, columns, whereClausesSelect, whereArgsSelect, null, null, null);
+
+        //Create mcq object
+        //------------------
+        Mcq result = null;
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            result = cursorToItem(cursor);
+        }
+        return result;
+    }
+
+    /**
+     * Get all Mcq
+     * @return
+     */
+    public ArrayList<Mcq> getAllMcq() {
+        ArrayList<Mcq> result = null;
+        Cursor cursor = getAllCursor();
+
+        // if cursor contains result
+        if (cursor.moveToFirst()){
+            result = new ArrayList<Mcq>();
+            // add typ into list
+            do {
+                result.add(this.cursorToItem(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
         return result;
     }
 
@@ -224,19 +263,21 @@ public class McqSQLiteAdapter {
         //---------------------
         int idCategory = cursor.getInt(cursor.getColumnIndex(COL_CATEGORYID));
         CategorySQLiteAdapter catSQLiteAdapter = new CategorySQLiteAdapter(context);
+        catSQLiteAdapter.open();
         Category category = catSQLiteAdapter.getCategoryById(idCategory);
 
         //Manage Date format
         //------------------
         Date updatedAt = null;
-        Date createdAt = null;
         Date diffDeb = null;
         Date diffEnd = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String diffEndTemp = cursor.getString(cursor.getColumnIndex(COL_DIFFEND));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
         try {
+            if("null".equalsIgnoreCase(diffEndTemp)) {
+                diffEnd = simpleDateFormat.parse(diffEndTemp);
+            }
             diffDeb = simpleDateFormat.parse(cursor.getString(cursor.getColumnIndex(COL_DIFFDEB)));
-            diffEnd = simpleDateFormat.parse(cursor.getString(cursor.getColumnIndex(COL_DIFFEND)));
-            createdAt = simpleDateFormat.parse(cursor.getString((cursor.getColumnIndex(COL_CREATEDAT))));
             updatedAt = simpleDateFormat.parse(cursor.getString((cursor.getColumnIndex(COL_UPDATEDAT))));
 
         } catch (ParseException e) {
@@ -245,7 +286,17 @@ public class McqSQLiteAdapter {
 
         //Create Mcq object
         //------------------
-        Mcq result = new Mcq(id, idServer, name, isActif, countdown, diffDeb, diffEnd, updatedAt, category);
+        Mcq result = new Mcq(id, idServer, name, countdown, updatedAt, category);
+        if (diffEnd != null)
+        {
+            result.setDiffEnd(diffEnd);
+        }
+        if (diffDeb != null)
+        {
+            result.setDiffDeb(diffDeb);
+        }
+        result.setIsActif(isActif);
+        catSQLiteAdapter.close();
         return result;
     }
 
@@ -255,16 +306,21 @@ public class McqSQLiteAdapter {
      * @return contentValues
      */
     private ContentValues mcqToContentValues(Mcq mcq) {
+        System.out.println("mcqToContentValues : idserver : " + mcq.getIdServer()
+                + " name : " + mcq.getName() + " isactif" + mcq.getIsActif()
+                + " compteur : " + mcq.getCountdown() + "diffdeb : " + mcq.getDiffDeb()
+                + " diffEnd : " + mcq.getDiffEnd() + "category : " + mcq.getCategory().getId()
+                + "updated at : " + mcq.getUpdatedAt() );
         ContentValues values = new ContentValues();
-        values.put(COL_ID, mcq.getId());
         values.put(COL_IDSERVER, mcq.getIdServer());
         values.put(COL_NAME, mcq.getName());
         values.put(COL_ISACTIF, mcq.getIsActif());
         values.put(COL_COUNTDOWN, mcq.getCountdown());
         values.put(COL_DIFFDEB, mcq.getDiffDeb().toString());
-        values.put(COL_DIFFEND, mcq.getDiffEnd().toString());
+        if(mcq.getDiffEnd() != null) {
+            values.put(COL_DIFFEND, mcq.getDiffEnd().toString());
+        }
         values.put(COL_CATEGORYID, mcq.getCategory().getId());
-        values.put(COL_CREATEDAT, mcq.getCreatedAt().toString());
         values.put(COL_UPDATEDAT, mcq.getUpdatedAt().toString());
         return values;
     }
@@ -281,5 +337,17 @@ public class McqSQLiteAdapter {
             return true;
         }
     }
+
+    /**
+     * Get All mcq
+     * @return cusror
+     */
+    private Cursor getAllCursor() {
+        String[] columns = {COL_ID, COL_IDSERVER, COL_NAME, COL_ISACTIF, COL_COUNTDOWN,
+                COL_DIFFDEB, COL_DIFFEND, COL_CATEGORYID, COL_UPDATEDAT};
+        Cursor cursor = database.query(TABLE_MCQ, columns, null, null, null, null, null);
+        return cursor;
+    }
+
     //endregion
 }

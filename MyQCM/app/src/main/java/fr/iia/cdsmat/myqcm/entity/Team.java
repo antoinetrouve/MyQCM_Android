@@ -1,5 +1,8 @@
 package fr.iia.cdsmat.myqcm.entity;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 import java.util.ArrayList;
 
@@ -12,11 +15,25 @@ public class Team {
 
     //region ATTRIBUTE
     private int Id;
+
+    @SerializedName("id")
+    @Expose(serialize = true, deserialize = true)
     private int IdServer;
+
+    @SerializedName("name")
+    @Expose(serialize = true, deserialize = true)
     private String Name;
-    private Date CreatedAt;
+
+    @SerializedName("updated_at")
+    @Expose(serialize = true, deserialize = true)
     private Date UpdatedAt;
+
+    @SerializedName("mcqs")
+    @Expose(serialize = true, deserialize = true)
     private ArrayList<Mcq> Mcqs;
+
+    @SerializedName("users")
+    @Expose(serialize = true, deserialize = true)
     private ArrayList<User> Users;
     //endregion
 
@@ -67,22 +84,6 @@ public class Team {
      */
     public void setName(String name) {
         Name = name;
-    }
-
-    /**
-     * Get createdAt attribute
-     * @return Date
-     */
-    public Date getCreatedAt() {
-        return CreatedAt;
-    }
-
-    /**
-     * Set createdAt attribute
-     * @return Date
-     */
-    public void setCreatedAt(Date createdAt) {
-        CreatedAt = createdAt;
     }
 
     /**

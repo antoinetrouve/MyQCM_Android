@@ -2,6 +2,7 @@ package fr.iia.cdsmat.myqcm.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import fr.iia.cdsmat.myqcm.R;
+import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
+import fr.iia.cdsmat.myqcm.data.McqSQLiteAdapter;
+import fr.iia.cdsmat.myqcm.data.webservice.McqWSAdapter;
 import fr.iia.cdsmat.myqcm.entity.Category;
 import fr.iia.cdsmat.myqcm.entity.Mcq;
 import fr.iia.cdsmat.myqcm.view.mcq.McqActivity;
@@ -37,28 +41,30 @@ public class McqFragmentList extends ListFragment{
         //Inflate the fragment layout file
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragmentlist_mcq, container, false);
 
-        /**
-         * TODO : Get Argument
-         * TODO : Create Category object with GetCategoryByName(String name) -> CategorySQLiteAdapter
-         * TODO : Get Mcq list of this category with McqByCategoryId(int id) -> McqSQLiteAdapter
-         * TODO : Add Mcq list in an arrayAdpater to show into the view
-         */
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.setVisibility(fab.VISIBLE);
 
-        // Get Argument and create object
-        String name = getArguments().getString("name");
-        Category category = new Category(name);
+        McqWSAdapter mcqWSAdapter = new McqWSAdapter(getActivity().getBaseContext());
+        McqSQLiteAdapter mcqSQLiteAdapter = new McqSQLiteAdapter(getActivity().getBaseContext());
 
-        ArrayList<Category> list = new ArrayList<Category>();
-        list.add(category);
+        // open DB to get the list mcq on DB
+        mcqSQLiteAdapter.open();
+        ArrayList<Mcq> mcqs = mcqSQLiteAdapter.getAllMcq();
+        mcqSQLiteAdapter.close();
 
         //Create Adapter
-        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(
-                getActivity(),
-                R.layout.fragmentrow_mcq,
-                R.id.mcq_textViewRow,
-                list);
+        if(mcqs != null) {
+            ArrayAdapter<Mcq> arrayAdapter = new ArrayAdapter<Mcq>(
+                    getActivity(),
+                    R.layout.fragmentrow_mcq,
+                    R.id.mcq_textViewRow,
+                    mcqs);
+            setListAdapter(arrayAdapter);
+        }
+        mcqWSAdapter.getMcqRequest(1, 3, MyQCMConstants.CONST_IPSERVER
+                + MyQCMConstants.CONST_URL_BASE
+                + MyQCMConstants.CONST_URL_USERMCQS);
 
-        setListAdapter(adapter);
         //Retain listfragment instance across configuration changes
         setRetainInstance(true);
         return rootView;
