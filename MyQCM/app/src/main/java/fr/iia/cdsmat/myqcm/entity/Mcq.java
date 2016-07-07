@@ -1,5 +1,8 @@
 package fr.iia.cdsmat.myqcm.entity;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 import java.util.ArrayList;
 
@@ -12,16 +15,43 @@ public class Mcq {
 
     //region ATTRIBUTES
     private int Id;
+
+    @SerializedName("id")
+    @Expose(serialize = true, deserialize = true)
     private int IdServer;
+
+    @SerializedName("name")
+    @Expose(serialize = true, deserialize = true)
     private String Name;
+
+    @SerializedName("is_actif")
+    @Expose(serialize = true, deserialize = true)
     private boolean IsActif;
+
+    @SerializedName("countdown")
+    @Expose(serialize = true, deserialize = true)
     private int Countdown;
+
+    @SerializedName("diff_deb")
+    @Expose(serialize = true, deserialize = true)
     private Date DiffDeb;
+
+    @SerializedName("diff_end")
+    @Expose(serialize = true, deserialize = true)
     private Date DiffEnd;
-    private Date CreatedAt;
+
+    @SerializedName("updated_at")
+    @Expose(serialize = true, deserialize = true)
     private Date UpdatedAt;
+
+    @SerializedName("category")
+    @Expose(serialize = true, deserialize = true)
     private Category Category;
+
+    @SerializedName("questions")
+    @Expose(serialize = true, deserialize = true)
     private ArrayList<Question> Questions;
+
     private ArrayList<Result> Results;
     //endregion
 
@@ -139,22 +169,6 @@ public class Mcq {
     }
 
     /**
-     * Get mcq's CreatedAt attribute
-     * @return Date
-     */
-    public Date getCreatedAt() {
-        return CreatedAt;
-    }
-
-    /**
-     * Set mcq's CreatedAt attribute
-     * @param createdAt
-     */
-    public void setCreatedAt(Date createdAt) {
-        CreatedAt = createdAt;
-    }
-
-    /**
      * Set mcq's CreatedAt attribute
      * @return Date
      */
@@ -241,6 +255,24 @@ public class Mcq {
         Countdown = countdown;
         DiffDeb = diffDeb;
         DiffEnd = diffEnd;
+        UpdatedAt = updatedAt;
+        Category = category;
+    }
+
+    /**
+     * Mcq's constructor
+     * @param id
+     * @param idServer
+     * @param name
+     * @param countdown
+     * @param updatedAt
+     * @param category
+     */
+    public Mcq(int id, int idServer, String name, int countdown, Date updatedAt, Category category){
+        Id = id;
+        IdServer = idServer;
+        Name = name;
+        Countdown = countdown;
         UpdatedAt = updatedAt;
         Category = category;
     }

@@ -1,5 +1,8 @@
 package fr.iia.cdsmat.myqcm.entity;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 import java.util.ArrayList;
 
@@ -12,12 +15,27 @@ public class Question {
 
     //region ATTRIBUTE
     private int Id;
+
+    @SerializedName("id")
+    @Expose(serialize = true, deserialize = true)
     private int IdServer;
+
+    @SerializedName("name")
+    @Expose(serialize = true, deserialize = true)
     private String Name;
-    private Date CreatedAt;
+
+    @SerializedName("updated_at")
+    @Expose(serialize = true, deserialize = true)
     private Date UpdatedAt;
+
+    @SerializedName("media")
+    @Expose(serialize = true, deserialize = true)
     private Media Media;
+
     private Mcq Mcq;
+
+    @SerializedName("answers")
+    @Expose(serialize = true, deserialize = true)
     private ArrayList<Answer> Answers;
     //endregion
 
@@ -69,22 +87,6 @@ public class Question {
      */
     public void setName(String name) {
         Name = name;
-    }
-
-    /**
-     * Get question's createdAt attribute
-     * @return Date
-     */
-    public Date getCreatedAt() {
-        return CreatedAt;
-    }
-
-    /**
-     * Set question's createdAt attribute
-     * @return Date
-     */
-    public void setCreatedAt(Date createdAt) {
-        CreatedAt = createdAt;
     }
 
     /**

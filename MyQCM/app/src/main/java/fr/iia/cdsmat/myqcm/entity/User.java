@@ -1,5 +1,8 @@
 package fr.iia.cdsmat.myqcm.entity;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 import java.util.ArrayList;
 
@@ -12,15 +15,33 @@ public class User {
 
     //region ATTRIBUTE
     private int     Id;
+
+    @SerializedName("id")
+    @Expose(serialize = true, deserialize = true)
     private int     IdServer;
+
+    @SerializedName("username")
+    @Expose(serialize = true, deserialize = true)
     private String  Username;
+
+    @SerializedName("email")
+    @Expose(serialize = true, deserialize = true)
     private String  Email;
+
+    @SerializedName("password")
+    @Expose(serialize = true, deserialize = true)
     private String  Password;
-    private Date    LastLogin;
-    private Date    CreatedAt;
+
+    @SerializedName("lastlogin")
+    @Expose(serialize = true, deserialize = true)
+    private Date LastLogin;
+
+    @SerializedName("updated_at")
+    @Expose(serialize = true, deserialize = true)
     private Date    UpdatedAt;
 
     private Team    Team;
+
     private ArrayList<Mcq> Mcqs;
     //endregion
 
@@ -122,22 +143,6 @@ public class User {
     }
 
     /**
-     * Get createdAt attribute
-     * @return Date
-     */
-    public Date getCreatedAt() {
-        return CreatedAt;
-    }
-
-    /**
-     * Set createdAt attribute
-     * @return Date
-     */
-    public void setCreatedAt(Date createdAt) {
-        CreatedAt = createdAt;
-    }
-
-    /**
      * Get updatedAt attribute
      * @return Date
      */
@@ -191,25 +196,30 @@ public class User {
 
     /**
      * User's constructor
-     * @param id
      * @param idServer
      * @param username
      * @param password
      * @param email
      * @param lastLogin
-     * @param createdAt
      * @param updatedAt
      */
-    public User(int id, int idServer, String username, String password, String email, Date lastLogin, Date createdAt, Date updatedAt) {
-        Id = id;
+    public User(int idServer, String username, String password, String email, Date lastLogin, Date updatedAt) {
         IdServer = idServer;
         Username = username;
         Password = password;
         Email    = email;
         LastLogin = lastLogin;
         UpdatedAt = updatedAt;
-        CreatedAt = createdAt;
     }
+
+    public User(int idServer, String username,String email, Date lastLogin, Date updatedAt){
+        IdServer = idServer;
+        Username = username;
+        Email    = email;
+        LastLogin = lastLogin;
+        UpdatedAt = updatedAt;
+    }
+
     //endregion
 
     //region METHOD

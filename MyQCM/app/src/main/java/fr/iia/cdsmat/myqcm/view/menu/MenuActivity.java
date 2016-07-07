@@ -1,9 +1,10 @@
 package fr.iia.cdsmat.myqcm.view.menu;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,7 +17,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 import fr.iia.cdsmat.myqcm.R;
+import fr.iia.cdsmat.myqcm.data.UserSQLiteAdapter;
+import fr.iia.cdsmat.myqcm.entity.User;
 import fr.iia.cdsmat.myqcm.view.login.LoginActivity;
 import fr.iia.cdsmat.myqcm.view.MainFragmentList;
 
@@ -38,9 +43,32 @@ public class MenuActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        //Set default fragment (fragment app_bar_menu.xml)
+        //Set default fragment without Arguments
         MainFragmentList fragment = new MainFragmentList();
+        //FrameLayout in app_bar_home.xml
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+        //Get extra from LoginActivity
+        //-----------------------------
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            Bundle bundle = new Bundle();
+            if (extras.containsKey("FirstConnection")) {
+                boolean isFirstConnection = intent.getBooleanExtra("FirstConnection", false);
+                if (isFirstConnection == true) {
+                    bundle.putBoolean("FirstConnection", true);
+                } else {
+                    bundle.putBoolean("FirstConnection", false);
+                }
+            }
+            if (extras.containsKey("UserIdServer")) {
+                int userIdServer = intent.getIntExtra("UserIdServer", 0);
+                bundle.putInt("UserIdServer",userIdServer);
+            }
+            //Set fragment's arguments
+            fragment.setArguments(bundle);
+        }
         fragmentTransaction.replace(R.id.nav_fragmentContainer, fragment);
         fragmentTransaction.commit();
 
@@ -48,11 +76,23 @@ public class MenuActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setVisibility(fab.VISIBLE);
+        assert fab != null;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Send result ?", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                AlertDialog alertDialog = new AlertDialog.Builder(MenuActivity.this).create();
+                alertDialog.setTitle("Aide");
+                alertDialog.setIcon(R.drawable.ic_menu_help);
+                alertDialog.setMessage("Pour accéder aux questionnaires,"
+                        + " Sélectionnez un élément dans la liste");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
             }
         });
 
@@ -106,6 +146,7 @@ public class MenuActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profil) {
+
             //Set profil fragment
             ProfilFragment fragment = new ProfilFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -134,15 +175,39 @@ public class MenuActivity extends AppCompatActivity
             fragmentTransaction.commit();
 
         }else if (id == R.id.nav_accueil) {
+
             //Set Main fragment
             MainFragmentList fragment = new MainFragmentList();
+
+            //Set argument to MainFragmentList
+            Bundle categoryBundle = new Bundle();
+            categoryBundle.putBoolean("FirstConnection",false);
+
+            //Get user's IdServer
+            UserSQLiteAdapter userSQLiteAdapter = new UserSQLiteAdapter(MenuActivity.this);
+            userSQLiteAdapter.open();
+            ArrayList<User> users = userSQLiteAdapter.getAllUser();
+            userSQLiteAdapter.close();
+            if (users.size() == 1) {
+                for (User user : users) {
+                    categoryBundle.putInt("UserIdServer",user.getIdServer());
+                }
+            }else{
+                categoryBundle.putInt("UserIdServer",0);
+            }
+
+            fragment.setArguments(categoryBundle);
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.nav_fragmentContainer, fragment);
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_disconnect){
-            //Return to Login Activity
+            //After logout redirect user to Login Activity
             Intent intent = new Intent(MenuActivity.this,LoginActivity.class);
+            //Closing all the activities
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            //Add new Flag to start new activity
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
 

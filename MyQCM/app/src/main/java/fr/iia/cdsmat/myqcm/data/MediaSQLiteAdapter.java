@@ -197,7 +197,7 @@ public class MediaSQLiteAdapter {
         //Manage Date format
         //------------------
         Date updatedAt = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         try {
             updatedAt = simpleDateFormat.parse(cursor.getString((cursor.getColumnIndex(COL_UPDATEDAT))));
         } catch (ParseException e) {
@@ -221,7 +221,7 @@ public class MediaSQLiteAdapter {
         values.put(COL_IDSERVER, media.getIdServer());
         values.put(COL_NAME, media.getName());
         values.put(COL_URL, media.getUrl());
-        values.put(COL_TYPEMEDIAID, media.getTypeMedia().getId());
+        values.put(COL_TYPEMEDIAID, media.getTypeMedia().getIdServer());
         values.put(COL_UPDATEDAT, media.getUpdatedAt().toString());
         return values;
     }

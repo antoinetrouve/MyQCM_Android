@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -120,8 +121,7 @@ public class UserSQLiteAdapter {
                 + COL_LASTLOGIN + " TEXT NOT NULL, "
                 + COL_PASSWORD  + " TEXT NOT NULL, "
                 + COL_TEAMID    + " INTEGER NULL, "
-                + COL_CREATEDAT + " TEXT NOT NULL, "
-                + COL_UPDATEDAT + " TEXT NULL);";
+                + COL_UPDATEDAT + " TEXT NOT NULL);";
     }
 
     /**
@@ -166,8 +166,8 @@ public class UserSQLiteAdapter {
      */
     public long update(User user) {
         ContentValues valuesUpdate = this.userToContentValues(user);
-        String whereClausesUpdate = COL_ID + "=?";
-        String[] whereArgsUpdate = {String.valueOf(user.getId())};
+        String whereClausesUpdate = COL_IDSERVER + "=?";
+        String[] whereArgsUpdate = {String.valueOf(user.getIdServer())};
 
         return database.update(TABLE_USER, valuesUpdate, whereClausesUpdate, whereArgsUpdate);
     }
@@ -182,9 +182,34 @@ public class UserSQLiteAdapter {
         //Create SQLite query and execute query
         //---------------------
         String[] columns = {COL_ID, COL_IDSERVER, COL_USERNAME, COL_EMAIL, COL_PASSWORD,
-                COL_LASTLOGIN, COL_TEAMID, COL_UPDATEDAT, COL_CREATEDAT};
+                COL_LASTLOGIN, COL_TEAMID, COL_UPDATEDAT};
         String whereClausesSelect = COL_ID + "= ?";
         String[] whereArgsSelect = {String.valueOf(id)};
+
+        Cursor cursor = database.query(TABLE_USER, columns, whereClausesSelect, whereArgsSelect, null, null, null);
+
+        //Create user object
+        //------------------
+        User result = null;
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            result = cursorToItem(cursor);
+        }
+        return result;
+    }
+
+    /**
+     * Get User by idServer
+     * @param idServer
+     * @return User
+     */
+    public User getUserByIdServer(int idServer){
+        //Create SQLite query and execute query
+        //-------------------------------------
+        String[] columns = {COL_ID, COL_IDSERVER, COL_USERNAME, COL_EMAIL, COL_PASSWORD,
+                COL_LASTLOGIN, COL_TEAMID, COL_UPDATEDAT};
+        String whereClausesSelect = COL_IDSERVER + "= ?";
+        String[] whereArgsSelect = {String.valueOf(idServer)};
 
         Cursor cursor = database.query(TABLE_USER,columns,whereClausesSelect,whereArgsSelect,null,null,null);
 
@@ -209,7 +234,7 @@ public class UserSQLiteAdapter {
         //Create SQLite query and execute query
         //-------------------------------------
         String[] columns = {COL_ID, COL_IDSERVER, COL_USERNAME, COL_EMAIL, COL_PASSWORD,
-                COL_LASTLOGIN, COL_TEAMID, COL_UPDATEDAT, COL_CREATEDAT};
+                COL_LASTLOGIN, COL_TEAMID, COL_UPDATEDAT};
         String whereClauseSelect = COL_USERNAME + " =? AND " + COL_PASSWORD + " =?";
         String[] whereArgsSelect = {String.valueOf(login), String.valueOf(password)};
 
@@ -224,6 +249,37 @@ public class UserSQLiteAdapter {
         }
 
         return result;
+    }
+
+    /**
+     * Get all User
+     * @return ArrayList<>
+     */
+    public ArrayList<User> getAllUser(){
+        ArrayList<User> result = null;
+        Cursor cursor = getAllCursor();
+
+        // if cursor contains result
+        if (cursor.moveToFirst()){
+            result = new ArrayList<User>();
+            // add user into list
+            do {
+                result.add(this.cursorToItem(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
+    }
+
+    /**
+     * Get all Cursor in User Table
+     * @return Cursor
+     */
+    public Cursor getAllCursor(){
+        String[] cols = {COL_ID, COL_IDSERVER, COL_USERNAME, COL_EMAIL,
+                COL_LASTLOGIN, COL_PASSWORD,COL_TEAMID,COL_UPDATEDAT};
+        Cursor cursor = database.query(TABLE_USER, cols, null, null, null, null, null);
+        return cursor;
     }
 
     /**
@@ -247,10 +303,9 @@ public class UserSQLiteAdapter {
         Date createdAt = null;
         Date lastlogin = null;
         Date updatedAt = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
         try {
             lastlogin = simpleDateFormat.parse(cursor.getString(cursor.getColumnIndex(COL_LASTLOGIN)));
-            createdAt = simpleDateFormat.parse(cursor.getString(cursor.getColumnIndex(COL_CREATEDAT)));
             updatedAt = simpleDateFormat.parse(cursor.getString((cursor.getColumnIndex(COL_UPDATEDAT))));
         } catch (ParseException e) {
             e.printStackTrace();
@@ -258,12 +313,11 @@ public class UserSQLiteAdapter {
 
         //Create User object
         //------------------
-        User result = new User(id, idServer,username,password,email,lastlogin,createdAt,updatedAt);
+        User result = new User(idServer,username,password,email,lastlogin,updatedAt);
         if (teamId != 0){
             TeamSQLiteAdapter teamSQLiteAdapter = new TeamSQLiteAdapter(context);
             result.setTeam(teamSQLiteAdapter.getTeamById(teamId));
         }
-
         return result;
     }
 
@@ -274,14 +328,11 @@ public class UserSQLiteAdapter {
      */
     private ContentValues userToContentValues(User user) {
         ContentValues values = new ContentValues();
-        values.put(COL_ID, user.getId());
         values.put(COL_IDSERVER, user.getIdServer());
         values.put(COL_USERNAME, user.getUsername());
         values.put(COL_EMAIL, user.getEmail());
         values.put(COL_PASSWORD, user.getPassword());
         values.put(COL_LASTLOGIN, user.getLastLogin().toString());
-        values.put(COL_TEAMID, user.getTeam().getId());
-        values.put(COL_CREATEDAT, user.getCreatedAt().toString());
         values.put(COL_UPDATEDAT, user.getUpdatedAt().toString());
 
         return values;

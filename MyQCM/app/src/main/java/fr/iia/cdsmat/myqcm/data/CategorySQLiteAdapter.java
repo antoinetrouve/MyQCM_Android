@@ -4,9 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.CursorAdapter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import fr.iia.cdsmat.myqcm.entity.Category;
@@ -16,7 +18,7 @@ import fr.iia.cdsmat.myqcm.entity.Category;
  * @author Antoine Trouve <antoinetrouve.france@gmail.com>
  * @version 1.0 - 04/04/2016
  */
-public class CategorySQLiteAdapter {
+public class CategorySQLiteAdapter{
 
     //region ATTRIBUTES
     /**
@@ -86,7 +88,7 @@ public class CategorySQLiteAdapter {
                 + COL_ID        + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_IDSERVER  + " INTEGER NOT NULL, "
                 + COL_NAME      + " TEXT NOT NULL, "
-                + COL_UPDATEDAT + " TEXT NULL);";
+                + COL_UPDATEDAT + " TEXT NOT NULL);";
     }
 
     /**
@@ -130,8 +132,8 @@ public class CategorySQLiteAdapter {
      */
     public long update(Category category) {
         ContentValues valuesUpdate = this.categoryToContentValues(category);
-        String whereClausesUpdate = COL_ID + "=?";
-        String[] whereArgsUpdate = {String.valueOf(category.getId())};
+        String whereClausesUpdate = COL_IDSERVER + "=?";
+        String[] whereArgsUpdate = {String.valueOf(category.getIdServer())};
         return database.update(TABLE_CATEGORY, valuesUpdate, whereClausesUpdate, whereArgsUpdate);
     }
 
@@ -161,6 +163,51 @@ public class CategorySQLiteAdapter {
     }
 
     /**
+     * Get category by id server
+     * @param idServer
+     * @return category object
+     */
+    public Category getCategoryByIdServer(int idServer){
+
+        //Create SQLite query and execute query
+        //---------------------
+        String[] columns = {COL_ID, COL_IDSERVER, COL_NAME, COL_UPDATEDAT};
+        String whereClausesSelect = COL_IDSERVER + "= ?";
+        String[] whereArgsSelect = {String.valueOf(idServer)};
+
+        Cursor cursor = database.query(TABLE_CATEGORY, columns, whereClausesSelect, whereArgsSelect, null, null, null);
+
+        //Create category object
+        //------------------
+        Category result = null;
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            result = cursorToItem(cursor);
+        }
+        return result;
+    }
+
+    /**
+     * Get all category in local database
+     * @return ArrayList<Category>
+     */
+    public ArrayList<Category> getAllCategory(){
+        ArrayList<Category> result = null;
+        Cursor cursor = getAllCursor();
+
+        // if cursor contains result
+        if (cursor.moveToFirst()){
+            result = new ArrayList<Category>();
+            // add type into list
+            do {
+                result.add(this.cursorToItem(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
+    }
+
+    /**
      * Convert Cursor to Category Object
      * @param cursor
      * @return Category object
@@ -175,7 +222,7 @@ public class CategorySQLiteAdapter {
         //Manage Date format
         //------------------
         Date updatedAt = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
         try {
             updatedAt = simpleDateFormat.parse(cursor.getString((cursor.getColumnIndex(COL_UPDATEDAT))));
         } catch (ParseException e) {
@@ -184,7 +231,8 @@ public class CategorySQLiteAdapter {
 
         //Create Category object
         //------------------
-        Category result = new Category(id, idServer,name,updatedAt);
+        Category result = new Category(idServer,name,updatedAt);
+        result.setId(id);
         return result;
     }
 
@@ -195,11 +243,20 @@ public class CategorySQLiteAdapter {
      */
     private ContentValues categoryToContentValues(Category category) {
         ContentValues values = new ContentValues();
-        values.put(COL_ID, category.getId());
         values.put(COL_IDSERVER, category.getIdServer());
         values.put(COL_NAME, category.getName());
         values.put(COL_UPDATEDAT, category.getUpdatedAt().toString());
         return values;
+    }
+
+    /**
+     * Get all Cursor in Category Table
+     * @return Cursor
+     */
+    public Cursor getAllCursor(){
+        String[] cols = {COL_ID, COL_IDSERVER, COL_NAME, COL_UPDATEDAT};
+        Cursor cursor = database.query(TABLE_CATEGORY, cols, null, null, null, null, null);
+        return cursor;
     }
 
     //endregion
