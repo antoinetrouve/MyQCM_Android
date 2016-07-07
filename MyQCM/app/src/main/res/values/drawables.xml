@@ -1,0 +1,9 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <item name="ic_menu_accueil" type="drawable">@android:drawable/ic_menu_mylocation</item>
+    <item name="ic_menu_profil" type="drawable">@android:drawable/ic_menu_crop</item>
+    <item name="ic_menu_rules" type="drawable">@android:drawable/ic_menu_view</item>
+    <item name="ic_menu_help" type="drawable">@android:drawable/ic_menu_help</item>
+    <item name="ic_menu_legal" type="drawable">@android:drawable/ic_menu_info_details</item>
+    <item name="ic_menu_disconnect" type="drawable">@android:drawable/ic_lock_power_off</item>
+</resources>
+<!-- Profil / Regles / Aides / Mention legale / déconnexion-->
