@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,16 +16,11 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import fr.iia.cdsmat.myqcm.R;
-import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
-import fr.iia.cdsmat.myqcm.data.CategorySQLiteAdapter;
 import fr.iia.cdsmat.myqcm.data.UserSQLiteAdapter;
-import fr.iia.cdsmat.myqcm.data.webservice.CategoryWSAdapter;
-import fr.iia.cdsmat.myqcm.data.webservice.McqWSAdapter;
 import fr.iia.cdsmat.myqcm.entity.User;
 import fr.iia.cdsmat.myqcm.view.login.LoginActivity;
 import fr.iia.cdsmat.myqcm.view.MainFragmentList;

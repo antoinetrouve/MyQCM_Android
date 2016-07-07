@@ -101,7 +101,7 @@ public class QuestionSQLiteAdapter {
                 + COL_NAME          + " TEXT NOT NULL, "
                 + COL_MEDIAID       + " INTEGER NULL, "
                 + COL_MCQID         + " INTEGER NOT NULL, "
-                + COL_UPDATEDAT     + " TEXT NULL);";
+                + COL_UPDATEDAT     + " TEXT NOT NULL);";
     }
 
     /**
@@ -187,7 +187,7 @@ public class QuestionSQLiteAdapter {
         //Create SQLite query and execute query
         //-------------------------------------
         String[] columns = {COL_ID, COL_IDSERVER, COL_NAME, COL_MEDIAID, COL_MCQID, COL_UPDATEDAT};
-        String whereClausesSelect = COL_ID + "= ?";
+        String whereClausesSelect = COL_IDSERVER + "= ?";
         String[] whereArgsSelect = {String.valueOf(idServer)};
 
         Cursor cursor = database.query(TABLE_QUESTION, columns, whereClausesSelect, whereArgsSelect, null, null, null);
@@ -220,15 +220,14 @@ public class QuestionSQLiteAdapter {
         int idMcq = cursor.getInt(cursor.getColumnIndex(COL_MCQID));
         McqSQLiteAdapter mcqSQLiteAdapter = new McqSQLiteAdapter(context);
         mcqSQLiteAdapter.open();
-        Mcq mcq = mcqSQLiteAdapter.getMcqById(idMcq);
+        Mcq mcq = mcqSQLiteAdapter.getMcqByIdServer(idMcq);
 
         //Manage Date format
         //------------------
         Date updatedAt = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
         try {
             updatedAt = simpleDateFormat.parse(cursor.getString((cursor.getColumnIndex(COL_UPDATEDAT))));
-
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -242,7 +241,6 @@ public class QuestionSQLiteAdapter {
             result.setMedia(mediaSQLiteAdapter.getMediaById(idMedia));
             mediaSQLiteAdapter.close();
         }
-
         mcqSQLiteAdapter.close();
         return result;
     }
@@ -299,6 +297,34 @@ public class QuestionSQLiteAdapter {
         String[] columns = {COL_ID, COL_IDSERVER, COL_NAME, COL_MEDIAID, COL_MCQID, COL_UPDATEDAT};
         Cursor cursor = database.query(TABLE_QUESTION, columns, null, null, null, null, null);
         return cursor;
+    }
+
+    /**
+     * Get questions by mcq id
+     * @param idServerMcq
+     * @return Questions list
+     */
+    public ArrayList<Question> getAllQuestionByIdServerMCQ(int idServerMcq){
+        ArrayList<Question> result = null;
+        Cursor cursor = getAllCursor();
+
+        // if cursor contains result
+        if (cursor.moveToFirst()){
+            result = new ArrayList<Question>();
+            // add typ into list
+            do {
+                Question question = this.cursorToItem(cursor);
+                System.out.println("question mcq id " + question.getMcq().getName());
+                if( question.getMcq().getIdServer() == idServerMcq) {
+                    result.add(this.cursorToItem(cursor));
+                }
+                else {
+                    System.out.println("Not link to the MCQ");
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
     }
 
     //endregion

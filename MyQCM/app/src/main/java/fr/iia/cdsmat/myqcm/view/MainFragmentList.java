@@ -40,6 +40,8 @@ public class MainFragmentList extends ListFragment {
     CategoryWSAdapter categoryWSAdapter;
     CategorySQLiteAdapter categorySQLiteAdapter;
     ProgressDialog dialog;
+    ArrayList<Category> categories;
+    int userIdServer;
 
     public MainFragmentList() {
         // Required empty public constructor
@@ -61,7 +63,7 @@ public class MainFragmentList extends ListFragment {
             if (args.containsKey("FirstConnection")) {
                 boolean isFirstConnection = getArguments().getBoolean("FirstConnection");
                 if (args.containsKey("UserIdServer")) {
-                    int userIdServer = getArguments().getInt("UserIdServer", 0);
+                    userIdServer = getArguments().getInt("UserIdServer", 0);
                     categoryWSAdapter = new CategoryWSAdapter(getActivity().getBaseContext());
                     isServerReachable = Utils.CheckInternetConnection(getActivity().getBaseContext());
 
@@ -101,7 +103,7 @@ public class MainFragmentList extends ListFragment {
 
                                             //Else Insert data in database
                                             //----------------------------
-                                            ArrayList<Category> categories = CategoryWSAdapter.ResponseToList(response);
+                                            categories = CategoryWSAdapter.ResponseToList(response);
                                             if (categories.isEmpty() != false) {
                                                 dialog.hide();
                                                 System.out.println(response);
@@ -154,7 +156,7 @@ public class MainFragmentList extends ListFragment {
                         //---------------------------------
                         categorySQLiteAdapter = new CategorySQLiteAdapter(getActivity().getBaseContext());
                         categorySQLiteAdapter.open();
-                        ArrayList<Category> categories = categorySQLiteAdapter.getAllCategory();
+                        categories = categorySQLiteAdapter.getAllCategory();
                         categorySQLiteAdapter.close();
 
                         if (categories != null) {
@@ -198,19 +200,21 @@ public class MainFragmentList extends ListFragment {
      */
     @Override
     public void onListItemClick(ListView l, View view, int position, long id) {
-        ViewGroup viewGroup = (ViewGroup) view;
-        TextView textView = (TextView) viewGroup.findViewById(R.id.main_textViewRow);
+        //Get the value of categ
+        int idCateg = categories.get(position).getIdServer();
+
+        // set the fragment initially
         McqFragmentList fragment = new McqFragmentList();
 
-        /**
-         * TODO : Get selectedItem value
-         * TODO : Send value selected
-         */
+        // create a Bundle To store Value
+        Bundle categBundle = new Bundle();
 
-        //create Bundle to send information and set Argument into fragment
-        Bundle categoryBundle = new Bundle();
-        categoryBundle.putString("name", textView.getText().toString());
-        fragment.setArguments(categoryBundle);
+        // Put Messag inside The Bundle
+        categBundle.putInt("id_categ", idCateg);
+        categBundle.putInt("id_user", userIdServer);
+
+        //Set the Bundle on the Fragment
+        fragment.setArguments(categBundle);
 
         //Set Fragment list mcq
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();

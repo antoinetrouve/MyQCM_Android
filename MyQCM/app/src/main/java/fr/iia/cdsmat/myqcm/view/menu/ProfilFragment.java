@@ -63,21 +63,9 @@ public class ProfilFragment extends Fragment {
             TextView textViewProfilEmail = (TextView) linearLayoutContent.findViewById(R.id.user_profil_email);
             textViewProfilEmail.setText(MyQCMConstants.CONST_PROFIL_EMAIL + " " + userDB.getEmail());
 
-
-
-
-
-
-
         }
-
-
-
         // Inflate the layout for this fragment
         return rootView;
-
-
-
     }
 
 }

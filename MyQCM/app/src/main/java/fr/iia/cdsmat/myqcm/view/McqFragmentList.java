@@ -1,5 +1,7 @@
 package fr.iia.cdsmat.myqcm.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,20 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import fr.iia.cdsmat.myqcm.R;
 import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
+import fr.iia.cdsmat.myqcm.configuration.Utils;
 import fr.iia.cdsmat.myqcm.data.McqSQLiteAdapter;
+import fr.iia.cdsmat.myqcm.data.QuestionSQLiteAdapter;
 import fr.iia.cdsmat.myqcm.data.webservice.McqWSAdapter;
-import fr.iia.cdsmat.myqcm.entity.Category;
 import fr.iia.cdsmat.myqcm.entity.Mcq;
-import fr.iia.cdsmat.myqcm.view.mcq.McqActivity;
-import fr.iia.cdsmat.myqcm.view.menu.MenuActivity;
+import fr.iia.cdsmat.myqcm.entity.Question;
+import fr.iia.cdsmat.myqcm.view.questionnaire.QuestionnaireActivity;
 
 /**
  * Class to manage view of list Mcq
@@ -30,7 +30,10 @@ import fr.iia.cdsmat.myqcm.view.menu.MenuActivity;
  * @version 1.0 - 04/04/2016
  */
 public class McqFragmentList extends ListFragment{
-
+    int idUser;
+    int idCateg;
+    ArrayList<Mcq> mcqs;
+    boolean isConnected;
 
     public McqFragmentList() {
     }
@@ -47,12 +50,15 @@ public class McqFragmentList extends ListFragment{
         McqWSAdapter mcqWSAdapter = new McqWSAdapter(getActivity().getBaseContext());
         McqSQLiteAdapter mcqSQLiteAdapter = new McqSQLiteAdapter(getActivity().getBaseContext());
 
+
+        idCateg = getArguments().getInt("id_categ");
+        idUser = getArguments().getInt("id_user");
+        System.out.println("ID_server de la catégorie est " + idCateg);
         // open DB to get the list mcq on DB
         mcqSQLiteAdapter.open();
-        ArrayList<Mcq> mcqs = mcqSQLiteAdapter.getAllMcq();
+        mcqs = mcqSQLiteAdapter.getAllMcqAvailable(idCateg);
         mcqSQLiteAdapter.close();
 
-        //Create Adapter
         if(mcqs != null) {
             ArrayAdapter<Mcq> arrayAdapter = new ArrayAdapter<Mcq>(
                     getActivity(),
@@ -61,18 +67,50 @@ public class McqFragmentList extends ListFragment{
                     mcqs);
             setListAdapter(arrayAdapter);
         }
-        mcqWSAdapter.getMcqRequest(1, 3, MyQCMConstants.CONST_IPSERVER
-                + MyQCMConstants.CONST_URL_BASE
-                + MyQCMConstants.CONST_URL_USERMCQS);
-
-        //Retain listfragment instance across configuration changes
+        isConnected = Utils.CheckInternetConnection(getActivity().getBaseContext());
+        if(isConnected == true) {
+            mcqWSAdapter.getMcqRequest(idUser, idCateg, MyQCMConstants.CONST_IPSERVER
+                    + MyQCMConstants.CONST_URL_BASE
+                    + MyQCMConstants.CONST_URL_USERMCQS);
+        }
+        else {
+            System.out.println("No connexion for get Mcq");
+        }
         setRetainInstance(true);
+
         return rootView;
     }
 
     @Override
     public void onListItemClick(ListView l, View view, int position, long id) {
-        Intent intent = new Intent(getActivity(),McqActivity.class);
-        startActivity(intent);
+        ViewGroup viewGroup = (ViewGroup)view;
+        int idMcq = mcqs.get(position).getIdServer();
+        QuestionSQLiteAdapter questionSQLiteAdapter = new  QuestionSQLiteAdapter(getActivity());
+        questionSQLiteAdapter.open();
+        ArrayList<Question> questions = new ArrayList<>();
+        questions = questionSQLiteAdapter.getAllQuestionByIdServerMCQ(idMcq);
+
+        if (questions != null)
+        {
+            Intent intent = new Intent(getActivity().getBaseContext(), QuestionnaireActivity.class);
+            intent.putExtra("id_mcq", idMcq);
+            intent.putExtra("id_user",idUser);
+            System.out.println("Id envoyer au questionnaire =" + idMcq);
+            getActivity().startActivity(intent);
+            startActivity(intent);
+        }
+        else {
+            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+            alertDialog.setTitle("Choix du questionnaire");
+            alertDialog.setMessage("Il n'y a pas de question liées à ce questionnaire." +
+                    "Veuillez contacter votre administrateur.");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }
     }
 }

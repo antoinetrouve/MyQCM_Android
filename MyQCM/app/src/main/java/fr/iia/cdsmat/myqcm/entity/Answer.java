@@ -30,6 +30,12 @@ public class Answer {
     @Expose(serialize = true, deserialize = true)
     private Date UpdatedAt;
 
+    @SerializedName("selected")
+    @Expose(serialize = true, deserialize = true)
+    boolean selected = false;
+
+    @SerializedName("question")
+    @Expose(serialize = true, deserialize = true)
     private Question Question;
     //endregion
 
@@ -130,6 +136,23 @@ public class Answer {
     public void setQuestion(Question question) {
         Question = question;
     }
+
+    /**
+     * Get boolean isSelected
+     * @return boolean
+     */
+    public boolean isSelected() {
+        return selected;
+    }
+
+    /**
+     * Set boolean selected
+     * @param selected
+     */
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
     //endregion
 
     //region CONSTRUCTOR

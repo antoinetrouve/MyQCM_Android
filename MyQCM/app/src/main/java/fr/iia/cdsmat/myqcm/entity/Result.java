@@ -1,5 +1,8 @@
 package fr.iia.cdsmat.myqcm.entity;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 /**
@@ -9,9 +12,20 @@ import java.util.ArrayList;
  */
 public class Result {
     //region ATTRIBUTE
+    @SerializedName("id")
+    @Expose(serialize = true, deserialize = true)
     private int Id;
+
+    @SerializedName("idUser")
+    @Expose(serialize = true, deserialize = true)
     private int IdUser;
+
+    @SerializedName("idMcq")
+    @Expose(serialize = true, deserialize = true)
     private int IdMcq;
+
+    @SerializedName("ListIdAnswer")
+    @Expose(serialize = true, deserialize = true)
     private ArrayList<Integer> IdAnswers;
     //endregion
 
@@ -96,5 +110,8 @@ public class Result {
         IdUser = idUser;
         IdMcq = idMcq;
     }
+
+    public Result() {}
+
     //endregion
 }

@@ -1,15 +1,10 @@
 package fr.iia.cdsmat.myqcm.data.AsyncTask;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
-
-import java.util.ArrayList;
 
 import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
 import fr.iia.cdsmat.myqcm.data.UserSQLiteAdapter;
-import fr.iia.cdsmat.myqcm.data.webservice.UserWSAdapter;
 import fr.iia.cdsmat.myqcm.entity.User;
 
 /**
@@ -25,54 +20,6 @@ public class ManageDBUserAsyncTask extends AsyncTask<User, Void, String>{
         this.taskCompleted = context;
         this.user = user;
     }
-
-//    @Override
-//    protected void onPreExecute() {
-//        //Create user with userInformation json
-//        User user = UserWSAdapter.JsonToItem(response);
-//        System.out.println("Pre execute : " + response);
-//        System.out.println("Pre execute : JsonToItem OK");
-//        if (user instanceof User){
-//            UserSQLiteAdapter userSQL = new UserSQLiteAdapter((Context)taskCompleted);
-//            userSQL.open();
-//            //user existing in database
-//            ArrayList<User> users = userSQL.getAllUser();
-//            User userDB = userSQL.getUserByIdServer(user.getIdServer());
-//            //if a user exist in database and is not the current user
-//            if (users.size() > 0 && userDB == null){
-//                alertDialog = new AlertDialog.Builder((Context)taskCompleted).create();
-//                alertDialog.setTitle("Attention compte utilisateur déjà existant !");
-//                alertDialog.setMessage("Un compte utilisateur existe déjà pour cette application ! " +
-//                        "Si vous continuez, l'application effaçera toutes les données relatives à cet utilisateur. " +
-//                        "Êtes-vous sûr de vouloir continuer ?");
-//                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OUI",
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                alertDialog.dismiss();
-//                            }
-//                        });
-//                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NON",
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                isDelete = true;
-//                                cancel(true);
-//                                alertDialog.dismiss();
-//                            }
-//                        });
-//                alertDialog.show();
-//            }
-//            super.onPreExecute();
-//        }else{
-//            cancel(true);
-//        }
-//    }
-//
-//    @Override
-//    protected void onCancelled(String s) {
-//        super.onCancelled(s);
-//    }
 
     /**
      * Update User Async Task

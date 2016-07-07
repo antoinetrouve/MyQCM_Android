@@ -58,16 +58,17 @@ public class McqWSAdapter {
         asyncHttpClient.post(url + "." + MyQCMConstants.CONST_FLOW_FORMAT, params, new TextHttpResponseHandler() {
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 response = responseString;
-                System.out.println("On failure");
+                System.out.println("flux mcq = " + response);
+                ArrayList<Mcq> mcqs = responseToList(response);
+                ManageMcqDB(mcqs,categoryIdServer);
             }
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 response = responseString;
-                ArrayList<Mcq> mcqs = responseToList(response);
-                ManageMcqDB(mcqs,categoryIdServer);
+                System.out.println("On failure");
             }
 
             @Override
@@ -84,8 +85,7 @@ public class McqWSAdapter {
         });
     }
 
-    public void ManageMcqDB (ArrayList<Mcq> response,int categoryIdServer)
-    {
+    public void ManageMcqDB (ArrayList<Mcq> response,int categoryIdServer){
         if (response.isEmpty() == false) {
             // get category list in Flow and add on a listView
             ArrayList<Mcq> list = response;
@@ -150,6 +150,97 @@ public class McqWSAdapter {
             mcqSQLiteAdapter = new McqSQLiteAdapter(context);
 
             categorySQLiteAdapter.open();
+            Category category = categorySQLiteAdapter.getCategoryByIdServer(numCategory);
+            categorySQLiteAdapter.close();
+            ArrayList<String> results = new ArrayList<>();
+            mcqSQLiteAdapter.open();
+            ArrayList<Mcq> mcqsDB = mcqSQLiteAdapter.getAllMcq();
+
+            for(Mcq mcq : mcqs)
+            {
+                mcq.setCategory(category);
+                Mcq tempMcq ;
+                //Try to find a Mcq with this id_server
+                tempMcq = mcqSQLiteAdapter.getMcqByIdServer(mcq.getIdServer());
+                System.out.println("tempMcq = " + tempMcq);
+
+                //If Categ not exist on Mobile DB
+                if(tempMcq == null)
+                {
+                    //Add mcq on the DB
+                    long result = mcqSQLiteAdapter.insert(mcq);
+                    results.add(String.valueOf(result));
+                }
+                else
+                {
+                    if (mcq.getUpdatedAt().compareTo(tempMcq.getUpdatedAt()) > 0) {
+                        long result = mcqSQLiteAdapter.update(mcq);
+                        results.add(String.valueOf(result));
+                    }
+                }
+                ArrayList<String> resultsQuestion = ManaqeQuestionsMcq(mcq);
+            }
+            //delete check is exist on the DB
+            if(mcqsDB != null) {
+                for (Mcq mcqDB : mcqsDB) {
+                    Boolean isExist = false;
+                    for (Mcq mcq : mcqs) {
+                        if (mcq.getCategory().getIdServer() == mcqDB.getCategory().getIdServer()) {
+                            if (mcq.getIdServer() == mcqDB.getIdServer()) {
+                                isExist = true;
+                            }
+                        } else {
+                            isExist = true;
+                            System.out.println("Not the same Categ");}
+
+                    }
+                    if (isExist == false) {
+                        long result = mcqSQLiteAdapter.delete(mcqDB);
+                    }
+
+                }
+            }
+            mcqSQLiteAdapter.close();
+            questionSQLiteAdapter.open();
+            ArrayList<Question> questionsDB = questionSQLiteAdapter.getAllQuestion();
+            // delete question if not exist on the flow
+            if(questionsDB != null) {
+                for (Question questionDB : questionsDB) {
+                    Boolean isExist = false;
+                    for (Question question : questionsFlux) {
+                        if (questionDB.getIdServer() == questionDB.getIdServer()) {
+                            isExist = true;
+                        }
+                    }
+
+                    if (isExist == false) {
+                        long result = questionSQLiteAdapter.delete(questionDB);
+                    }
+                }
+            }
+            questionSQLiteAdapter.close();
+            answerSQLiteAdapter.open();
+            ArrayList<Answer> answersDB = answerSQLiteAdapter.getAllAnswer();
+            // delete answer if not exist on the flow
+            if(answersDB != null) {
+                for (Answer answerDB : answersDB) {
+                    Boolean isExist = false;
+                    for (Answer answer : answersFlux) {
+                        if (answer.getIdServer() == answerDB.getIdServer()) {
+                            isExist = true;
+                        }
+                    }
+
+                    if (isExist == false) {
+                        long result = answerSQLiteAdapter.delete(answerDB);
+                    }
+                }
+            }
+            answerSQLiteAdapter.close();
+
+            return null;
+
+            /*categorySQLiteAdapter.open();
             answerSQLiteAdapter.open();
             questionSQLiteAdapter.open();
             mcqSQLiteAdapter.open();
@@ -246,7 +337,7 @@ public class McqWSAdapter {
 
             answerSQLiteAdapter.close();
 
-            return null;
+            return null;*/
         }
 
         /**
@@ -254,8 +345,7 @@ public class McqWSAdapter {
          * @param mcq
          * @return List of string
          */
-        protected ArrayList<String> ManaqeQuestionsMcq(Mcq mcq)
-        {
+        protected ArrayList<String> ManaqeQuestionsMcq(Mcq mcq){
             questionSQLiteAdapter = new QuestionSQLiteAdapter(context);
             questionSQLiteAdapter.open();
             ArrayList<String> results = new ArrayList<String>() ;
@@ -308,8 +398,7 @@ public class McqWSAdapter {
          * @param question
          * @return String list
          */
-        protected ArrayList<String> ManageAnswersQuestion(Question question)
-        {
+        protected ArrayList<String> ManageAnswersQuestion(Question question) {
             answerSQLiteAdapter = new AnswerSQLiteAdapter(context);
             answerSQLiteAdapter.open();
             ArrayList<Answer> answers ;
@@ -344,7 +433,6 @@ public class McqWSAdapter {
 
             answerSQLiteAdapter.close();
             return results;
-
         }
 
         @Override

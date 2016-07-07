@@ -72,9 +72,6 @@ public class CategoryWSAdapter{
         void methods(String response);
     }
 
-    //TODO : Create GetCategoryRequest with CallBack. This method will get category flow and insert in database
-    //TODO : return of GetCategoryRequest will be a category list to set adapter in MainFragmentList.
-
     /**
      * Get json flow Category
      * @param userId
@@ -271,65 +268,6 @@ public class CategoryWSAdapter{
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
         }
-    }
-
-    /**
-     * Convert Json to Category object
-     * Not used
-     * @param json
-     * @return Category
-     * @throws JSONException
-     */
-    public static Category jsonToItem(JSONObject json) throws JSONException {
-
-        Date updatedAt = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        String name = json.getString(NAME);
-        int idServer = json.getInt(IDSERVER);
-        String stringUpdatedAt =  json.getString(UPDATEDAT);
-        try {
-            updatedAt = simpleDateFormat.parse(stringUpdatedAt);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Category item = new Category(idServer,name,updatedAt);
-        return item;
-    }
-
-    /**
-     * Convert item to json
-     * Not used
-     * @param item
-     * @return JSONObject
-     * @throws JSONException
-     */
-    public static JSONObject itemToJson(Category item) throws JSONException {
-        JSONObject result = new JSONObject();
-        if(item.getName() != null) {
-            result.put(NAME,item.getName());
-        }
-        if(item.getIdServer() != 0) {
-            result.put(IDSERVER,item.getIdServer());
-        }
-        if(item.getUpdatedAt() != null) {
-            result.put(UPDATEDAT,item.getUpdatedAt());
-        }
-        return result;
-    }
-
-    /**
-     * Make params for request
-     * Not used
-     * @param item
-     * @return RequestParams params
-     */
-    public static RequestParams ItemToParams(Category item) {
-        RequestParams params = new RequestParams();
-        params.put(IDSERVER,item.getIdServer());
-        params.put(NAME,item.getName());
-        params.put(UPDATEDAT,item.getUpdatedAt());
-        return params;
     }
 
     /**

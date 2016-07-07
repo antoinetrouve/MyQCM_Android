@@ -245,9 +245,11 @@ public class AnswerSQLiteAdapter {
         //Get Answer's question
         //---------------------
         int idQuestion = cursor.getInt(cursor.getColumnIndex(COL_QUESTIONID));
+        System.out.println("idQuestion = " + idQuestion);
         QuestionSQLiteAdapter questionSQLiteAdapter = new QuestionSQLiteAdapter(context);
         questionSQLiteAdapter.open();
-        Question question = questionSQLiteAdapter.getQuestionById(idQuestion);
+        Question question = questionSQLiteAdapter.getQuestionByIdServer(idQuestion);
+        System.out.println("nom de la question : " + question.getName());
 
         //Manage Date format
         //------------------
@@ -262,7 +264,7 @@ public class AnswerSQLiteAdapter {
         //Create Answer object
         //------------------
         Answer result = new Answer(id, idServer, value, isValid, updatedAt, question);
-        result.setQuestion(questionSQLiteAdapter.getQuestionByIdServer(idQuestion));
+        //result.setQuestion(questionSQLiteAdapter.getQuestionByIdServer(idQuestion));
         questionSQLiteAdapter.close();
         return result;
     }
@@ -293,6 +295,33 @@ public class AnswerSQLiteAdapter {
         } else {
             return true;
         }
+    }
+
+    /**
+     * Get answers by question id
+     * @param idServerQuestion
+     * @return Answer list
+     */
+    public ArrayList<Answer> getAllAnswerById_server_question(int idServerQuestion){
+        ArrayList<Answer> result = null;
+        Cursor cursor = getAllCursor();
+
+        // if cursor contains result
+        if (cursor.moveToFirst()){
+            result = new ArrayList<Answer>();
+            // add typ into list
+            do {
+                Answer answer = this.cursorToItem(cursor);
+                if( answer.getQuestion().getIdServer() == idServerQuestion) {
+                    result.add(this.cursorToItem(cursor));
+                }
+                else {
+                    System.out.println("Not link to the question");
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
     }
 
 

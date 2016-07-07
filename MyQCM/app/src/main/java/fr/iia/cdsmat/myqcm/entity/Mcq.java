@@ -24,7 +24,7 @@ public class Mcq {
     @Expose(serialize = true, deserialize = true)
     private String Name;
 
-    @SerializedName("is_Actif")
+    @SerializedName("is_actif")
     @Expose(serialize = true, deserialize = true)
     private boolean IsActif;
 

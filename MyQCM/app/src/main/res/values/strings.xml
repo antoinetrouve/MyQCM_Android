@@ -54,4 +54,10 @@
     <string name="help_timer"><b>Le décompte a stoppé mon questionnaire ! :</b> Si le timer est arrivé à 0, le temps imparti pour répondre au questionnaire est terminé. Le questionnaire est validé avec la dernière réponse sélectionnée.</string>
     <string name="help_WithoutData"><b>Je ne vois pas de catégories et/ou de questionnaires :</b> Certaines informations sont manquantes, veuillez contacter votre administrateur.</string>
     <string name="help_InfoUser"><b>Comment changer mes informations personnelles ?</b> Pour tout changement lié à votre compte utilisateur, veuillez contacter votre administrateur.</string>
+    <string name="title_activity_questionnaire">QuestionnaireActivity</string>
+
+    <!--QUESTIONNAIRE-->
+    <string name="navigation_next_questionnaire">Suivant</string>
+    <string name="navigation_previous_questionnaire">Précédent</string>
+
 </resources>

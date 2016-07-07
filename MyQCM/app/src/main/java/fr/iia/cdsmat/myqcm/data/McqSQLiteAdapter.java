@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import fr.iia.cdsmat.myqcm.entity.Category;
@@ -123,7 +124,7 @@ public class McqSQLiteAdapter {
                 + COL_DIFFDEB       + " TEXT NOT NULL, "
                 + COL_DIFFEND       + " TEXT, "
                 + COL_CATEGORYID    + " INTEGER NOT NULL, "
-                + COL_UPDATEDAT     + " TEXT NULL);";
+                + COL_UPDATEDAT     + " TEXT NOT NULL);";
     }
 
     /**
@@ -210,7 +211,7 @@ public class McqSQLiteAdapter {
         //-------------------------------------
         String[] columns = {COL_ID, COL_IDSERVER, COL_NAME, COL_ISACTIF, COL_COUNTDOWN,
                 COL_DIFFDEB, COL_DIFFEND, COL_CATEGORYID, COL_UPDATEDAT};
-        String whereClausesSelect = COL_ID + "= ?";
+        String whereClausesSelect = COL_IDSERVER + "= ?";
         String[] whereArgsSelect = {String.valueOf(idServer)};
 
         Cursor cursor = database.query(TABLE_MCQ, columns, whereClausesSelect, whereArgsSelect, null, null, null);
@@ -307,7 +308,7 @@ public class McqSQLiteAdapter {
      */
     private ContentValues mcqToContentValues(Mcq mcq) {
         System.out.println("mcqToContentValues : idserver : " + mcq.getIdServer()
-                + " name : " + mcq.getName() + " isactif" + mcq.getIsActif()
+                + " name : " + mcq.getName() + " isactif " + mcq.getIsActif()
                 + " compteur : " + mcq.getCountdown() + "diffdeb : " + mcq.getDiffDeb()
                 + " diffEnd : " + mcq.getDiffEnd() + "category : " + mcq.getCategory().getId()
                 + "updated at : " + mcq.getUpdatedAt() );
@@ -347,6 +348,52 @@ public class McqSQLiteAdapter {
                 COL_DIFFDEB, COL_DIFFEND, COL_CATEGORYID, COL_UPDATEDAT};
         Cursor cursor = database.query(TABLE_MCQ, columns, null, null, null, null, null);
         return cursor;
+    }
+
+    /**
+     * Trim available mcq for the user
+     * @param idCategory
+     * @return Mcq list
+     */
+    public ArrayList<Mcq> getAllMcqAvailable(int idCategory){
+        ArrayList<Mcq> result = null;
+        Cursor cursor = getAllCursor();
+        Date date = Calendar.getInstance().getTime();
+        // if cursor contains result
+        if (cursor.moveToFirst()){
+            result = new ArrayList<Mcq>();
+            // add typ into list
+            do {
+                Mcq tempMcq = this.cursorToItem(cursor);
+                System.out.println(
+                        "date de fin get All = " + tempMcq.getDiffEnd() +
+                                "");
+                if(tempMcq.getCategory().getIdServer() == idCategory) {
+                    if (tempMcq.getIsActif() == true) {
+                        if (tempMcq.getDiffDeb().compareTo(date) < 0) {
+                            if (tempMcq.getDiffEnd() != null) {
+                                if (tempMcq.getDiffDeb().compareTo(date) > 0) {
+                                    result.add(tempMcq);
+                                } else {
+                                    System.out.println("This MCQ is not more available");
+                                }
+                            } else {
+                                result.add(tempMcq);
+                            }
+                        } else {
+                            System.out.println("Is to early to complete this QCM");
+                        }
+                    } else {
+                        System.out.println("The MCQ is not available");
+                    }
+                }else{
+                    System.out.println("The MCQ is not with this categ");
+                }
+
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
     }
 
     //endregion
