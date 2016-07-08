@@ -1,6 +1,5 @@
 package fr.iia.cdsmat.myqcm.view.menu;
 
-
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;

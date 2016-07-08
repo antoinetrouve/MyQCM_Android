@@ -15,6 +15,7 @@ import fr.iia.cdsmat.myqcm.R;
 import fr.iia.cdsmat.myqcm.entity.Answer;
 
 /**
+ * Class to manage answer list depending selected checkbox
  * Created by Antoine Trouvé on 06/07/2016.
  * antoinetrouve.france@gmail.com
  */
@@ -22,6 +23,12 @@ public class AnswerCheckBoxAdapter extends ArrayAdapter<Answer>{
     public ArrayList<Answer> answers;
     public Context context;
 
+    /**
+     * AnswerCheckBoxAdapter's constructor
+     * @param answers
+     * @param context
+     * @param ViewResourceId
+     */
     public AnswerCheckBoxAdapter(ArrayList<Answer> answers, Context context,int ViewResourceId) {
         super(context,ViewResourceId, answers);
         this.answers = answers;
@@ -29,11 +36,17 @@ public class AnswerCheckBoxAdapter extends ArrayAdapter<Answer>{
     }
 
     private class AnswerHolder {
-
         TextView textview_value_answer;
         CheckBox checkbox_item_answer;
     }
 
+    /**
+     * Get view for selected question and
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return convertView
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -44,6 +57,7 @@ public class AnswerCheckBoxAdapter extends ArrayAdapter<Answer>{
             LayoutInflater vi = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
             convertView = vi.inflate(R.layout.row_fragment_list_answer, null);
 
+            //List element
             answerHolder = new AnswerHolder();
             answerHolder.textview_value_answer = (TextView) convertView.findViewById(R.id.textview_value_answer);
             answerHolder.checkbox_item_answer = (CheckBox) convertView.findViewById(R.id.checkbox_item_answer);

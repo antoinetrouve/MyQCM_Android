@@ -21,8 +21,9 @@ import fr.iia.cdsmat.myqcm.entity.Question;
 import fr.iia.cdsmat.myqcm.entity.Result;
 
 /**
- * Created by Antoine Trouvé on 06/07/2016.
- * antoinetrouve.france@gmail.com
+ * Class to manage view linked to question fragment. Get question list
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 06/07/2016
  */
 public class QuestionnaireActivity extends AppCompatActivity {
 
@@ -30,14 +31,15 @@ public class QuestionnaireActivity extends AppCompatActivity {
     AnswerSQLiteAdapter answerSQLiteAdapter;
     ArrayList<Question> questions;
     ArrayList<Answer> answers;
-    Result result;
     String questionsJson;
     String answersJson;
-    String resultJson;
-    String answeringJson;
     int questionsPositionList;
     int naviguationValue;
 
+    /**
+     * Call to do something when view are created
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,13 +117,19 @@ public class QuestionnaireActivity extends AppCompatActivity {
         fragmentTransactionContent.commit();
     }
 
-    // overrideBack button to prevent the user from leaving the questionnaire
+    /**
+     * overrideBack button to prevent the user from leaving the questionnaire
+     */
     @Override
     public void onBackPressed() {
     }
 
-    public String listQuestionsToJSON(ArrayList<Question> questions)
-    {
+    /**
+     * Serialize question list to json format
+     * @param questions
+     * @return
+     */
+    public String listQuestionsToJSON(ArrayList<Question> questions){
         String questionsJSON;
 
         //Format of the recup Date
@@ -133,15 +141,17 @@ public class QuestionnaireActivity extends AppCompatActivity {
         Gson gson =  gsonBuilder.create();
         Type collectionType = new TypeToken<List<Question>>(){}.getType();
 
-
         questionsJSON = gson.toJson(questions, collectionType);
-
 
         return questionsJSON;
     }
 
-    public String listAnswersToJSON(ArrayList<Answer> answers)
-    {
+    /**
+     * Serialize answer list to json format
+     * @param answers
+     * @return
+     */
+    public String listAnswersToJSON(ArrayList<Answer> answers){
         String answersJSON;
 
         //Format of the recup Date
@@ -157,25 +167,4 @@ public class QuestionnaireActivity extends AppCompatActivity {
 
         return answersJSON;
     }
-
-    public String resultToJSON(Result result)
-    {
-        String resultJSON;
-
-        //Format of the recup Date
-        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setDateFormat(DATE_FORMAT);
-        gsonBuilder.excludeFieldsWithoutExposeAnnotation();
-        Gson gson =  gsonBuilder.create();
-        Type collectionType = new TypeToken<Result>(){}.getType();
-
-
-        resultJSON = gson.toJson(result, collectionType);
-
-
-        return resultJSON;
-    }
-
 }

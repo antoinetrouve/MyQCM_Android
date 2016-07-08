@@ -4,10 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_sub_header_questionnaire"
-    android:background="@color/colorPrimaryDark">
+    >
 
     <TextView
-        android:background="@color/colorPrimaryDark"
         android:textColor="@color/colorAccent"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"

@@ -47,6 +47,13 @@ public class MainFragmentList extends ListFragment {
         // Required empty public constructor
     }
 
+    /**
+     * Manage category list (home page after authentification)
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -192,7 +199,6 @@ public class MainFragmentList extends ListFragment {
 
     /**
      * Event called when Item is selected on list
-     *
      * @param l
      * @param view
      * @param position

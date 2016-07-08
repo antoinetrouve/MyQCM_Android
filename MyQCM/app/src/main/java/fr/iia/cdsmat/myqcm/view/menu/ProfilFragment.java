@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import fr.iia.cdsmat.myqcm.R;
 import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
 import fr.iia.cdsmat.myqcm.data.UserSQLiteAdapter;
-import fr.iia.cdsmat.myqcm.data.webservice.UserWSAdapter;
 import fr.iia.cdsmat.myqcm.entity.User;
 
 /**

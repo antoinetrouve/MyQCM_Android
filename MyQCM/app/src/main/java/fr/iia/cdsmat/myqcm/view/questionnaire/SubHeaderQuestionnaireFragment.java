@@ -20,16 +20,23 @@ import fr.iia.cdsmat.myqcm.entity.Mcq;
 import fr.iia.cdsmat.myqcm.entity.Question;
 
 /**
- * Created by Antoine Trouvé on 06/07/2016.
- * antoinetrouve.france@gmail.com
+ * Class to manage mcq's header (countdown and mcqs name)
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 06/07/2016
  */
 public class SubHeaderQuestionnaireFragment extends Fragment {
     McqSQLiteAdapter mcqSQLiteAdapter;
     QuestionSQLiteAdapter questionSQLiteAdapter;
     TextView timer_mcq;
     Mcq mcq;
-    boolean isfinish = false;
 
+    /**
+     * Do something on create mcq's header view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -57,6 +64,9 @@ public class SubHeaderQuestionnaireFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Inner class to Manage countdown
+     */
     public class CounterMCQDuration extends CountDownTimer {
 
         int duration;
@@ -66,6 +76,10 @@ public class SubHeaderQuestionnaireFragment extends Fragment {
             this.duration = duration;
         }
 
+        /**
+         * Update countdown
+         * @param millisUntilFinished
+         */
         @Override
         public void onTick(long millisUntilFinished) {
 
@@ -76,6 +90,9 @@ public class SubHeaderQuestionnaireFragment extends Fragment {
             timer_mcq.setText(hms);
         }
 
+        /**
+         * Do something when countdown is finished
+         */
         @Override
         public void onFinish() {
             Button previous_question = (Button) getActivity().findViewById(R.id.previous_question);

@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import fr.iia.cdsmat.myqcm.R;
 
 /**
- * Class managing Mcq view
+ * Class managing Mcq view - not used
  * @author Antoine Trouve antoinetrouve.france@gmail.com
  * @version 1.0 - 04/04/2016
  */

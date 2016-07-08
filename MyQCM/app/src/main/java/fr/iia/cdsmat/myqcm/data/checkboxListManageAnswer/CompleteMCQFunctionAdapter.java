@@ -12,18 +12,18 @@ import fr.iia.cdsmat.myqcm.entity.Answer;
 import fr.iia.cdsmat.myqcm.entity.Question;
 
 /**
- * Created by Antoine Trouvé on 06/07/2016.
+ * Class to manage all parameters flow for mcq
+ * Created by Antoine Trouve on 06/07/2016.
  * antoinetrouve.france@gmail.com
  */
 public class CompleteMCQFunctionAdapter {
 
     /**
-     * Deserialize json flow
+     * Deserialize json flow for question's list
      * @param response
      * @return Question list
      */
-    public ArrayList<Question> responseToListQuestion(String response)
-    {
+    public ArrayList<Question> responseToListQuestion(String response){
         //Format of the recup Date
         String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
@@ -40,12 +40,11 @@ public class CompleteMCQFunctionAdapter {
     }
 
     /**
-     * Deserialize json flow
+     * Deserialize json flow for answer's list
      * @param response
      * @return Answer list
      */
-    public ArrayList<Answer> responseToListAnswer(String response)
-    {
+    public ArrayList<Answer> responseToListAnswer(String response){
         //Format of the recup Date
         String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
@@ -62,13 +61,12 @@ public class CompleteMCQFunctionAdapter {
     }
 
     /**
-     * Select question from a selected position in list
+     * Get question from a selected position in list
      * @param questions
      * @param positionInList
      * @return Question
      */
-    public Question questionShow (ArrayList<Question> questions, int positionInList)
-    {
+    public Question questionShow (ArrayList<Question> questions, int positionInList){
         Question question = null;
         System.out.println("Nombre de question dans la liste =" +questions.size());
         if(questions != null){
@@ -86,13 +84,12 @@ public class CompleteMCQFunctionAdapter {
     }
 
     /**
-     * Select answers from a question selected
+     * Get answers from a question selected
      * @param answers
      * @param question
      * @return Answer list
      */
-    public ArrayList<Answer> answersShow (ArrayList<Answer> answers, Question question)
-    {
+    public ArrayList<Answer> answersShow (ArrayList<Answer> answers, Question question){
         ArrayList<Answer> answerShow = new ArrayList<>();
 
         if(answers != null){
@@ -137,7 +134,7 @@ public class CompleteMCQFunctionAdapter {
     }
 
     /**
-     * Serialize list to json flow
+     * Serialize list answers to json flow
      * @param answers
      * @return answers json
      */

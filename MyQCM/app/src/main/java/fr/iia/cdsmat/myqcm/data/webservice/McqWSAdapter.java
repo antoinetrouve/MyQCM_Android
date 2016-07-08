@@ -29,8 +29,9 @@ import fr.iia.cdsmat.myqcm.entity.Mcq;
 import fr.iia.cdsmat.myqcm.entity.Question;
 
 /**
- * Created by Antoine Trouvé on 29/05/2016.
- * antoinetrouve.france@gmail.com
+ * Class to manage Mcq with webservice
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 29/05/2016
  */
 public class McqWSAdapter {
     String response;
@@ -42,12 +43,21 @@ public class McqWSAdapter {
     AnswerSQLiteAdapter answerSQLiteAdapter;
     CategorySQLiteAdapter categorySQLiteAdapter;
 
+    /**
+     * McqWSAdapter's constructor
+     * @param context
+     */
     public McqWSAdapter(Context context) {
         this.context = context;
     }
 
-    public void getMcqRequest (Integer userIdServer,final Integer categoryIdServer ,String url)
-    {
+    /**
+     * Get json flow Mcq to update and get if connection is available
+     * @param userIdServer
+     * @param categoryIdServer
+     * @param url
+     */
+    public void getMcqRequest (Integer userIdServer,final Integer categoryIdServer ,String url){
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         asyncHttpClient.setConnectTimeout(MyQCMConstants.CONST_CONNECT_TIMEOUT);
         asyncHttpClient.setTimeout(MyQCMConstants.CONST_SET_TIMEOUT);
@@ -85,6 +95,11 @@ public class McqWSAdapter {
         });
     }
 
+    /**
+     * Compare data in database with flow and make modification if needed
+     * @param response
+     * @param categoryIdServer
+     */
     public void ManageMcqDB (ArrayList<Mcq> response,int categoryIdServer){
         if (response.isEmpty() == false) {
             // get category list in Flow and add on a listView
@@ -125,12 +140,15 @@ public class McqWSAdapter {
         return mcqs;
     }
 
+    /**
+     * Inner AsyncTask class to manage data with Webservice
+     */
     public class ManageDBMcqAsyncTask extends AsyncTask<Void,Void,ArrayList<String>> {
         int numCategory;
         ArrayList<Mcq> mcqs;
 
         /**
-         * Constructor
+         * ManageDBMcqAsyncTask's constructor
          * @param numCategory
          * @param mcqs
          */
@@ -239,105 +257,6 @@ public class McqWSAdapter {
             answerSQLiteAdapter.close();
 
             return null;
-
-            /*categorySQLiteAdapter.open();
-            answerSQLiteAdapter.open();
-            questionSQLiteAdapter.open();
-            mcqSQLiteAdapter.open();
-
-            Category category = categorySQLiteAdapter.getCategoryByIdServer(numCategory);
-            categorySQLiteAdapter.close();
-            ArrayList<String> results = new ArrayList<>();
-            ArrayList<String> resultsQuestion ;
-
-            ArrayList<Mcq> mcqsDB = mcqSQLiteAdapter.getAllMcq();
-            ArrayList<Question> questionsDB = questionSQLiteAdapter.getAllQuestion();
-            ArrayList<Answer> answersDB = answerSQLiteAdapter.getAllAnswer();
-
-            for(Mcq mcq : mcqs)
-            {
-                mcq.setCategory(category);
-                Mcq tempMcq ;
-                //Try to find a Mcq with his idServer
-                tempMcq = mcqSQLiteAdapter.getMcqByIdServer(mcq.getIdServer());
-
-                //If Mcq not exist on Mobile DB
-                if(tempMcq == null)
-                {
-                    //Add mcq on the DB
-                    long result = mcqSQLiteAdapter.insert(mcq);
-                    results.add(String.valueOf(result));
-                }
-                else
-                {
-                    System.out.println("Update des éléments");
-                    if (mcq.getUpdatedAt().compareTo(tempMcq.getUpdatedAt()) > 0) {
-                        System.out.println("Update mcq question : " + mcq.getUpdatedAt() +
-                                "DB : " + tempMcq.getUpdatedAt());
-                        long result = mcqSQLiteAdapter.update(mcq);
-                        results.add(String.valueOf(result));
-                    }
-                }
-
-                // call to manage Mcq's questions
-                resultsQuestion = ManaqeQuestionsMcq(mcq);
-                System.out.println("result question = " + resultsQuestion);
-            }
-            //delete check is exist on the DB but not
-            if(mcqsDB != null) {
-                for (Mcq mcqDB : mcqsDB) {
-                    Boolean isExist = false;
-                    for (Mcq mcq : mcqs) {
-                        if (mcq.getIdServer() == mcqDB.getIdServer()) {
-                            isExist = true;
-                        }
-                    }
-
-                    if (isExist == false) {
-                        long result = mcqSQLiteAdapter.delete(mcqDB);
-                    }
-                }
-            }
-
-            mcqSQLiteAdapter.close();
-
-            // delete question if not exist on the flow
-            if(questionsDB != null) {
-                for (Question questionDB : questionsDB) {
-                    Boolean isExist = false;
-                    for (Question question : questionsFlux) {
-                        if (questionDB.getIdServer() == questionDB.getIdServer()) {
-                            isExist = true;
-                        }
-                    }
-
-                    if (isExist == false) {
-                        long result = questionSQLiteAdapter.delete(questionDB);
-                    }
-                }
-            }
-
-            questionSQLiteAdapter.close();
-
-            // delete answer if not exist on the flow
-            if(answersDB != null) {
-                for (Answer answerDB : answersDB) {
-                    Boolean isExist = false;
-                    for (Answer answer : answersFlux) {
-                        if (answer.getIdServer() == answerDB.getIdServer()) {
-                            isExist = true;
-                        }
-                    }
-
-                    if (isExist == false) {
-                        long result = answerSQLiteAdapter.delete(answerDB);
-                    }
-                }
-            }
-
-            answerSQLiteAdapter.close();
-
-            return null;*/
         }
 
         /**

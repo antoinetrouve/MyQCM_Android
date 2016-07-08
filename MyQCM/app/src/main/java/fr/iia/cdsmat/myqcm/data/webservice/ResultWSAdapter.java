@@ -17,17 +17,28 @@ import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
 import fr.iia.cdsmat.myqcm.entity.Result;
 
 /**
- * Created by Antoine Trouvé on 06/07/2016.
- * antoinetrouve.france@gmail.com
+ * Class to manage Result with webservice
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 06/07/2016
  */
 public class ResultWSAdapter {
     Context context;
     String response;
 
+    /**
+     * ResultWSAdapter's constructor
+     * @param context
+     */
     public ResultWSAdapter(Context context) {
         this.context = context;
     }
 
+    /**
+     * AsyncTask to send result
+     * @param result
+     * @param url
+     * @param callback
+     */
     public void sendResultRequest(String result, String url, final CallBack callback){
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         asyncHttpClient.setConnectTimeout(MyQCMConstants.CONST_CONNECT_TIMEOUT);
@@ -65,6 +76,11 @@ public class ResultWSAdapter {
         });
     }
 
+    /**
+     * Serialize result to json flow
+     * @param result
+     * @return json format string
+     */
     public String resultToJSON(Result result){
         String resultJSON;
 
@@ -82,6 +98,9 @@ public class ResultWSAdapter {
         return resultJSON;
     }
 
+    /**
+     * Callback after sendResultRequest method
+     */
     public interface CallBack{
         void methods(String response);
     }

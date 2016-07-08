@@ -38,6 +38,13 @@ public class McqFragmentList extends ListFragment{
     public McqFragmentList() {
     }
 
+    /**
+     * Do something on create view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -81,6 +88,13 @@ public class McqFragmentList extends ListFragment{
         return rootView;
     }
 
+    /**
+     * Select a questions list depending mcq selected
+     * @param l
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onListItemClick(ListView l, View view, int position, long id) {
         ViewGroup viewGroup = (ViewGroup)view;

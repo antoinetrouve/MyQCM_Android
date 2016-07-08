@@ -38,6 +38,11 @@ public class ResultActivity extends AppCompatActivity {
     int id_user ;
     ArrayList<Integer> id_answers;
 
+    /**
+     * Do something on create result's activity
+     * Manage send result (download dialog and connection error dialog)
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
@@ -126,7 +131,10 @@ public class ResultActivity extends AppCompatActivity {
                     }).show();
         }
     }
-    // overrideBack button to prevent the user from leaving the questionnaire
+
+    /**
+     * overrideBack button to prevent the user from leaving the questionnaire
+     */
     @Override
     public void onBackPressed () {
     }

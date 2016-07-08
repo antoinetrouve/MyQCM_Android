@@ -5,7 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
- * Created by Antoine Trouvé on 04/07/2016.
+ * Manage Internet connection on mobile phone
+ * Created by Antoine Trouve on 04/07/2016.
  * antoinetrouve.france@gmail.com
  */
 public class Utils {

@@ -1,30 +1,19 @@
 package fr.iia.cdsmat.myqcm.configuration;
 
 /**
- * Created by Antoine Trouvé on 14/05/2016.
+ * Class including all constant variable
+ * Created by Antoine Trouve on 14/05/2016.
  * antoinetrouve.france@gmail.com
  */
 public class MyQCMConstants {
-
-    //region ENTITY : User
-    public static final String CONST_USER_IDSERVER = "idServer";
-    public static final String CONST_USER_USERNAME = "username";
-    public static final String CONST_USER_EMAIL = "email";
-    public static final String CONST_USER_LASTLOGIN = "last_login";
-    public static final String CONST_USER_CREATEDAT = "createdAt";
-    public static final String CONST_USER_UPDATEDAT = "updatedAt";
-    public static final String CONST_USER_PASSWORD = "password";
-    //endregion
 
     //region FLOW : URL Webservice
     //http://192.168.100.229/qcm/web/app_dev.php/api/results
     public final static String CONST_IPSERVER = "http://192.168.100.229";
     public final static String CONST_URL_BASE = "/qcm/web/app_dev.php/api";
     public final static String CONST_URL_AUTH = "/userauths";
-    public final static String CONST_URL_USERINFO = "/userinformations";
     public final static String CONST_URL_USERCATEGORIES = "/categoriesusers";
     public final static String CONST_URL_USERMCQS = "/mcqsusers";
-    public final static String CONST_URL_GETUSERPROFIL = "/profils";
     public final static String CONST_URL_SEND_RESULT = "/results";
     //endregion
 
@@ -60,9 +49,5 @@ public class MyQCMConstants {
     //region PROFIL
     public final static String CONST_PROFIL_USERNAME = "Identifiant : ";
     public final static String CONST_PROFIL_EMAIL = "Email : ";
-    //endregion
-
-    //region RESULT
-
     //endregion
 }

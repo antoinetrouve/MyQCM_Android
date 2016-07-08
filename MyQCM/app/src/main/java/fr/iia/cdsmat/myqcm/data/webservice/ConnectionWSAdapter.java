@@ -9,15 +9,24 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import cz.msebera.android.httpclient.Header;
-import fr.iia.cdsmat.myqcm.R;
 import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
+
 /**
- * Created by Antoine Trouvé on 14/05/2016.
- * antoinetrouve.france@gmail.com
+ * Class to manage authentification to the WebService
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 14/05/2016
  */
 public class ConnectionWSAdapter {
     String response;
 
+    /**
+     * Get user information for authentification
+     * @param url
+     * @param username
+     * @param password
+     * @param callback
+     * @return false if authentification error
+     */
     public void ConnectionRequest (String url,String username, String password, final CallBack callback){
      AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
           asyncHttpClient.setConnectTimeout(60000);
@@ -47,6 +56,9 @@ public class ConnectionWSAdapter {
      });
     }
 
+    /**
+     * Callback after ConnectionRequest
+     */
     public interface CallBack{
         void methods(String reponse);
     }

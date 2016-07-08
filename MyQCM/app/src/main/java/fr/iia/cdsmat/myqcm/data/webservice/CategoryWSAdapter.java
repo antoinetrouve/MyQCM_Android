@@ -42,38 +42,32 @@ import fr.iia.cdsmat.myqcm.entity.Category;
 import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
 
 /**
- * Created by Antoine Trouvé on 14/05/2016.
- * antoinetrouve.france@gmail.com
+ * Class to manage category with webservice.
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 14/05/2016
  */
 public class CategoryWSAdapter{
-
-    // server table name
-    private static final String CONST_CATEGORY = "category";
-
-    //to make request (get,post...)
-    private static AsyncHttpClient client = new AsyncHttpClient();
-    private static final String IDSERVER = "idServer";
-    private static final String NAME = "name";
-    private static final String UPDATEDAT = "updatedAt";
-    private OnTaskCompleted taskCompleted;
 
     String response;
     Context context;
 
     /**
-     * Constructor
+     * CategoryWSAdapter's Constructor
      * @param context
      */
     public CategoryWSAdapter(Context context){
         this.context = context;
     }
 
+    /**
+     * Interface async callback
+     */
     public interface CallBack{
         void methods(String response);
     }
 
     /**
-     * Get json flow Category
+     * Get json flow Category to update and get if connection is available
      * @param userId
      * @param url
      */
@@ -199,7 +193,6 @@ public class CategoryWSAdapter{
         gsonBuilder.excludeFieldsWithoutExposeAnnotation();
         Gson gson =  gsonBuilder.create();
         Type collectionType = new TypeToken<List<Category>>(){}.getType();
-        //ArrayList<Category> categories = new ArrayList<Category>();
         ArrayList<Category> categories = (ArrayList<Category>) gson.fromJson(response, collectionType);
         return categories;
     }

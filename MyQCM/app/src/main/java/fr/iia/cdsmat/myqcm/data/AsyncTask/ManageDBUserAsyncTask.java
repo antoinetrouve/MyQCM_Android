@@ -8,7 +8,7 @@ import fr.iia.cdsmat.myqcm.data.UserSQLiteAdapter;
 import fr.iia.cdsmat.myqcm.entity.User;
 
 /**
- * AsyncTask to manage user's process in local database after authentification process
+ * AsyncTask to manage user's process in local database after authentification
  * Created by Antoine Trouvé on 04/06/2016.
  * antoinetrouve.france@gmail.com
  */
@@ -16,6 +16,11 @@ public class ManageDBUserAsyncTask extends AsyncTask<User, Void, String>{
     private OnTaskCompleted taskCompleted;
     private User user;
 
+    /**
+     * ManageDBUserAsyncTask's constructor
+     * @param context
+     * @param user
+     */
     public ManageDBUserAsyncTask(OnTaskCompleted context, User user){
         this.taskCompleted = context;
         this.user = user;

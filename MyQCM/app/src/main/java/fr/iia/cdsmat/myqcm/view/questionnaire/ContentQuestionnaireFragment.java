@@ -28,14 +28,13 @@ import fr.iia.cdsmat.myqcm.entity.Result;
 import fr.iia.cdsmat.myqcm.view.result.ResultActivity;
 
 /**
- * Created by Antoine Trouvé on 06/07/2016.
- * antoinetrouve.france@gmail.com
+ * Class to manage mcq's content
+ * @author Antoine Trouve <antoinetrouve.france@gmail.com>
+ * @version 1.0 - 06/07/2016
  */
 public class ContentQuestionnaireFragment extends Fragment {
     String questionsJson;
     String answersJson;
-    String resultJson;
-    String answeringJson;
     AnswerCheckBoxAdapter answerCheckBoxAdapter;
     int questionsPositionList;
     int naviguationValue;
@@ -43,7 +42,6 @@ public class ContentQuestionnaireFragment extends Fragment {
     TextView textView_Question_Value;
     ArrayList<Question> questions;
     ArrayList<Answer> answers;
-    Result result;
     Question questionShow;
     ArrayList<Answer> answersShow;
     String answersToJson;
@@ -51,6 +49,13 @@ public class ContentQuestionnaireFragment extends Fragment {
     boolean isLastQuestion = false;
     int id_user;
 
+    /**
+     * Class to do something when fragment is created
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_content_questionnaire, container, false);
@@ -134,7 +139,11 @@ public class ContentQuestionnaireFragment extends Fragment {
         return rootView;
     }
 
-
+    /**
+     * Manage Next button action
+     * @param rootView
+     * @param isLastQuestion
+     */
     private void nextButtonClick(View rootView, final boolean isLastQuestion) {
         RelativeLayout relative_layout_content = (RelativeLayout) rootView.findViewById(R.id.relative_layout_content);
         Button myButton = (Button) relative_layout_content.findViewById(R.id.next_question);
@@ -206,8 +215,10 @@ public class ContentQuestionnaireFragment extends Fragment {
         });
     }
 
-
-
+    /**
+     * Manage Previous button action
+     * @param rootView
+     */
     private void previousButtonClick(View rootView){
         RelativeLayout relative_layout_content = (RelativeLayout) rootView.findViewById(R.id.relative_layout_content);
         Button myButton = (Button) relative_layout_content.findViewById(R.id.previous_question);

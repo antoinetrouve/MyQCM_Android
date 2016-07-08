@@ -7,9 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import fr.iia.cdsmat.myqcm.R;
 import fr.iia.cdsmat.myqcm.configuration.MyQCMConstants;
